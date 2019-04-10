@@ -45,8 +45,8 @@ class SiderCustom extends Component {
     };
     componentDidMount() {
         // this.setMenuOpen(this.props);
-        const state = SiderCustom.setMenuOpen(this.props);
-        this.setState(state);
+        // const state = SiderCustom.setMenuOpen(this.props);
+        // this.setState(state);
     }
     menuClick = e => {
         this.setState({

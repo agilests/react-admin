@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
-import { npmDependencies } from '../../axios';
+// import { npmDependencies } from '../../axios';
 
 class EchartsGraphnpm extends React.Component {
     state = {
@@ -40,36 +40,36 @@ class EchartsGraphnpm extends React.Component {
     }
     };
     componentDidMount() {
-        npmDependencies().then(npm => {
-            this.setState({
-                option: {
-                    series: [
-                        {
-                            data: npm.nodes.map(function (node) {
-                                return {
-                                    x: node.x,
-                                    y: node.y,
-                                    id: node.id,
-                                    name: node.label,
-                                    symbolSize: node.size,
-                                    itemStyle: {
-                                        normal: {
-                                            color: node.color
-                                        }
-                                    }
-                                };
-                            }),
-                            edges: npm.edges.map(function (edge) {
-                                return {
-                                    source: edge.sourceID,
-                                    target: edge.targetID
-                                };
-                            })
-                        }
-                    ]
-                }
-            })
-        })
+        // npmDependencies().then(npm => {
+        //     this.setState({
+        //         option: {
+        //             series: [
+        //                 {
+        //                     data: npm.nodes.map(function (node) {
+        //                         return {
+        //                             x: node.x,
+        //                             y: node.y,
+        //                             id: node.id,
+        //                             name: node.label,
+        //                             symbolSize: node.size,
+        //                             itemStyle: {
+        //                                 normal: {
+        //                                     color: node.color
+        //                                 }
+        //                             }
+        //                         };
+        //                     }),
+        //                     edges: npm.edges.map(function (edge) {
+        //                         return {
+        //                             source: edge.sourceID,
+        //                             target: edge.targetID
+        //                         };
+        //                     })
+        //                 }
+        //             ]
+        //         }
+        //     })
+        // })
     }
     render() {
         return (

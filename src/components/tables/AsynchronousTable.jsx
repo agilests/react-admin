@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { Table, Button, Row, Col, Card } from 'antd';
-import { getBbcNews } from '../../axios';
+// import { getBbcNews } from '../../axios';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 
 const columns = [{
@@ -36,12 +36,12 @@ class AsynchronousTable extends React.Component {
     }
     start = () => {
         this.setState({ loading: true });
-        getBbcNews().then(({ articles }) => {
-            this.setState({
-                data: articles,
-                loading: false
-            });
-        });
+        // getBbcNews().then(({ articles }) => {
+        //     this.setState({
+        //         data: articles,
+        //         loading: false
+        //     });
+        // });
     };
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);

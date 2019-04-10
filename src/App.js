@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Routes from './routes';
 import DocumentTitle from 'react-document-title';
 import SiderCustom from './components/SiderCustom';
 import HeaderCustom from './components/HeaderCustom';
 import { Layout, notification, Icon } from 'antd';
 import { ThemePicker } from './components/widget';
-import { connectAlita } from 'redux-alita';
+// import { connectAlita } from 'redux-alita';
 
 const { Content, Footer } = Layout;
 
@@ -18,7 +19,7 @@ class App extends Component {
         const { setAlitaState } = this.props;
         const user = JSON.parse(localStorage.getItem('user'));
         // user && receiveData(user, 'auth');
-        user && setAlitaState({ stateName: 'auth', data: user });
+        // user && setAlitaState({ stateName: 'auth', data: user });
         // receiveData({a: 213}, 'auth');
         // fetchData({funcName: 'admin', stateName: 'auth'});
         this.getClientWidth();
@@ -53,7 +54,7 @@ class App extends Component {
         const { setAlitaState } = this.props;
         const clientWidth = window.innerWidth;
         console.log(clientWidth);
-        setAlitaState({ stateName: 'responsive', data: { isMobile: clientWidth <= 992 } });
+        // setAlitaState({ stateName: 'responsive', data: { isMobile: clientWidth <= 992 } });
         // receiveData({isMobile: clientWidth <= 992}, 'responsive');
     };
     toggle = () => {
@@ -85,4 +86,16 @@ class App extends Component {
     }
 }
 
-export default connectAlita(['auth', 'responsive'])(App);
+const mapStateToProps = (state, props) => {
+    const currentUser = state.getIn(['userReducer', 'currentUser']) || {}
+    const orgId = currentUser.dashboard ? currentUser.dashboard.orgId : null
+    const userId = currentUser.id
+    return {
+        orgId,
+        userId,
+        currentUser,
+    }
+}
+
+export default connect(mapStateToProps)(App)
+// export default connectAlita(['auth', 'responsive'])(App);
