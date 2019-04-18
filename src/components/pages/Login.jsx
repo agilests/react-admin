@@ -14,7 +14,8 @@ class Login extends React.Component {
             username:'',
             password:'',
             logining:false,
-            loginMsg:''
+            loginMsg:'',
+            auth:''
         }
     }
     componentDidMount() {
@@ -22,17 +23,19 @@ class Login extends React.Component {
         // setAlitaState({ stateName: 'auth', data: null });
     }
     componentDidUpdate(prevProps) { // React 16.3+弃用componentWillReceiveProps
-        const { auth: nextAuth = {}, history } = this.props;
-        // const { history } = this.props;
-        if (nextAuth.data && nextAuth.data.uid) { // 判断是否登陆
-            localStorage.setItem('user', JSON.stringify(nextAuth.data));
-            history.push('/');
+        const { currentUser, history } = this.props;
+        if (currentUser ) { // 判断是否登陆
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            history.push('/app/dashboard/index');
         }
     }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.login(this.state.username,this.state.password);
     };
+    _handleInputChange = (prop) => (input)=>{
+        this.setState({[prop]: input.target.value})
+    }
     render() {
         // const { getFieldD/ecorator } = this.props.form;
         return (
@@ -47,14 +50,14 @@ class Login extends React.Component {
                             {/* {getFieldDecorator('userName', { */}
                                 {/* rules: [{ required: true, message: '请输入用户名!' }], */}
                             {/* })( */}
-                                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" onChange={()=>{this.setState({username:this.text})}}/>
+                                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" onChange={this._handleInputChange('username')}/>
                             {/* )} */}
                         </FormItem>
                         <FormItem>
                             {/* {getFieldDecorator('password', { */}
                                 {/* rules: [{ required: true, message: '请输入密码!' }], */}
                             {/* })( */}
-                                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" onChange={()=>{this.setState({username:this.text})}}/>
+                                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" onChange={this._handleInputChange('password')}/>
                             {/* )} */}
                         </FormItem>
                         <FormItem>
@@ -82,7 +85,8 @@ class Login extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        loginMsg: state.getIn(['userReducer', 'loginMsg'])
+        loginMsg: state.getIn(['userReducer', 'loginMsg']),
+        currentUser: state.getIn(['userReducer','currentUser'])
     }
 }
 

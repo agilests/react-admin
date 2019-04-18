@@ -2,7 +2,7 @@ import {call, put} from 'redux-saga/effects'
 import userActionKeys from './userActionKeys';
 import store from '../create-store';
 
-export function* login(user){
+export function* login({user}){
     if(user.username!=='admin' && user.password!=='admin'){
         yield put({
             type:userActionKeys.loginFailed,
