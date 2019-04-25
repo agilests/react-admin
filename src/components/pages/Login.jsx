@@ -29,6 +29,9 @@ class Login extends React.Component {
             history.push('/app/dashboard/index');
         }
     }
+    componentWillReceiveProps(nextProps){
+        console.log(1);
+    }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.login(this.state.username,this.state.password);
@@ -42,7 +45,7 @@ class Login extends React.Component {
             <div className="login">
                 <div className="login-form" >
                     <div className="login-logo">
-                        <span>React Admin{this.props.loginMsg}</span>
+                        <span>登录 {this.props.loginMsg}{this.props.currentUser?this.props.currentUser.id:''}</span>
                         <PwaInstaller />
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: '300px'}}>

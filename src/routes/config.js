@@ -2,7 +2,7 @@ export default {
     menus: [ // 菜单相关路由
         { key: '/app/dashboard/index', title: '首页', icon: 'mobile', component: 'Dashboard' },
         {
-            key: '/app/ui', title: 'UI', icon: 'scan',
+            key: '/app/ui', title: '车辆', icon: 'scan',
             subs: [
                 { key: '/app/ui/buttons', title: '按钮', component: 'Buttons'},
                 { key: '/app/ui/icons', title: '图标', component: 'Icons'},
@@ -18,14 +18,14 @@ export default {
             ],
         },
         {
-            key: '/app/animation', title: '动画', icon: 'rocket',
+            key: '/app/animation', title: '线路', icon: 'rocket',
             subs: [
                 { key: '/app/animation/basicAnimations', title: '基础动画', component: 'BasicAnimations'},
                 { key: '/app/animation/exampleAnimations', title: '动画案例', component: 'ExampleAnimations'},
             ],
         },
         {
-            key: '/app/table', title: '表格', icon: 'copy',
+            key: '/app/table', title: '设备', icon: 'copy',
             subs: [
                 { key: '/app/table/basicTable', title: '基础表格', component: 'BasicTable'},
                 { key: '/app/table/advancedTable', title: '高级表格', component: 'AdvancedTable'},
@@ -33,41 +33,41 @@ export default {
             ],
         },
         {
-            key: '/app/form', title: '表单', icon: 'edit',
+            key: '/app/form', title: '监控', icon: 'edit',
             subs: [
                 { key: '/app/form/basicForm', title: '基础表单', component: 'BasicForm'},
             ],
         },
         {
-            key: '/app/chart', title: '图表', icon: 'area-chart',
+            key: '/app/chart', title: '日志', icon: 'area-chart',
             subs: [
                 { key: '/app/chart/echarts', title: 'echarts', component: 'Echarts' },
                 { key: '/app/chart/recharts', title: 'recharts', component: 'Recharts' },
             ],
         },
         {
-            key: '/subs4', title: '页面', icon: 'switcher',
+            key: '/subs4', title: '客户', icon: 'users',
             subs: [
                 { key: '/login', title: '登录' },
                 { key: '/404', title: '404' },
             ],
         },
-        {
-            key: '/app/auth', title: '权限管理', icon: 'safety',
-            subs: [
-                { key: '/app/auth/basic', title: '基础演示', component: 'AuthBasic' },
-                { key: '/app/auth/routerEnter', title: '路由拦截', component: 'RouterEnter', auth: 'auth/testPage' },
-            ],
-        },
-        {
-            key: '/app/cssModule', title: 'cssModule', icon: 'star', component: 'Cssmodule'
-        },
-        {
-            key: '/app/extension', title: '功能扩展', icon: 'bars',
-            subs: [
-                { key: '/app/extension/queryParams', title: '问号形式参数', component: 'QueryParams', query: '?param1=1&param2=2' },
-            ],
-        },
+        // {
+        //     key: '/app/auth', title: '权限管理', icon: 'safety',
+        //     subs: [
+        //         { key: '/app/auth/basic', title: '基础演示', component: 'AuthBasic' },
+        //         { key: '/app/auth/routerEnter', title: '路由拦截', component: 'RouterEnter', auth: 'auth/testPage' },
+        //     ],
+        // },
+        // {
+        //     key: '/app/cssModule', title: 'cssModule', icon: 'star', component: 'Cssmodule'
+        // },
+        // {
+        //     key: '/app/extension', title: '功能扩展', icon: 'bars',
+        //     subs: [
+        //         { key: '/app/extension/queryParams', title: '问号形式参数', component: 'QueryParams', query: '?param1=1&param2=2' },
+        //     ],
+        // },
     ],
     others: [] // 非菜单相关路由
 }
