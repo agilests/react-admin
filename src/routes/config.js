@@ -46,11 +46,14 @@ export default {
             ],
         },
         {
-            key: '/subs4', title: '客户', icon: 'users',
+            key: '/app/org', title: '客户', icon: 'edit',
             subs: [
-                { key: '/login', title: '登录' },
-                { key: '/404', title: '404' },
+                { key: '/app/org/orgs', title: '客户管理', component: 'Orgs'}
             ],
+            // subs: [
+            //     { key: '/login', title: '登录' },
+            //     { key: '/404', title: '404' },
+            // ],
         },
         // {
         //     key: '/app/auth', title: '权限管理', icon: 'safety',
@@ -69,5 +72,9 @@ export default {
         //     ],
         // },
     ],
-    others: [] // 非菜单相关路由
+    others: [
+        {
+            key: '/app/org/accounts', title: '账号管理', component: 'Accounts'
+        }
+    ] // 非菜单相关路由
 }

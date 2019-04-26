@@ -6,18 +6,19 @@ import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchOrgs(action){
     const result = yield call(()=>{
-        return OrgApi.fetchOrgs();
+        return OrgApi.getOrgList();
     })
     if(result && result.code === 0){
         yield put({
             type: orgActionKeys.fetchOrgsSuccess,
             orgs: result.result
-        })
+        });
+        return;
     }
 }
 export function* fetchAccounts(action){
     const result = yield call((orgId)=>{
-        return OrgApi.fetchAccounts(orgId);
+        return OrgApi.getAccountsByOrg(orgId);
     },action.orgId);
     if(result && result.code === 0){
         yield put({

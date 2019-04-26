@@ -4,12 +4,14 @@ import Immutable from 'immutable'
 import {createLogger} from 'redux-logger'
 import createSagaMiddleware from 'redux-saga';
 import userReducer from './user/userReducers';
+import orgReducer from './org/orgReducers';
 import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger({collapsed: true});
 const rootReducer = combineReducers({
-  userReducer
+  userReducer,
+  orgReducer
 });
 const finalCreateStore = applyMiddleware(sagaMiddleware)(createStore);
 const initialState = Immutable.Map();

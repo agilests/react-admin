@@ -1,8 +1,8 @@
 import Immutable from 'immutable';
 import orgActionKeys from './orgActionKeys';
-const initialState = Immutable.fromJS({
-    orgs:Immutable.List([]),
-    accounts:Immutable.List([]),
+const initialState = Immutable.Map({
+    orgs:[],
+    accounts:[],
     fetching:false,
     errorMsg:''
 })
@@ -27,10 +27,7 @@ export default function orgReducer(state = initialState, action){
             state.set('fetching',false);
             return state;
         case orgActionKeys.fetchOrgsSuccess:
-            state.set('orgs',Immutable.fromJS(action.orgs));
-            state.set('errorMsg','');
-            state.set('fetching',false);
-            return state;
+            return state.set('orgs',action.orgs).set('errorMsg','').set('fetching',false);
         case orgActionKeys.createOrgSuccess:
             state.set('errorMsg','');
             state.set('fetching',false);
@@ -48,11 +45,7 @@ export default function orgReducer(state = initialState, action){
             return state;
         
         case orgActionKeys.fetchAccountsSuccess:
-            state.set('orgs',Immutable.fromJS(action.orgs));
-            state.set('errorMsg','');
-            state.set('fetching',false);
-            state.set('accounts',Immutable.fromJS(action.accounts));
-            return state;
+            return state.set('accounts',action.accounts).set('errorMsg','').set('fetching',false);
         case orgActionKeys.createAccountSuccess:
             state.set('errorMsg','');
             state.set('fetching',false);

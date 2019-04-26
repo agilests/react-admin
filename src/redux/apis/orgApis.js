@@ -1,6 +1,6 @@
 
 import NetUtil from './net_utils';
-export default class UserApi{
+export default class OrgApi{
     static getOrgList(){
         return NetUtil.get('/api/orgs');
     }

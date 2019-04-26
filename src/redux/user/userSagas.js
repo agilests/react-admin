@@ -22,8 +22,6 @@ export function* login(action){
             }
         }
     }catch(e){
-        console.log(e);
-        debugger;
         yield put({
             type:userActionKeys.loginFailed,
             loginMsg:formatAlertMessage(e)
