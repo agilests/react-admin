@@ -20,4 +20,21 @@ export default class NetUtil{
             mode: 'cors'
         }).then(res=>res).catch(e=> {throw e;});
     }
+    static put(url,body){
+        return fetch(url,{
+            headers:headers,
+            credentials: 'include',
+            method: "POST",
+            body:JSON.stringify(body),
+            mode: 'cors'
+        }).then(res=>res).catch(e=> {throw e;});
+    }
+    static delete(url){
+        return fetch(url,{
+            headers:headers,
+            credentials: 'include',
+            method: "DELETE",
+            mode: 'cors'
+        }).then(res=>res).catch(e=> {throw e;});
+    }
 }
