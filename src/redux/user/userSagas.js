@@ -10,13 +10,13 @@ export function* login(action){
             return UserApi.login(user);
         },action.user);
         if(result){
-            const account = yield call((username) => {
-                return UserApi.fetchCurrentUser(username)
-            },action.user.username);
+            const account = yield call(() => {
+                return UserApi.fetchCurrentUser()
+            });
             if(account && account.code===0){
                 yield put({
                     type:userActionKeys.loginSuccess,
-                    user:account
+                    user:account.result
                 })
                 return;
             }

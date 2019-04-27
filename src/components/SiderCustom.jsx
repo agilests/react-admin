@@ -72,6 +72,7 @@ class SiderCustom extends Component {
             >
                 <div className="logo" />
                 <SiderMenu
+                    user={this.props.user}
                     menus={routes.menus}
                     onClick={this.menuClick}
                     mode="inline"

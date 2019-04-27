@@ -46,7 +46,7 @@ export default {
             ],
         },
         {
-            key: '/app/org', title: '客户', icon: 'edit',
+            key: '/app/org', title: '客户', icon: 'edit', role: 'ADMIN',
             subs: [
                 { key: '/app/org/orgs', title: '客户管理', component: 'Orgs'}
             ],

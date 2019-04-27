@@ -27,10 +27,12 @@ const renderSubMenu = item => (
     </Menu.SubMenu>
 );
 
-export default ({ menus, ...props }) => (
+export default ({ user, menus, ...props }) => (
     <Menu {...props}>
-        {menus && menus.map(item => 
-            item.subs ? renderSubMenu(item) : renderMenuItem(item)
-        )}
+        {menus && menus.map(item => {
+            if(!item.role || user.role === `ROLE_${item.role}`){
+                return item.subs ? renderSubMenu(item) : renderMenuItem(item)
+            }
+        })}
     </Menu>
 );

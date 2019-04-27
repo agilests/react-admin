@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Routes from './routes';
 import DocumentTitle from 'react-document-title';
@@ -16,17 +17,6 @@ class App extends Component {
         title: ''
     };
     componentWillMount() {
-        const { setAlitaState } = this.props;
-        const user = JSON.parse(localStorage.getItem('user'));
-        // user && receiveData(user, 'auth');
-        // user && setAlitaState({ stateName: 'auth', data: user });
-        // receiveData({a: 213}, 'auth');
-        // fetchData({funcName: 'admin', stateName: 'auth'});
-        this.getClientWidth();
-        window.onresize = () => {
-            console.log('屏幕变化了');
-            this.getClientWidth();
-        }
     }
     componentDidMount() {
         const openNotification = () => {
@@ -50,12 +40,7 @@ class App extends Component {
         const isFirst = JSON.parse(localStorage.getItem('isFirst'));
         !isFirst && openNotification();
     }
-    getClientWidth = () => { // 获取当前浏览器宽度并设置responsive管理响应式
-        const { setAlitaState } = this.props;
-        const clientWidth = window.innerWidth;
-        console.log(clientWidth);
-        // setAlitaState({ stateName: 'responsive', data: { isMobile: clientWidth <= 992 } });
-        // receiveData({isMobile: clientWidth <= 992}, 'responsive');
+    getClientWidth = () => {
     };
     toggle = () => {
         this.setState({
@@ -64,31 +49,36 @@ class App extends Component {
     };
     render() {
         const { title } = this.state;
-        const { auth = { data: {} }, responsive = { data: {} } } = this.props;
-        console.log(auth);
-        return (
-            <DocumentTitle title={title}>
-                <Layout>
-                    {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}
-                    <ThemePicker />
-                    <Layout style={{flexDirection: 'column'}}>
-                        <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={auth.data || {}} />
-                        <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
-                            <Routes auth={auth} />
-                        </Content>
-                        <Footer style={{ textAlign: 'center' }}>
-                        React-Admin ©{new Date().getFullYear()} Created by 865470087@qq.com
-                        </Footer>
+
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        console.log(user);
+        if(!user){
+            return <Redirect to={'/login'} />;
+        }else{
+            return (
+                <DocumentTitle title={title}>
+                    <Layout>
+                        <SiderCustom collapsed={this.state.collapsed} user={user}/>
+                        <ThemePicker />
+                        <Layout style={{flexDirection: 'column'}}>
+                            <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={user} history={this.props.history}/>
+                            <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
+                                <Routes user={user} />
+                            </Content>
+                            <Footer style={{ textAlign: 'center' }}>
+                            React-Admin ©{new Date().getFullYear()} Created by 865470087@qq.com
+                            </Footer>
+                        </Layout>
                     </Layout>
-                </Layout>
-            </DocumentTitle>
-        );
+                </DocumentTitle>
+            );
+        }
     }
 }
 
 const mapStateToProps = (state, props) => {
     const currentUser = state.getIn(['userReducer', 'currentUser']) || {}
-    const orgId = currentUser.dashboard ? currentUser.dashboard.orgId : null
+    const orgId = currentUser ? currentUser.orgId : null
     const userId = currentUser.id
     return {
         orgId,

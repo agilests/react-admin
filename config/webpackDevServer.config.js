@@ -3,7 +3,7 @@
 const server = {
   contentBase: './public',
   host: 'localhost', //服务主机
-  port: 8081, //端口
+  port: 3000, //端口
   historyApiFallback: true,
   inline: true, // 可以监控js变化
   // hot: true,  热启动

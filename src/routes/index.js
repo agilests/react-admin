@@ -9,20 +9,26 @@ import routesConfig from './config';
 import queryString from 'query-string';
 
 export default class CRouter extends Component {
-    requireAuth = (permission, component) => {
-        const { auth } = this.props;
-        const { permissions } = auth.data;
+    requireAuth = (role, component) => {
+        const { user } = this.props;
+        const { roles } = user.rule;
         // const { auth } = store.getState().httpData;
-        if (!permissions || !permissions.includes(permission)) return <Redirect to={'404'} />;
-        return component;
+        // if (!permissions || !permissions.includes(permission)) return <Redirect to={'404'} />;
+        if(!role){
+            return component;
+        }else if(roles === `ROLE_${role}`){
+            return component;
+        }else {
+            return <Redirect to={'404'} />;
+        }
     };
-    requireLogin = (component, permission) => {
-        const { auth } = this.props;
-        const { permissions } = auth.data;
-        if (process.env.NODE_ENV === 'production' && !permissions) { // 线上环境判断是否登录
+    requireLogin = (component, role) => {
+        const { user } = this.props;
+        // const { roles } = auth.role;
+        if (process.env.NODE_ENV === 'production' && user) { // 线上环境判断是否登录
             return <Redirect to={'/login'} />;
         }
-        return permission ? this.requireAuth(permission, component) : component;
+        return role ? this.requireAuth(role, component) : component;
     };
     render() {
         return (
@@ -56,7 +62,7 @@ export default class CRouter extends Component {
                                             )
                                             return r.login
                                                 ? wrappedComponent
-                                                : this.requireLogin(wrappedComponent, r.auth)
+                                                : this.requireLogin(wrappedComponent, r.role)
                                         }}
                                     />
                                 )
