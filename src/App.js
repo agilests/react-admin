@@ -66,7 +66,7 @@ class App extends Component {
                                 <Routes user={user} />
                             </Content>
                             <Footer style={{ textAlign: 'center' }}>
-                            React-Admin ©{new Date().getFullYear()} Created by 865470087@qq.com
+                            智能公交 ©{new Date().getFullYear()} Created by 4914968@qq.com
                             </Footer>
                         </Layout>
                     </Layout>

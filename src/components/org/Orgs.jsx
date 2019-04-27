@@ -28,7 +28,7 @@ const columns = [{
 
             <Link to={`/app/org/accounts?org=${record.id}`}>账号管理</Link>
             <Button onClick={()=>{
-            }}>编辑 一 {record.name}</Button>
+            }}>编辑</Button>
             <span className="ant-divider" />
             <Button>Delete</Button>
             <span className="ant-divider" />
