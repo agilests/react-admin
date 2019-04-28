@@ -16,7 +16,7 @@ export default class OrgApi{
     static getAccountsByOrg(orgId){
         return NetUtil.get(`/api/orgs/${orgId}/accounts`);
     }
-    static createOrg(orgId,account){
+    static createAccount(orgId,account){
         return NetUtil.post(`/api/orgs/${orgId}/accounts`,account);
     }
     static updateAccount(account){

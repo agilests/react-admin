@@ -4,6 +4,7 @@ import {fetchOrgs} from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import Accounts from './Accounts'
 import { Route, Redirect,Link } from 'react-router-dom';
+import BreadcrumbCustom from '../BreadcrumbCustom';
 
 const columns = [{
     title: '名称',
@@ -62,16 +63,19 @@ class Orgs extends React.Component{
     }
     componentDidUpdate(prevProps) { 
         console.log('in componentDidUpdate');
-        console.log(this.props.orgs);
     }
     componentWillReceiveProps(nextProps){
         console.log('in componentWillReceiveProps');
-        console.log(this.props.orgs);
     }
     render(){
-        let orgs = this.props.orgs;
-        console.log(orgs);
-        return  <Table columns={columns} dataSource={orgs} />
+        const orgs = this.props.orgs;
+        return  (
+
+            <div className="gutter-example button-demo">
+                <BreadcrumbCustom first="客户"/>
+                <Table columns={columns} dataSource={orgs} />
+            </div>
+        )
     }
 }
 

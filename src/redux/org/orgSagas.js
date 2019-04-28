@@ -83,10 +83,10 @@ export function* deleteOrg(action){
 
 
 export function* createAccount(action){
-
-    const result = yield call((account)=>{
-        return OrgApi.createAccount(account);
-    },action.account);
+    
+    const result = yield call((action)=>{
+        return OrgApi.createAccount(action.orgId, action.account);
+    },action);
     if(result && result.code === 0){
         yield put({
             type: orgActionKeys.createAccountSuccess,

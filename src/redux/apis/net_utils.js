@@ -18,7 +18,7 @@ export default class NetUtil{
             method: "POST",
             body:JSON.stringify(body),
             mode: 'cors'
-        }).then(res=>res).catch(e=> {throw e;});
+        }).then(res=>res.json()).catch(e=> {throw e;});
     }
     static put(url,body){
         return fetch(url,{
@@ -27,7 +27,7 @@ export default class NetUtil{
             method: "POST",
             body:JSON.stringify(body),
             mode: 'cors'
-        }).then(res=>res).catch(e=> {throw e;});
+        }).then(res=>res.json()).catch(e=> {throw e;});
     }
     static delete(url){
         return fetch(url,{
@@ -35,6 +35,6 @@ export default class NetUtil{
             credentials: 'include',
             method: "DELETE",
             mode: 'cors'
-        }).then(res=>res).catch(e=> {throw e;});
+        }).then(res=>res.json()).catch(e=> {throw e;});
     }
 }

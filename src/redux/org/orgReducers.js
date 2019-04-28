@@ -47,10 +47,9 @@ export default function orgReducer(state = initialState, action){
         case orgActionKeys.fetchAccountsSuccess:
             return state.set('accounts',action.accounts).set('errorMsg','').set('fetching',false);
         case orgActionKeys.createAccountSuccess:
-            state.set('errorMsg','');
-            state.set('fetching',false);
-            state.get('accounts').unshift(action.account);
-            return state;
+            let accounts = state.get('accounts');
+            accounts.unshift(action.account);
+            return state.set('errorMsg','').set('fetching',false).set('accounts',accounts);
         case orgActionKeys.updateAccountSuccess:
             state.set('errorMsg','');
             state.set('fetching',false);
