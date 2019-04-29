@@ -25,8 +25,9 @@ export default {
             ],
         },
         {
-            key: '/app/table', title: '设备', icon: 'copy',
+            key: '/app/device', title: '设备', icon: 'copy',
             subs: [
+                { key: '/app/device/devices', title: '设备', component: 'Devices'},
                 { key: '/app/table/basicTable', title: '基础表格', component: 'BasicTable'},
                 { key: '/app/table/advancedTable', title: '高级表格', component: 'AdvancedTable'},
                 { key: '/app/table/asynchronousTable', title: '异步表格', component: 'AsynchronousTable'},
@@ -48,7 +49,7 @@ export default {
         {
             key: '/app/org', title: '客户', icon: 'edit', role: 'ADMIN',
             subs: [
-                { key: '/app/org/orgs', title: '客户管理', component: 'Orgs'}
+                { key: '/app/org/123123123', title: '客户管理', component: 'Orgs'}
             ],
             // subs: [
             //     { key: '/login', title: '登录' },

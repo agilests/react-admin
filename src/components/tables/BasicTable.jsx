@@ -5,7 +5,7 @@ import React from 'react';
 import { Table, Icon, Button } from 'antd';
 
 const columns = [{
-    title: 'Name',
+    title: 'Name123',
     dataIndex: 'name',
     key: 'name',
     render: text => <span>{text}</span>,

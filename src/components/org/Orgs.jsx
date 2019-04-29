@@ -1,9 +1,8 @@
 import React from 'react';
-import { Table, Icon, Button } from 'antd';
+import { Table, Button } from 'antd';
 import {fetchOrgs} from '../../redux/org/orgActions';
 import { connect } from '../../connect'
-import Accounts from './Accounts'
-import { Route, Redirect,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 
 const columns = [{
@@ -36,25 +35,6 @@ const columns = [{
         </span>
     ),
 }];
-
-// const data = [{
-//     key: '1',
-//     name: 'John Brown',
-//     age: 32,
-//     address: 'New York No. 1 Lake Park',
-// }, {
-//     key: '2',
-//     name: 'Jim Green',
-//     age: 42,
-//     address: 'London No. 1 Lake Park',
-// }, {
-//     key: '3',
-//     name: 'Joe Black',
-//     age: 32,
-//     address: 'Sidney No. 1 Lake Park',
-// }];
-
-
 
 class Orgs extends React.Component{
     constructor(props){

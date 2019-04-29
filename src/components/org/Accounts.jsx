@@ -4,36 +4,14 @@ import {fetchAccounts,createAccount} from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import CreateAccount from './CreateAccount';
-const columns = [{
-    title: '名称',
-    dataIndex: 'account',
-    key: 'account',
-    render: text => <span>{text}</span>,
-}, {
-    title: '联系电话',
-    dataIndex: 'contact',
-    key: 'contact',
-    render: text => <span>{text}</span>,
-}, {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <Button>编辑 一 {record.name}</Button>
-            <span className="ant-divider" />
-            <Button>Delete</Button>
-            <span className="ant-divider" />
-        </span>
-    ),
-}];
-
 
 class Accounts extends React.Component{
     constructor(props){
         super(props)
         this.state={
             create: true,
-            modalVisible: false
+            modalVisible: false,
+            edit: null
         }
         this.props.fetchAccounts(this.props.query.org);
     }
@@ -41,7 +19,7 @@ class Accounts extends React.Component{
         this.setState({create:true,modalVisible:true});
     }
     showEdit(record){
-        this.setState({create:false,modalVisible:true});
+        this.setState({create:false,modalVisible:true,edit:{account:record.account,contact:record.contact}});
     }
     register(){
         this.props.register(this.props.query.org,this.state);
@@ -55,7 +33,31 @@ class Accounts extends React.Component{
         this.setState({[prop]:input.target.value})
     }
     render(){
-        let accounts = this.props.accounts;
+
+        const columns = [{
+            title: '名称',
+            dataIndex: 'account',
+            key: 'account',
+            render: text => <span>{text}</span>,
+        }, {
+            title: '联系电话',
+            dataIndex: 'contact',
+            key: 'contact',
+            render: text => <span>{text}</span>,
+        }, {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <Button onClick={()=>this.showEdit(record)}>编辑 一 {record.name}</Button>
+                    <span className="ant-divider" />
+                    <Button>Delete</Button>
+                    <span className="ant-divider" />
+                </span>
+            ),
+        }];
+
+        const accounts = this.props.accounts;
         
         return  (
 
@@ -73,7 +75,7 @@ class Accounts extends React.Component{
                 onOk={() => this.register()}
                 onCancel={() => this.hiddenDialog()}
                 >
-                <CreateAccount change={this.valueChange}/>
+                <CreateAccount change={this.valueChange} value={this.state.edit}/>
                 </Modal>
             </div>
         )
