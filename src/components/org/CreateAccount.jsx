@@ -7,7 +7,6 @@ class CreateAccount extends Component {
 
         const { getFieldDecorator } = this.props.form;
         const { account, password, contact } = this.props.value;
-        debugger;
         return (
             <Form layout="vertical">
                 <FormItem label="账号">

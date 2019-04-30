@@ -3,6 +3,8 @@ import userActionKeys from './user/userActionKeys';
 import userSagas from './user/userSagas';
 import orgActionKeys from './org/orgActionKeys';
 import orgSagas from './org/orgSagas';
+import deviceActionKeys from './devices/deviceActionKeys';
+import deviceSagas from './devices/deviceSagas';
 function* rootSaga() {
   yield all([
     //用户相关
@@ -15,7 +17,10 @@ function* rootSaga() {
     takeEvery(orgActionKeys.deleteOrg, orgSagas.deleteOrg),
     takeEvery(orgActionKeys.createAccount, orgSagas.createAccount),
     takeEvery(orgActionKeys.updateAccount, orgSagas.updateAccount),
-    takeEvery(orgActionKeys.deleteAccount, orgSagas.deleteAccount)
+    takeEvery(orgActionKeys.deleteAccount, orgSagas.deleteAccount),
+    //设备相关
+    takeEvery(deviceActionKeys.fetchDevices, deviceSagas.fetchDevices),
+    takeEvery(deviceActionKeys.createDevice, deviceSagas.createDevice)
     ]);
 
 }
