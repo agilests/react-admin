@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button } from 'antd';
-import {fetchOrgs} from '../../redux/org/orgActions';
+import { fetchOrgs } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import { Link } from 'react-router-dom';
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -27,8 +27,7 @@ const columns = [{
         <span>
 
             <Link to={`/app/org/accounts?org=${record.id}`}>账号管理</Link>
-            <Button onClick={()=>{
-            }}>编辑</Button>
+            <Button onClick={() => {}}>编辑</Button>
             <span className="ant-divider" />
             <Button>Delete</Button>
             <span className="ant-divider" />
@@ -36,36 +35,30 @@ const columns = [{
     ),
 }];
 
-class Orgs extends React.Component{
-    constructor(props){
+class Orgs extends React.Component {
+    constructor(props) {
         super(props)
         this.props.fetchOrgs();
     }
-    componentDidUpdate(prevProps) { 
-        console.log('in componentDidUpdate');
-    }
-    componentWillReceiveProps(nextProps){
-        console.log('in componentWillReceiveProps');
-    }
-    render(){
+    render() {
         const orgs = this.props.orgs;
-        return  (
+        return (
 
             <div className="gutter-example button-demo">
-                <BreadcrumbCustom first="客户"/>
+                <BreadcrumbCustom first="客户" />
                 <Table columns={columns} dataSource={orgs} />
             </div>
         )
     }
 }
 
-    
+
 
 const mapStateToProps = (state, props) => {
     return {
         errorMsg: state.getIn(['orgReducer', 'errorMsg']),
-        orgs: state.getIn(['orgReducer','orgs'],[]),
-        fetching: state.getIn(['orgReducer','fetching'])
+        orgs: state.getIn(['orgReducer', 'orgs'], []),
+        fetching: state.getIn(['orgReducer', 'fetching'])
     }
 }
 

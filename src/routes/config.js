@@ -20,6 +20,7 @@ export default {
         {
             key: '/app/animation', title: '线路', icon: 'rocket',
             subs: [
+                { key: '/app/lines', title: '线路', component: 'Lines'},
                 { key: '/app/animation/basicAnimations', title: '基础动画', component: 'BasicAnimations'},
                 { key: '/app/animation/exampleAnimations', title: '动画案例', component: 'ExampleAnimations'},
             ],

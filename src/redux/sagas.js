@@ -1,10 +1,12 @@
-import {all, takeEvery, takeLatest} from 'redux-saga/effects'
+import {all, takeEvery} from 'redux-saga/effects'
 import userActionKeys from './user/userActionKeys';
 import userSagas from './user/userSagas';
 import orgActionKeys from './org/orgActionKeys';
 import orgSagas from './org/orgSagas';
 import deviceActionKeys from './devices/deviceActionKeys';
 import deviceSagas from './devices/deviceSagas';
+import lineActionKeys from './lines/lineActionKeys';
+import lineSagas from './lines/lineSagas';
 function* rootSaga() {
   yield all([
     //用户相关
@@ -20,7 +22,12 @@ function* rootSaga() {
     takeEvery(orgActionKeys.deleteAccount, orgSagas.deleteAccount),
     //设备相关
     takeEvery(deviceActionKeys.fetchDevices, deviceSagas.fetchDevices),
-    takeEvery(deviceActionKeys.createDevice, deviceSagas.createDevice)
+    takeEvery(deviceActionKeys.createDevice, deviceSagas.createDevice),
+    //线路相关
+    takeEvery(lineActionKeys.fetchLines, lineSagas.fetchLines),
+    takeEvery(lineActionKeys.createLine, lineSagas.createLine),
+    takeEvery(lineActionKeys.deleteLine, lineSagas.deleteLine),
+    takeEvery(lineActionKeys.addStation, lineSagas.addStation)
     ]);
 
 }

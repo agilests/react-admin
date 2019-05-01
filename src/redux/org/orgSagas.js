@@ -1,14 +1,12 @@
-import {call, put} from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import orgActionKeys from './orgActionKeys';
-import store from '../create-store';
 import OrgApi from '../apis/orgApis';
-import { formatAlertMessage } from '../apis/tools';
 
-export function* fetchOrgs(action){
-    const result = yield call(()=>{
+export function* fetchOrgs(action) {
+    const result = yield call(() => {
         return OrgApi.getOrgList();
     })
-    if(result && result.code === 0){
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.fetchOrgsSuccess,
             orgs: result.result
@@ -16,124 +14,124 @@ export function* fetchOrgs(action){
         return;
     }
 }
-export function* fetchAccounts(action){
-    const result = yield call((orgId)=>{
+export function* fetchAccounts(action) {
+    const result = yield call((orgId) => {
         return OrgApi.getAccountsByOrg(orgId);
-    },action.orgId);
-    if(result && result.code === 0){
+    }, action.orgId);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.fetchAccountsSuccess,
-            accounts:result.result
+            accounts: result.result
         })
     }
 }
-export function* createOrg(action){
+export function* createOrg(action) {
 
-    const result = yield call((org)=>{
+    const result = yield call((org) => {
         return OrgApi.createOrg(org);
-    },action.org);
-    if(result && result.code === 0){
+    }, action.org);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.createOrgSuccess,
-            org:result.result
+            org: result.result
         });
-    }else{
+    } else {
         yield put({
             type: orgActionKeys.createOrgFailed,
-            errorMsg:result.result
+            errorMsg: result.result
         });
     }
 }
 
-export function* updateOrg(action){
+export function* updateOrg(action) {
 
-    const result = yield call((org)=>{
+    const result = yield call((org) => {
         return OrgApi.updateOrg(org);
-    },action.org);
-    if(result && result.code === 0){
+    }, action.org);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.updateOrgSuccess,
-            org:result.result
+            org: result.result
         });
-    }else{
+    } else {
         yield put({
             type: orgActionKeys.updateOrgFailed,
-            errorMsg:result.result
+            errorMsg: result.result
         });
     }
 }
 
-export function* deleteOrg(action){
+export function* deleteOrg(action) {
 
-    const result = yield call((orgId)=>{
+    const result = yield call((orgId) => {
         return OrgApi.deleteOrg(orgId);
-    },action.orgId);
-    if(result && result.code === 0){
+    }, action.orgId);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.deleteOrgSuccess,
-            orgId:action.orgId
+            orgId: action.orgId
         });
-    }else{
+    } else {
         yield put({
             type: orgActionKeys.deleteOrgFailed,
-            errorMsg:result.result
+            errorMsg: result.result
         });
     }
 }
 
 
-export function* createAccount(action){
-    
-    const result = yield call((action)=>{
+export function* createAccount(action) {
+
+    const result = yield call((action) => {
         return OrgApi.createAccount(action.orgId, action.account);
-    },action);
-    if(result && result.code === 0){
+    }, action);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.createAccountSuccess,
-            account:result.result
+            account: result.result
         });
-    }else{
+    } else {
         yield put({
             type: orgActionKeys.createAccountFailed,
-            errorMsg:result.result
+            errorMsg: result.result
         });
     }
 }
 
-export function* updateAccount(action){
+export function* updateAccount(action) {
 
-    const result = yield call((account)=>{
+    const result = yield call((account) => {
         return OrgApi.updateAccount(account);
-    },action.account);
-    if(result && result.code === 0){
+    }, action.account);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.updateAccountSuccess,
-            account:result.result
+            account: result.result
         });
-    }else{
+    } else {
         yield put({
             type: orgActionKeys.updateAccountFailed,
-            errorMsg:result.result
+            errorMsg: result.result
         });
     }
 }
 
-export function* deleteAccount(action){
+export function* deleteAccount(action) {
 
-    const result = yield call((accId)=>{
+    const result = yield call((accId) => {
         return OrgApi.deleteAccount(accId);
-    },action.accId);
-    if(result && result.code === 0){
+    }, action.accId);
+    if (result && result.code === 0) {
         yield put({
             type: orgActionKeys.deleteAccountSuccess,
-            accId:action.accId
+            accId: action.accId
         });
-    }else{
+    } else {
         yield put({
             type: orgActionKeys.deleteAccountFailed,
-            errorMsg:result.result
+            errorMsg: result.result
         });
     }
 }
 
-export default{fetchOrgs,fetchAccounts,createOrg,updateOrg,deleteOrg,createAccount,updateAccount,deleteAccount}
+export default { fetchOrgs, fetchAccounts, createOrg, updateOrg, deleteOrg, createAccount, updateAccount, deleteAccount }

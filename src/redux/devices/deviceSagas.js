@@ -1,8 +1,6 @@
 import {call, put} from 'redux-saga/effects'
 import deviceActionKeys from './deviceActionKeys';
-import store from '../create-store';
 import DeviceApi from '../apis/deviceApis';
-import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchDevices(action){
     const result = yield call((orgId)=>{

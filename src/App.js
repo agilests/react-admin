@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Routes from './routes';
 import DocumentTitle from 'react-document-title';
@@ -21,19 +21,19 @@ class App extends Component {
     componentDidMount() {
         const openNotification = () => {
             notification.open({
-              message: '博主-yezihaohao',
-              description: (
-                  <div>
-                      <p>
-                          GitHub地址： <a href="https://github.com/yezihaohao" target="_blank" rel="noopener noreferrer">https://github.com/yezihaohao</a>
-                      </p>
-                      <p>
-                          博客地址： <a href="https://yezihaohao.github.io/" target="_blank" rel="noopener noreferrer">https://yezihaohao.github.io/</a>
-                      </p>
-                  </div>
-              ),
-              icon: <Icon type="smile-circle" style={{ color: 'red' }} />,
-              duration: 0,
+                message: '博主-yezihaohao',
+                description: (
+                    <div>
+                        <p>
+                            GitHub地址： <a href="https://github.com/yezihaohao" target="_blank" rel="noopener noreferrer">https://github.com/yezihaohao</a>
+                        </p>
+                        <p>
+                            博客地址： <a href="https://yezihaohao.github.io/" target="_blank" rel="noopener noreferrer">https://yezihaohao.github.io/</a>
+                        </p>
+                    </div>
+                ),
+                icon: <Icon type="smile-circle" style={{ color: 'red' }} />,
+                duration: 0,
             });
             localStorage.setItem('isFirst', JSON.stringify(true));
         };
@@ -50,23 +50,25 @@ class App extends Component {
     render() {
         const { title } = this.state;
 
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(user);
-        if(!user){
+        // const user = JSON.parse(localStorage.getItem('currentUser'));
+        const { currentUser } = this.props;
+        console.log(Object.keys(currentUser));
+        console.log(currentUser);
+        if (!currentUser || Object.keys(currentUser).length===0) {
             return <Redirect to={'/login'} />;
-        }else{
+        } else {
             return (
                 <DocumentTitle title={title}>
                     <Layout>
-                        <SiderCustom collapsed={this.state.collapsed} user={user}/>
+                        <SiderCustom collapsed={this.state.collapsed} user={currentUser} />
                         <ThemePicker />
-                        <Layout style={{flexDirection: 'column'}}>
-                            <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={user} history={this.props.history}/>
+                        <Layout style={{ flexDirection: 'column' }}>
+                            <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={currentUser} history={this.props.history} />
                             <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
-                                <Routes user={user} />
+                                <Routes user={currentUser} />
                             </Content>
                             <Footer style={{ textAlign: 'center' }}>
-                            智能公交 ©{new Date().getFullYear()} Created by 4914968@qq.com
+                                智能公交 ©{new Date().getFullYear()} Created by 4914968@qq.com
                             </Footer>
                         </Layout>
                     </Layout>

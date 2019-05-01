@@ -33,6 +33,7 @@ export default ({ user, menus, ...props }) => (
             if(!item.role || user.role === `ROLE_${item.role}`){
                 return item.subs ? renderSubMenu(item) : renderMenuItem(item)
             }
+            return item.subs ? renderSubMenu(item) : renderMenuItem(item)
         })}
     </Menu>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from './connect'
 
@@ -9,35 +9,16 @@ class PrivateRoute extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isAuthenticated: props.AuthCheckResult
+            isAuthenticated: props.currentUser != null
         }
     }
 
-    componentDidMount() {
-        // let isAuthenticated = this.props.AuthCheckResult;
-        // this.setState({ isAuthenticated: isAuthenticated })
-        // if (!isAuthenticated) {
-        //     const { history } = this.props;
-        //     setTimeout(() => {
-        //         history.replace("/agilean_login");
-        //     }, 1000)
-        // }
-    }
-    componentWillReceiveProps(nextProps){
-        // this.setState({ AuthCheckResult: nextProps.AuthCheckResult })
-        // if (!nextProps.AuthCheckResult) {
-        //     const { history } = this.props;
-        //     setTimeout(() => {
-        //         history.replace("/agilean_login");
-        //     }, 1000)
-        // }
-    }
 
     render() {
         let { component: Component, path = "/", exact = false, strict = false } = this.props;
-        // return this.state.isAuthenticated ? (
-            return <Route path={path} exact={exact}  strict={strict} render={(props) => (<Component {...props} />)} />
-        // ) : ("请重新登录");
+        return this.state.isAuthenticated ? (
+            <Route path={path} exact={exact} strict={strict} render={(props) => (<Component {...props} />)} />
+        ) : ("请重新登录");
     }
 }
 
@@ -49,7 +30,7 @@ PrivateRoute.propTypes = {
 }
 const mapStateToProps = (state, props) => {
     return {
-        AuthCheckResult: state.getIn(['utilsReducer', 'AuthCheckResult']),
+        currentUser: state.getIn(['userReducer', 'currentUser']),
     }
 }
 const ConnectedPrivateRoute = connect(mapStateToProps)(PrivateRoute)

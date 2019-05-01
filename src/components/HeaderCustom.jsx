@@ -1,14 +1,9 @@
-/**
- * Created by hao.cheng on 2017/4/13.
- */
 import React, { Component } from 'react';
 import screenfull from 'screenfull';
 import avater from '../style/imgs/b1.jpg';
 import SiderCustom from './SiderCustom';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
-// import { gitOauthToken, gitOauthInfo } from '../axios';
 import { queryString } from '../utils';
-import { withRouter } from 'react-router-dom';
 import { PwaInstaller } from './widget';
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -23,14 +18,6 @@ export default class HeaderCustom extends Component {
         const QueryString = queryString();
         const _user = JSON.parse(localStorage.getItem('user')) || '测试';
         if (!_user && QueryString.hasOwnProperty('code')) {
-            // gitOauthToken(QueryString.code).then(res => {
-            //     gitOauthInfo(res.access_token).then(info => {
-            //         this.setState({
-            //             user: info
-            //         });
-            //         localStorage.setItem('user', JSON.stringify(info));
-            //     });
-            // });
         } else {
             this.setState({
                 user: _user
@@ -108,5 +95,3 @@ export default class HeaderCustom extends Component {
         )
     }
 }
-
-// export default withRouter(connectAlita(['responsive'])(HeaderCustom));

@@ -1,6 +1,5 @@
 import {call, put} from 'redux-saga/effects'
 import userActionKeys from './userActionKeys';
-import store from '../create-store';
 import UserApi from '../apis/userApis';
 import { formatAlertMessage } from '../apis/tools';
 

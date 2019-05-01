@@ -14,18 +14,19 @@ export default class CRouter extends Component {
         const { roles } = user.rule;
         // const { auth } = store.getState().httpData;
         // if (!permissions || !permissions.includes(permission)) return <Redirect to={'404'} />;
-        if(!role){
+        if (!role) {
             return component;
-        }else if(roles === `ROLE_${role}`){
+        } else if (roles === `ROLE_${role}`) {
             return component;
-        }else {
+        } else {
             return <Redirect to={'404'} />;
         }
     };
     requireLogin = (component, role) => {
         const { user } = this.props;
         // const { roles } = auth.role;
-        if (process.env.NODE_ENV === 'production' && user) { // 线上环境判断是否登录
+        // if (process.env.NODE_ENV === 'production' && user) { // 线上环境判断是否登录
+        if (!user || Object.keys(user).length === 0) {
             return <Redirect to={'/login'} />;
         }
         return role ? this.requireAuth(role, component) : component;
