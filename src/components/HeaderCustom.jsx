@@ -5,11 +5,14 @@ import SiderCustom from './SiderCustom';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
 import { queryString } from '../utils';
 import { PwaInstaller } from './widget';
+import { logout } from '../redux/user/userActions';
+import { connect } from '../connect'
+
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-export default class HeaderCustom extends Component {
+class HeaderCustom extends Component {
     state = {
         user: '',
         visible: false,
@@ -36,6 +39,7 @@ export default class HeaderCustom extends Component {
     };
     logout = () => {
         localStorage.removeItem('currentUser');
+        this.props.logout();
         this.props.history.push('/login')
     };
     popoverHide = () => {
@@ -56,12 +60,12 @@ export default class HeaderCustom extends Component {
                             <Icon type="bars" className="header__trigger custom-trigger" />
                         </Popover>
                     ) : (
-                        <Icon
-                            className="header__trigger custom-trigger"
-                            type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.props.toggle}
-                        />
-                    )
+                            <Icon
+                                className="header__trigger custom-trigger"
+                                type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.props.toggle}
+                            />
+                        )
                 }
                 <Menu
                     mode="horizontal"
@@ -75,7 +79,7 @@ export default class HeaderCustom extends Component {
                         <Icon type="arrows-alt" onClick={this.screenFull} />
                     </Menu.Item>
                     <Menu.Item key="1">
-                        <Badge count={25} overflowCount={10} style={{marginLeft: 10}}>
+                        <Badge count={25} overflowCount={10} style={{ marginLeft: 10 }}>
                             <Icon type="notification" />
                         </Badge>
                     </Menu.Item>
@@ -95,3 +99,19 @@ export default class HeaderCustom extends Component {
         )
     }
 }
+
+
+const mapStateToProps = (state, props) => {
+    return {
+    }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => {
+            dispatch(logout())
+        }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(HeaderCustom)

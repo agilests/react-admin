@@ -1,5 +1,6 @@
 export default {
     login: 'LOGIN',
     loginSuccess:'LOGIN_SUCCESS',
-    loginFailed:'LOGIN_FAILED'
+    loginFailed:'LOGIN_FAILED',
+    logout: 'LOGOUT'
 }

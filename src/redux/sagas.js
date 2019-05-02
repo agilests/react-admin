@@ -11,6 +11,7 @@ function* rootSaga() {
   yield all([
     //用户相关
     takeEvery(userActionKeys.login, userSagas.login),
+    takeEvery(userActionKeys.logout, userSagas.logout),
     //组织相关
     takeEvery(orgActionKeys.fetchOrgs, orgSagas.fetchOrgs),
     takeEvery(orgActionKeys.fetchAccounts, orgSagas.fetchAccounts),

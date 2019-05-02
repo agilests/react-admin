@@ -5,4 +5,9 @@ export const login = (user) => {
         type: userActionKeys.login,
         user: user
     }
-};
+}
+export const logout = () => {
+    return {
+        type: userActionKeys.logout
+    }
+}

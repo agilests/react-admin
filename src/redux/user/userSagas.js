@@ -33,5 +33,10 @@ export function* login(action){
         })
     }
 }
+export function* logout(){
+    yield call(()=>{
+        return UserApi.logout();
+    })
+}
 
-export default{login}
+export default{login,logout}

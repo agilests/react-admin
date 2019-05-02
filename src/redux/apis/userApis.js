@@ -1,10 +1,13 @@
 
 import NetUtil from './net_utils';
-export default class UserApi{
-    static login(account){
-        return NetUtil.post('/login',account);
+export default class UserApi {
+    static login(account) {
+        return NetUtil.post('/login', account);
     }
-    static fetchCurrentUser(){
+    static fetchCurrentUser() {
         return NetUtil.get(`/api/account`);
+    }
+    static logout() {
+        return NetUtil.get('/logout');
     }
 }
