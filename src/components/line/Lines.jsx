@@ -46,7 +46,7 @@ class Lines extends Component {
         super(props);
         this.state = {
             visible: false,
-            admin: props.currentUser.role === 'ROLE_ADMIN'
+            admin: JSON.parse(localStorage.getItem('currentUser')).role === 'ROLE_ADMIN'
         }
         this.columns = [{
             title: '名称',

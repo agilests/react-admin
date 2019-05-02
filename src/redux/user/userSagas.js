@@ -8,7 +8,7 @@ export function* login(action){
         const result = yield call((user)=>{
             return UserApi.login(user);
         },action.user);
-        if(result){
+        if(result && result.code===0){
             const account = yield call(() => {
                 return UserApi.fetchCurrentUser()
             });
@@ -19,8 +19,14 @@ export function* login(action){
                 })
                 return;
             }
+        }else{
+            yield put({
+                type:userActionKeys.loginFailed,
+                loginMsg:formatAlertMessage(result.result)
+            })
         }
     }catch(e){
+        console.log(e);
         yield put({
             type:userActionKeys.loginFailed,
             loginMsg:formatAlertMessage(e)

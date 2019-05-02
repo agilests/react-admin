@@ -51,7 +51,8 @@ class App extends Component {
         const { title } = this.state;
 
         // const user = JSON.parse(localStorage.getItem('currentUser'));
-        const { currentUser } = this.props;
+        // const { currentUser } = this.props;
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         console.log(Object.keys(currentUser));
         console.log(currentUser);
         if (!currentUser || Object.keys(currentUser).length===0) {

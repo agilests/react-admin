@@ -1,3 +1,5 @@
+import { checkStatus } from "./tools";
+
 const headers = new Headers();
 headers.append("Content-Type", "application/json");
 headers.append("Accept", "application/json");
@@ -9,7 +11,10 @@ export default class NetUtil {
             credentials: 'include',
             method: 'GET',
             mode: 'cors'
-        }).then(res => res.json()).catch(e => { throw e; });
+        })
+        .then(checkStatus)
+        .then(res => res.json())
+        .catch(e => { throw e; });
     }
     static post(url, body) {
         return fetch(url, {
@@ -18,7 +23,10 @@ export default class NetUtil {
             method: "POST",
             body: JSON.stringify(body),
             mode: 'cors'
-        }).then(res => res.json()).catch(e => { throw e; });
+        })
+        .then(checkStatus)
+        .then(res => res.json())
+        .catch(e => { throw e; });
     }
     static put(url, body) {
         return fetch(url, {
@@ -27,7 +35,10 @@ export default class NetUtil {
             method: "POST",
             body: JSON.stringify(body),
             mode: 'cors'
-        }).then(res => res.json()).catch(e => { throw e; });
+        })
+        .then(checkStatus)
+        .then(res => res.json())
+        .catch(e => { throw e; });
     }
     static delete(url) {
         return fetch(url, {
@@ -35,6 +46,9 @@ export default class NetUtil {
             credentials: 'include',
             method: "DELETE",
             mode: 'cors'
-        }).then(res => res.json()).catch(e => { throw e; });
+        })
+        .then(checkStatus)
+        .then(res => res.json())
+        .catch(e => { throw e; });
     }
 }
