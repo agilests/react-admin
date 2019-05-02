@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spin, Modal, Table, Form, Input, Button, notification, Select } from 'antd';
+import { Spin, Modal, Table, Form, Input, Button, Select } from 'antd';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { fetchLines, createLine, deleteLine } from '../../redux/lines/lineActions';
@@ -80,7 +80,7 @@ class Lines extends Component {
     deleteLine = (record) => {
         Modal.confirm({
             title: '提示',
-            content: `确认删除${record.name}吗?`,
+            content: `确认删除线路"${record.name}"吗?`,
             onOk: () => {
                 this.props.deleteLine(record.id);
             }

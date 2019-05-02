@@ -49,11 +49,7 @@ class App extends Component {
     };
     render() {
         const { title } = this.state;
-
-        // const user = JSON.parse(localStorage.getItem('currentUser'));
-        // const { currentUser } = this.props;
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        // console.log(Object.keys(currentUser));
         console.log(currentUser);
         if (!currentUser || Object.keys(currentUser).length===0) {
             return <Redirect to={'/login'} />;
@@ -62,7 +58,7 @@ class App extends Component {
                 <DocumentTitle title={title}>
                     <Layout>
                         <SiderCustom collapsed={this.state.collapsed} user={currentUser} />
-                        <ThemePicker />
+                        {/* <ThemePicker /> */}
                         <Layout style={{ flexDirection: 'column' }}>
                             <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={currentUser} history={this.props.history} />
                             <Content style={{ margin: '0 16px', overflow: 'initial', flex: '1 1 0' }}>
@@ -91,4 +87,3 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps)(App)
-// export default connectAlita(['auth', 'responsive'])(App);

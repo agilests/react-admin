@@ -33,10 +33,11 @@ export default function orgReducer(state = initialState, action) {
             orgs.unshift(action.org);
             return state.set('errorMsg', '').set('fetching', false).set('addedOrg', action.org).set('orgs', orgs);
         case orgActionKeys.updateOrgSuccess:
-            return state.set('errorMsg', '').set('fetching', false).get('orgs').find(o => { if (o.id === action.org.id) return action.org; return o; })
+            return state.set('errorMsg', '').set('fetching', false).get('orgs').filter(o => o.id!=action.orgId)
         case orgActionKeys.deleteOrgSuccess:
-            return state.set('errorMsg', '').set('fetching', false).get('orgs').find(o => { if (o.id === action.orgId) return null; return o; });
-
+            let orgs1 = state.get('orgs');
+            orgs1 = orgs1.filter(o => o.id != action.orgId);
+            return state.set('errorMsg', '').set('fetching', false).set('orgs',orgs1);
         case orgActionKeys.fetchAccountsSuccess:
             return state.set('accounts', action.accounts).set('errorMsg', '').set('fetching', false);
         case orgActionKeys.createAccountSuccess:

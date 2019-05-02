@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Modal, Table, Form, Input, Button } from 'antd';
+import { Modal, Table, Form, Input, Button,Select } from 'antd';
 import { fetchDevices, createDevice } from '../../redux/devices/deviceActions';
+import { fetchOrgs } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 
 const DeviceForm = Form.create()(
@@ -30,7 +32,7 @@ const DeviceForm = Form.create()(
                         {getFieldDecorator('model')(<Input />)}
                     </FormItem>
                     <FormItem label="描述">
-                        {getFieldDecorator('desc')(<Input type="textarea" />)}
+                        {getFieldDecorator('description')(<Input type="textarea" />)}
                     </FormItem>
                 </Form>
             </Modal>
@@ -99,9 +101,15 @@ class Devices extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false
+            visible: false,
+            admin: JSON.parse(localStorage.getItem('currentUser')).role === 'ROLE_ADMIN'
         }
-        this.props.fetchDevices('123');
+
+        if (!this.state.admin) {
+            this.onChange(props.currentUser.orgId);
+        } else {
+            this.props.fetchOrgs();
+        }
     }
     register = () => {
         const form = this.form;
@@ -113,22 +121,45 @@ class Devices extends Component {
             console.log('Received values of form: ', values);
             form.resetFields();
             this.setState({ visible: false });
-            this.props.register('123', values);
+            this.props.createLine(this.props.currentUser.orgId, values);
         });
     };
     saveFormRef = (form) => {
         this.form = form;
     };
+    onChange = (orgId) => {
+        this.props.fetchDevices(orgId);
+    }
     render() {
-        const { devices } = this.props;
+        const { devices,orgs } = this.props;
+        const options = orgs.map(d => <Option key={d.id}>{d.name}</Option>);
         console.log(devices);
         return (
             <div className="gutter-example button-demo">
                 <BreadcrumbCustom first="设备" />
                 <p>
-                    <Button onClick={() => { this.setState({ visible: true }) }}>注册设备</Button>
-                    <Button>下载模板</Button>
-                    <Button>导入设备</Button>
+
+                {
+
+                    this.state.admin
+                        ? (<Select
+                            showSearch
+                            style={{ width: 200 }}
+                            placeholder="输入客户名称"
+                            onChange={(v) => this.onChange(v)}
+                        >
+                            {options}
+                        </Select>
+                        )
+                        : (
+                            <p>
+                            <Button onClick={() => { this.setState({ visible: true }) }}>注册设备</Button>
+                            <Button>下载模板</Button>
+                            <Button>导入设备</Button>
+                            </p>
+                        )
+                    }
+                    
                 </p>
 
                 <Table columns={columns} dataSource={devices} />
@@ -149,13 +180,17 @@ const mapStateToProps = (state, props) => {
     return {
         errorMsg: state.getIn(['deviceReducer', 'errorMsg']),
         devices: state.getIn(['deviceReducer', 'devices'], []),
-        fetching: state.getIn(['deviceReducer', 'fetching'])
+        fetching: state.getIn(['deviceReducer', 'fetching']),
+        orgs: state.getIn(['orgReducer','orgs'])
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        fetchOrgs: () => {
+            dispatch(fetchOrgs())
+        },
         fetchDevices: (orgId) => {
             dispatch(fetchDevices(orgId))
         },

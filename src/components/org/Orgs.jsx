@@ -1,52 +1,155 @@
 import React from 'react';
-import { Table, Button } from 'antd';
-import { fetchOrgs } from '../../redux/org/orgActions';
+import { Spin, Modal, Table, Form, Input, Button, Select } from 'antd';
+import { fetchOrgs, createOrg,deleteOrg } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import { Link } from 'react-router-dom';
 import BreadcrumbCustom from '../BreadcrumbCustom';
+import { success, error } from '../widget/Message';
+const FormItem = Form.Item;
 
-const columns = [{
-    title: '名称',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <span>{text}</span>,
-}, {
-    title: '创建时间',
-    dataIndex: 'created',
-    key: 'created',
-    // render: text => <span>${new Date(text)}</span>
-}, {
-    title: '更新时间',
-    dataIndex: 'lastModified',
-    key: 'lastModified',
-    // render: text => <span>${new Date(text)}</span>
-}, {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-        <span>
 
-            <Link to={`/app/org/accounts?org=${record.id}`}>账号管理</Link>
-            <Button onClick={() => {}}>编辑</Button>
-            <span className="ant-divider" />
-            <Button>Delete</Button>
-            <span className="ant-divider" />
-        </span>
-    ),
-}];
+const OrgForm = Form.create()(
+    (props) => {
+        const { visible, onOk, onCancel, form } = props;
+        const { getFieldDecorator } = form;
+        return (
+            <Modal
+                visible={visible}
+                title={'注册'}
+                okText={'注册'}
+                onOk={onOk}
+                onCancel={onCancel}
+            >
+                <Form layout="vertical">
+                    <FormItem label="名称">
+                        {getFieldDecorator('name', {
+                            rules: [{ required: true, message: '请输入客户名称!' }],
+                        })(
+                            <Input />
+                        )}
+                    </FormItem>
+                    <FormItem label="联系人">
+                        {getFieldDecorator('mobile')(<Input />)}
+                    </FormItem>
+                    <FormItem label="联系方式">
+                        {getFieldDecorator('contact')(<Input />)}
+                    </FormItem>
+                    <FormItem label="描述">
+                        {getFieldDecorator('description')(<Input type="textarea" />)}
+                    </FormItem>
+                </Form>
+            </Modal>
+        )
+    }
+)
+
 
 class Orgs extends React.Component {
     constructor(props) {
         super(props)
         this.props.fetchOrgs();
+        this.state={
+            visiable:false,
+            submit:false
+        }
+        this.columns = [{
+            title: '名称',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <span>{text}</span>,
+        }, {
+            title: '创建时间',
+            dataIndex: 'created',
+            key: 'created',
+            // render: text => <span>${new Date(text)}</span>
+        }, {
+            title: '联系人',
+            dataIndex: 'contact',
+            key: 'contact',
+            // render: text => <span>${new Date(text)}</span>
+        }, {
+            title: '联系方式',
+            dataIndex: 'mobile',
+            key: 'mobile',
+            // render: text => <span>${new Date(text)}</span>
+        }, {
+            title: '更新时间',
+            dataIndex: 'lastModified',
+            key: 'lastModified',
+            // render: text => <span>${new Date(text)}</span>
+        }, {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+        
+                    <Link to={`/app/org/accounts?org=${record.id}`}>账号管理</Link>
+                    <Button onClick={() => { }}>编辑</Button>
+                    <span className="ant-divider" />
+                    <Button onClick={() => { this.deleteOrg(record) }}>删除</Button>
+                    <span className="ant-divider" />
+                </span>
+            ),
+        }];
     }
+
+    saveFormRef = (form) => {
+        this.form = form;
+    };
+
+    static getDerivedStateFromProps(nextProps, nextState) {
+        const { errorMsg, added } = nextProps;
+        const { submit } = nextState;
+        if (submit && errorMsg != '') {
+            error(errorMsg);
+            return { submit: false };
+        } else if (submit && added && Object.keys(added).length != 0) {
+            success('注册客户成功!')
+            return { visible: false, submit: false };
+        }
+        return null;
+    }
+
+    deleteOrg = (record) => {
+        Modal.confirm({
+            title: '提示',
+            content: `确认删除客户"${record.name}"吗?`,
+            onOk: () => {
+                this.props.deleteOrg(record.id);
+            }
+        })
+    }
+    register = () => {
+        const form = this.form;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+
+            console.log('Received values of form: ', values);
+            this.setState({ submit: true })
+            this.props.createOrg(values);
+        });
+    };
     render() {
-        const orgs = this.props.orgs;
+        const { orgs, fetching } = this.props;
         return (
 
             <div className="gutter-example button-demo">
-                <BreadcrumbCustom first="客户" />
-                <Table columns={columns} dataSource={orgs} />
+                <Spin spinning={fetching}>
+                    <BreadcrumbCustom first="客户" />
+                    <p>
+                        <Button onClick={() => { this.setState({ visible: true }) }}>注册客户</Button>
+                    </p>
+                    <Table columns={this.columns} dataSource={orgs} />
+
+                    <OrgForm
+                        ref={this.saveFormRef}
+                        visible={this.state.visible}
+                        onOk={this.register}
+                        onCancel={() => { this.setState({ visible: false }) }}
+                    />
+                </Spin>
             </div>
         )
     }
@@ -58,6 +161,7 @@ const mapStateToProps = (state, props) => {
     return {
         errorMsg: state.getIn(['orgReducer', 'errorMsg']),
         orgs: state.getIn(['orgReducer', 'orgs'], []),
+        added: state.getIn(['orgReducer', 'addedOrg']),
         fetching: state.getIn(['orgReducer', 'fetching'])
     }
 }
@@ -67,6 +171,12 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchOrgs: () => {
             dispatch(fetchOrgs())
+        },
+        createOrg: (org) => {
+            dispatch(createOrg(org))
+        },
+        deleteOrg: (id) =>{
+            dispatch(deleteOrg(id))
         }
     }
 }
