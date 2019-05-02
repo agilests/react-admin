@@ -2,7 +2,7 @@
  * Created by hao.cheng on 2017/5/3.
  */
 import React from 'react';
-import { Row, Col, Card, Timeline, Icon } from 'antd';
+import { Row, Col, Card, Timeline, Icon, Input } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import EchartsViews from './EchartsViews';
 import EchartsProjects from './EchartsProjects';
@@ -11,9 +11,12 @@ import b1 from '../../style/imgs/b1.jpg';
 
 class Dashboard extends React.Component {
     render() {
-        return (
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        return currentUser?(
             <div className="gutter-example button-demo">
                 <BreadcrumbCustom />
+                {/*
                 <Row gutter={10}>
                     <Col className="gutter-row" md={4}>
                         <div className="gutter-box">
@@ -36,7 +39,7 @@ class Dashboard extends React.Component {
                                         <Icon type="cloud" className="text-2x" />
                                     </div>
                                     <div className="clear">
-                                        <div className="text-muted">云数据</div>
+                                        <div className="text-muted">云数据123</div>
                                         <h2>30122</h2>
                                     </div>
                                 </div>
@@ -166,7 +169,10 @@ class Dashboard extends React.Component {
                         </div>
                     </Col>
                 </Row>
+                 */}
             </div>
+        ):(
+            window.location.href="/login"
         )
     }
 }

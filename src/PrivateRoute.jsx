@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, withRouter } from 'react-router-dom';
+import Login from './components/pages/Login';
 import PropTypes from 'prop-types';
 import { connect } from './connect'
 
@@ -18,7 +19,7 @@ class PrivateRoute extends React.Component {
         let { component: Component, path = "/", exact = false, strict = false } = this.props;
         return this.state.isAuthenticated ? (
             <Route path={path} exact={exact} strict={strict} render={(props) => (<Component {...props} />)} />
-        ) : ("请重新登录");
+        ) : (<Route path="/login"  component={Login} />);
     }
 }
 
