@@ -5,6 +5,7 @@ import BreadcrumbCustom from '../BreadcrumbCustom';
 import { fetchLines, createLine, deleteLine } from '../../redux/lines/lineActions';
 import { fetchOrgs } from '../../redux/org/orgActions';
 import { success, error } from '../widget/Message';
+import { Link } from 'react-router-dom';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -46,7 +47,7 @@ class Lines extends Component {
         super(props);
         this.state = {
             visible: false,
-            admin: JSON.parse(localStorage.getItem('currentUser')).role === 'ROLE_ADMIN'
+            currentUser: JSON.parse(localStorage.getItem('currentUser'))
         }
         this.columns = [{
             title: '名称',
@@ -63,6 +64,7 @@ class Lines extends Component {
             key: 'action',
             render: (text, record) => (
                 <span>
+                    <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>线路规划</Button>
                     <Button onClick={() => this.showEdit(record)}>编辑</Button>
                     <span className="ant-divider" />
                     <Button onClick={() => { this.deleteLine(record) }}>删除</Button>
@@ -70,8 +72,8 @@ class Lines extends Component {
                 </span>
             ),
         }];
-        if (!this.state.admin) {
-            this.onChange(props.currentUser.orgId);
+        if (this.state.currentUser.role !== 'ROLE_ADMIN') {
+            this.onChange(this.state.currentUser.orgId);
         } else {
             this.props.fetchOrgs();
         }
@@ -94,7 +96,7 @@ class Lines extends Component {
             }
             console.log('Received values of form: ', values);
             this.setState({ submit: true })
-            this.props.createLine(this.props.currentUser.orgId, values);
+            this.props.createLine(this.state.currentUser.orgId, values);
         });
     }
 
@@ -105,7 +107,14 @@ class Lines extends Component {
             error(errorMsg);
             return { submit: false };
         } else if (submit && added && Object.keys(added).length != 0) {
-            success('添加线路成功!')
+            // success('添加线路成功!')
+            Modal.confirm({
+                title: '提示',
+                content: '线路添加成功,是否开始规划站点?',
+                onOk: () => {
+                    nextProps.history.push(`/app/stations?line=${added.id}`)
+                }
+            })
             return { visible: false, submit: false };
         }
         return null;
@@ -130,7 +139,7 @@ class Lines extends Component {
 
                     {
 
-                        this.state.admin
+                        this.state.currentUser.role==='ROLE_ADMIN'
                             ? <Select
                                 showSearch
                                 style={{ width: 200 }}
@@ -164,8 +173,7 @@ const mapStateToProps = (state, props) => {
         orgs: state.getIn(['orgReducer', 'orgs']),
         added: state.getIn(['lineReducer', 'added']),
         lines: state.getIn(['lineReducer', 'lines'], []),
-        fetching: state.getIn(['lineReducer', 'fetching']),
-        currentUser: state.getIn(['userReducer', 'currentUser'])
+        fetching: state.getIn(['lineReducer', 'fetching'])
     }
 }
 

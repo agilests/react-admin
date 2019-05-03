@@ -26,3 +26,9 @@ export const deleteLine = (id) => {
         id: id
     }
 }
+export const fetchStations = (id) => {
+    return {
+        type: lineActionKeys.fetchStations,
+        lineId: id
+    }
+}

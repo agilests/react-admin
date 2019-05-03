@@ -5,7 +5,7 @@ import LineApi from '../apis/lineApis';
 export function* fetchLines(action) {
     const result = yield call((orgId) => {
         return LineApi.getLineList(orgId);
-    },action.orgId)
+    }, action.orgId)
     if (result && result.code === 0) {
         yield put({
             type: lineActionKeys.fetchLinesSuccess,
@@ -31,12 +31,12 @@ export function* createLine(action) {
         errorMsg: result.result
     });
 }
-export function* deleteLine(action){
-    const result = yield call((id)=>{
+export function* deleteLine(action) {
+    const result = yield call((id) => {
         return LineApi.deleteLine(id)
-    },action.id);
+    }, action.id);
 
-    if(result && result.code===0){
+    if (result && result.code === 0) {
         yield put({
             type: lineActionKeys.deleteLineSuccess,
             id: action.id
@@ -67,4 +67,16 @@ export function* addStation(action) {
         errorMsg: result.result
     });
 }
-export default { fetchLines, createLine, deleteLine, addStation }
+
+export function* fetchStation(action) {
+    const result = yield call((lineId) => {
+        return LineApi.getStationList(lineId);
+    }, action.lineId);
+    if(result && result.code===0){
+        yield put({
+            type:lineActionKeys.fetchStationsSuccess,
+            stations:result.result
+        })
+    }
+}
+export default { fetchLines, createLine, deleteLine, addStation, fetchStation }

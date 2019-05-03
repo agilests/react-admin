@@ -28,7 +28,9 @@ function* rootSaga() {
     takeEvery(lineActionKeys.fetchLines, lineSagas.fetchLines),
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),
     takeEvery(lineActionKeys.deleteLine, lineSagas.deleteLine),
-    takeEvery(lineActionKeys.addStation, lineSagas.addStation)
+    takeEvery(lineActionKeys.addStation, lineSagas.addStation),
+    //站点
+    takeEvery(lineActionKeys.fetchStations, lineSagas.fetchStation)
     ]);
 
 }

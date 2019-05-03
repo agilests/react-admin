@@ -1,9 +1,9 @@
 export default {
     menus: [ // 菜单相关路由
-        { key: '/app/dashboard/index', title: '首页', icon: 'mobile', component: 'Dashboard' },
+        { key: '/app/dashboard/index', title: '首页', icon: 'home', component: 'Dashboard' },
         {
-            key: '/app/ui', title: '车辆', icon: 'scan',
-            subs:[]
+            key: '/app/ui', title: '车辆', icon: 'car',
+            subs: []
             // subs: [
             //     { key: '/app/ui/buttons', title: '按钮', component: 'Buttons'},
             //     { key: '/app/ui/icons', title: '图标', component: 'Icons'},
@@ -19,41 +19,41 @@ export default {
             // ],
         },
         {
-            key: '/app/animation', title: '线路', icon: 'rocket',
+            key: '/app/animation', title: '线路', icon: 'pause',
             subs: [
-                { key: '/app/lines', title: '线路', component: 'Lines'},
+                { key: '/app/lines', title: '线路', component: 'Lines' },
                 // { key: '/app/animation/basicAnimations', title: '基础动画', component: 'BasicAnimations'},
                 // { key: '/app/animation/exampleAnimations', title: '动画案例', component: 'ExampleAnimations'},
             ],
         },
         {
-            key: '/app/device', title: '设备', icon: 'copy',
+            key: '/app/device', title: '设备', icon: 'sliders',
             subs: [
-                { key: '/app/device/devices', title: '设备', component: 'Devices'},
+                { key: '/app/device/devices', title: '设备', component: 'Devices' },
                 // { key: '/app/table/basicTable', title: '基础表格', component: 'BasicTable'},
                 // { key: '/app/table/advancedTable', title: '高级表格', component: 'AdvancedTable'},
                 // { key: '/app/table/asynchronousTable', title: '异步表格', component: 'AsynchronousTable'},
             ],
         },
         {
-            key: '/app/form', title: '监控', icon: 'edit',
-            subs:[]
+            key: '/app/form', title: '监控', icon: 'video-camera',
+            subs: []
             // subs: [
             //     { key: '/app/form/basicForm', title: '基础表单', component: 'BasicForm'},
             // ],
         },
         {
-            key: '/app/chart', title: '日志', icon: 'area-chart',
-            subs:[]
+            key: '/app/chart', title: '日志', icon: 'laptop',
+            subs: []
             // subs: [
             //     { key: '/app/chart/echarts', title: 'echarts', component: 'Echarts' },
             //     { key: '/app/chart/recharts', title: 'recharts', component: 'Recharts' },
             // ],
         },
         {
-            key: '/app/org', title: '客户', icon: 'edit', role: 'ADMIN',
+            key: '/app/org', title: '客户', icon: 'user', role: 'ADMIN',
             subs: [
-                { key: '/app/org/orgs', title: '客户管理', component: 'Orgs'}
+                { key: '/app/org/orgs', title: '客户管理', component: 'Orgs' }
             ],
             // subs: [
             //     { key: '/login', title: '登录' },
@@ -80,6 +80,7 @@ export default {
     others: [
         {
             key: '/app/org/accounts', title: '账号管理', component: 'Accounts'
-        }
+        },
+        { key: '/app/stations', title: '站点', component: 'Station' }
     ] // 非菜单相关路由
 }

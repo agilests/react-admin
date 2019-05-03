@@ -4,7 +4,8 @@ const initialState = Immutable.Map({
     lines: [],
     fetching: false,
     added: null,
-    errorMsg: ''
+    errorMsg: '',
+    stations:null
 })
 export default function lineReducer(state = initialState, action) {
     switch (action.type) {
@@ -12,6 +13,7 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.createLine:
         case lineActionKeys.addStation:
         case lineActionKeys.deleteLine:
+        case lineActionKeys.fetchStations:
             return state.set('fetching', true).set('errorMsg', '');
         case lineActionKeys.createLineFailed:
         case lineActionKeys.addStationFailed:
@@ -27,6 +29,8 @@ export default function lineReducer(state = initialState, action) {
             let lines1 = state.get('lines');
             lines1 = lines1.filter(l => l.id != action.id);
             return state.set('errorMsg', '').set('fetching', false).set('lines', lines1);
+        case lineActionKeys.fetchStationsSuccess:
+            return state.set('fetching', false).set('errorMsg', '').set('stations', action.stations);
         default:
             return state;
     }
