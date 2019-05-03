@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import screenfull from 'screenfull';
-import avater from '../style/imgs/b1.jpg';
+// import avater from '../style/imgs/b1.jpg';
 import SiderCustom from './SiderCustom';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
 import { queryString } from '../utils';
@@ -55,21 +55,16 @@ class HeaderCustom extends Component {
         return (
             <Header className="custom-theme header" >
                 {
-                    responsive.data.isMobile ? (
-                        <Popover content={<SiderCustom path={path} popoverHide={this.popoverHide} />} trigger="click" placement="bottomLeft" visible={this.state.visible} onVisibleChange={this.handleVisibleChange}>
-                            <Icon type="bars" className="header__trigger custom-trigger" />
-                        </Popover>
-                    ) : (
-                            <Icon
-                                className="header__trigger custom-trigger"
-                                type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={this.props.toggle}
-                            />
-                        )
+                    <Icon
+                        className="header__trigger custom-trigger"
+                        type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
+                        style={{lineHeight: '34px'}}
+                        onClick={this.props.toggle}
+                    />
                 }
                 <Menu
                     mode="horizontal"
-                    style={{ lineHeight: '64px', float: 'right' }}
+                    style={{ lineHeight: '34px', float: 'right' }}
                     onClick={this.menuClick}
                 >
                     <Menu.Item key="pwa">
@@ -78,12 +73,14 @@ class HeaderCustom extends Component {
                     <Menu.Item key="full" onClick={this.screenFull} >
                         <Icon type="arrows-alt" onClick={this.screenFull} />
                     </Menu.Item>
-                    <Menu.Item key="1">
+                    {/* <Menu.Item key="1">
                         <Badge count={25} overflowCount={10} style={{ marginLeft: 10 }}>
                             <Icon type="notification" />
                         </Badge>
-                    </Menu.Item>
-                    <SubMenu title={<span className="avatar"><img src={avater} alt="头像" /><i className="on bottom b-white" /></span>}>
+                    </Menu.Item> */}
+                    <SubMenu title={<span className="avatar">{this.props.user.account}
+                        {/* <img src={avater} alt="头像" /><i className="on bottom b-white" /> */}
+                    </span>}>
                         <MenuItemGroup title="用户中心">
                             <Menu.Item key="setting:1">你好 - {this.props.user.account}</Menu.Item>
                             <Menu.Item key="setting:2">个人信息</Menu.Item>
@@ -114,4 +111,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(HeaderCustom)
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderCustom)

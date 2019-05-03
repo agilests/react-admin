@@ -9,15 +9,6 @@ export const StationForm = Form.create()(
     (props) => {
         const { form, fetching, station } = props;
         const { getFieldDecorator } = form;
-        const short = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 6 },
-        }
-        const long = {
-            labelCol: { span: 8 },
-            wrapperCol: { span: 18 },
-            style: { marginBottom: '0px' }
-        }
         const inputStyle = {
             style: { marginBottom: '0px' }
         }
@@ -48,7 +39,7 @@ export const StationForm = Form.create()(
                                 </Col>
                             </Row>
                             <Row type="flex" justify="start">
-                                <Col>
+                                <Col span={24}>
                                     <FormItem label="角度" {...inputStyle}>
                                         {getFieldDecorator('name', {
                                             rules: [{ required: true, message: '请输入线路名称!' }],
