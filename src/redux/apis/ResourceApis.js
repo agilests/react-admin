@@ -5,6 +5,6 @@ export default class ResourcesApi {
         return NetUtil.get(`/api/resources?orgId=${orgId}`);
     }
     static upload(formData, orgId, key) {
-        return NetUtil.upload(`/api/resources/batch?orgId=${orgId}&key=${key}`, formData);
+        return NetUtil.upload(`/api/resources/voice?orgId=${orgId}&key=${key}`, formData);
     }
 }

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Spin, Modal, Table, Form, Icon, Input, Button, Select, Upload } from 'antd';
+import { Spin, Form, Icon, Input, Button, Upload } from 'antd';
 import { connect } from '../../connect'
 import { upload } from '../../redux/resource/resActions';
 
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 
-class ResourceSelect extends Component {
+class ResourceUpload extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,17 +18,17 @@ class ResourceSelect extends Component {
     }
 
     upload = () => {
-        const { orgId,resourceKey } = this.props;
+        const { orgId, resourceKey } = this.props;
         debugger;
         let data = new FormData();
         if (this.state.official) {
-            data.append('files', this.state.official)
+            data.append('official', this.state.official)
         }
         if (this.state.locality) {
-            data.append('files', this.state.locality)
+            data.append('locality', this.state.locality)
         }
         if (this.state.english) {
-            data.append('files', this.state.english)
+            data.append('english', this.state.english)
         }
         data.append('name', this.state.name);
         this.props.upload(data, orgId, resourceKey);
@@ -119,5 +118,5 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-const uploadForm = Form.create()(ResourceSelect)
+const uploadForm = Form.create()(ResourceUpload)
 export default connect(mapStateToProps, mapDispatchToProps)(uploadForm)
