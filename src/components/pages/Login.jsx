@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
 import { PwaInstaller } from '../widget';
 import { login } from '../../redux/user/userActions';
 import { connect } from '../../connect'
@@ -32,6 +32,7 @@ class Login extends React.Component {
     }
     render() {
         // const { getFieldD/ecorator } = this.props.form;
+        const { logining } = this.props;
         return (
             <div className="login">
                 <div className="login-form" >
@@ -39,38 +40,40 @@ class Login extends React.Component {
                         <span>登录 {this.props.loginMsg}{this.props.currentUser ? this.props.currentUser.id : ''}</span>
                         <PwaInstaller />
                     </div>
-                    <Form onSubmit={this.handleSubmit} style={{ maxWidth: '300px' }}>
-                        <FormItem>
-                            {/* {getFieldDecorator('userName', { */}
-                            {/* rules: [{ required: true, message: '请输入用户名!' }], */}
-                            {/* })( */}
-                            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" onChange={this._handleInputChange('username')} />
-                            {/* )} */}
-                        </FormItem>
-                        <FormItem>
-                            {/* {getFieldDecorator('password', { */}
-                            {/* rules: [{ required: true, message: '请输入密码!' }], */}
-                            {/* })( */}
-                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" onChange={this._handleInputChange('password')} />
-                            {/* )} */}
-                        </FormItem>
-                        <FormItem>
-                            {/* {getFieldDecorator('remember', {
+                    <Spin spinning={logining}>
+                        <Form onSubmit={this.handleSubmit} style={{ maxWidth: '300px' }}>
+                            <FormItem>
+                                {/* {getFieldDecorator('userName', { */}
+                                {/* rules: [{ required: true, message: '请输入用户名!' }], */}
+                                {/* })( */}
+                                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" onChange={this._handleInputChange('username')} />
+                                {/* )} */}
+                            </FormItem>
+                            <FormItem>
+                                {/* {getFieldDecorator('password', { */}
+                                {/* rules: [{ required: true, message: '请输入密码!' }], */}
+                                {/* })( */}
+                                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" onChange={this._handleInputChange('password')} />
+                                {/* )} */}
+                            </FormItem>
+                            <FormItem>
+                                {/* {getFieldDecorator('remember', {
                                 valuePropName: 'checked',
                                 initialValue: true,
                             })( */}
-                            <Checkbox>记住我</Checkbox>
-                            {/* )} */}
-                            <span className="login-form-forgot" href="" style={{ float: 'right' }}>忘记密码</span>
-                            <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '100%' }}>
-                                登录
+                                <Checkbox>记住我</Checkbox>
+                                {/* )} */}
+                                <span className="login-form-forgot" href="" style={{ float: 'right' }}>忘记密码</span>
+                                <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '100%' }}>
+                                    登录
                             </Button>
-                            {/* <p style={{display: 'flex', justifyContent: 'space-between'}}>
+                                {/* <p style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <span >或 现在就去注册!</span>
                                 <span onClick={this.gitHub} ><Icon type="github" />(第三方登录)</span>
                             </p> */}
-                        </FormItem>
-                    </Form>
+                            </FormItem>
+                        </Form>
+                    </Spin>
                 </div>
             </div>
         );
@@ -80,7 +83,8 @@ class Login extends React.Component {
 const mapStateToProps = (state, props) => {
     return {
         loginMsg: state.getIn(['userReducer', 'loginMsg']),
-        currentUser: state.getIn(['userReducer', 'currentUser'])
+        currentUser: state.getIn(['userReducer', 'currentUser']),
+        logining: state.getIn(['userReducer', 'logining'])
     }
 }
 

@@ -7,10 +7,12 @@ const initialState = Immutable.Map({
 })
 export default function userReducer(state = initialState, action){
     switch(action.type){
+        case userActionKeys.login:
+            return state.set('logining',true)
         case userActionKeys.loginSuccess:
-            return state.set('currentUser',action.user)
+            return state.set('logining',false).set('loginMsg','').set('currentUser',action.user)
         case userActionKeys.loginFailed:
-            return state.set('loginMsg',action.loginMsg)
+            return state.set('logining',false).set('loginMsg',action.loginMsg)
         default :
             return state;
     }
