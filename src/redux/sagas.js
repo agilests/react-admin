@@ -7,6 +7,8 @@ import deviceActionKeys from './devices/deviceActionKeys';
 import deviceSagas from './devices/deviceSagas';
 import lineActionKeys from './lines/lineActionKeys';
 import lineSagas from './lines/lineSagas';
+import resActionKeys from './resource/resActionKeys';
+import resSagas from './resource/resSagas';
 function* rootSaga() {
   yield all([
     //用户相关
@@ -30,7 +32,10 @@ function* rootSaga() {
     takeEvery(lineActionKeys.deleteLine, lineSagas.deleteLine),
     takeEvery(lineActionKeys.addStation, lineSagas.addStation),
     //站点
-    takeEvery(lineActionKeys.fetchStations, lineSagas.fetchStation)
+    takeEvery(lineActionKeys.fetchStations, lineSagas.fetchStation),
+    //资源相关
+    takeEvery(resActionKeys.fetchResources, resSagas.fetchResources),
+    takeEvery(resActionKeys.upload, resSagas.upload)
     ]);
 
 }

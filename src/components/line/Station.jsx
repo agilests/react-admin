@@ -12,7 +12,8 @@ class Station extends Component {
         this.state = {
             upIndex: -1,
             downIndex: -1,
-            editStation: null
+            editStation: null,
+            currentUser: JSON.parse(localStorage.getItem('currentUser'))
         }
     }
     buildSteps = (stations, state) => {
@@ -58,8 +59,7 @@ class Station extends Component {
                         }
                     </Row>
                 </Row>
-                <StationForm
-                    ref={this.saveFormRef} />
+                <StationForm orgId={this.state.currentUser.orgId}/>
             </Spin>
         )
     }

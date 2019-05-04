@@ -51,4 +51,20 @@ export default class NetUtil {
         .then(res => res.json())
         .catch(e => { throw e; });
     }
+    static upload(url,formData){
+        return fetch(url,{
+            //不能加content-type,会报the request was rejected because no multipart boundary was found
+            // headers:{
+            //     "Content-Type": "multipart/form-data"
+            // },
+            credentials: 'include',
+            method:'POST',
+            mode:'cors',
+            body:formData
+        })
+        .then(checkStatus)
+        .then(res => res.json())
+        .catch(e => { throw e; });
+
+    }
 }
