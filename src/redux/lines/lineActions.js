@@ -6,8 +6,7 @@ export const fetchLines = (orgId) => {
         orgId: orgId
     }
 };
-export const createLine = (orgId, line) => {
-    line.orgId = orgId;
+export const createLine = (line) => {
     return {
         type: lineActionKeys.createLine,
         line: line

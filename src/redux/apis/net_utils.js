@@ -32,7 +32,7 @@ export default class NetUtil {
         return fetch(url, {
             headers: headers,
             credentials: 'include',
-            method: "POST",
+            method: "PUT",
             body: JSON.stringify(body),
             mode: 'cors'
         })

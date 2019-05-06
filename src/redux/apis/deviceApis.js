@@ -7,4 +7,10 @@ export default class DevicesApi {
     static createDevice(device) {
         return NetUtil.post('/api/devices', device);
     }
+    static updateDevice(id, device) {
+        return NetUtil.put(`/api/devices/${id}`, device);
+    }
+    static deleteDevice(id) {
+        return NetUtil.delete(`/api/devices/${id}`);
+    }
 }

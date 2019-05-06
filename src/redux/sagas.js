@@ -26,6 +26,8 @@ function* rootSaga() {
     //设备相关
     takeEvery(deviceActionKeys.fetchDevices, deviceSagas.fetchDevices),
     takeEvery(deviceActionKeys.createDevice, deviceSagas.createDevice),
+    takeEvery(deviceActionKeys.deleteDevice, deviceSagas.deleteDevice),
+    takeEvery(deviceActionKeys.updateDevice, deviceSagas.updateDevice),
     //线路相关
     takeEvery(lineActionKeys.fetchLines, lineSagas.fetchLines),
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),

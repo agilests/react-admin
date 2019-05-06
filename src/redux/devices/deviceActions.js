@@ -12,3 +12,16 @@ export const createDevice = (device) => {
         device: device
     }
 }
+export const updateDevice = (id,device) => {
+    return {
+        type: deviceActionKeys.updateDevice,
+        id: id,
+        device: device
+    }
+}
+export const deleteDevice = (id) => {
+    return {
+        type: deviceActionKeys.deleteDevice,
+        id: id
+    }
+}

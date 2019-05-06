@@ -96,7 +96,7 @@ class Lines extends Component {
             }
             console.log('Received values of form: ', values);
             this.setState({ submit: true })
-            this.props.createLine(this.state.currentUser.orgId, values);
+            this.props.createLine(values);
         });
     }
 
@@ -183,8 +183,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchLines: (orgId) => {
             dispatch(fetchLines(orgId))
         },
-        createLine: (orgId, line) => {
-            dispatch(createLine(orgId, line))
+        createLine: (line) => {
+            dispatch(createLine(line))
         },
         deleteLine: (id) => {
             dispatch(deleteLine(id))
