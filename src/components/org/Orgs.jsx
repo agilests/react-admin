@@ -1,6 +1,6 @@
 import React from 'react';
-import { Spin, Modal, Table, Form, Input, Button, Select } from 'antd';
-import { fetchOrgs, createOrg,deleteOrg } from '../../redux/org/orgActions';
+import { Spin, Modal, Table, Form, Input, Button, Select, Icon } from 'antd';
+import { fetchOrgs, createOrg, deleteOrg } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import { Link } from 'react-router-dom';
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -48,9 +48,12 @@ class Orgs extends React.Component {
     constructor(props) {
         super(props)
         this.props.fetchOrgs();
-        this.state={
-            visiable:false,
-            submit:false
+        this.state = {
+            visiable: false,
+            submit: false,
+            deleteing: null,
+            deleteVisible: false,
+            deleteConfirm: false
         }
         this.columns = [{
             title: '名称',
@@ -82,11 +85,17 @@ class Orgs extends React.Component {
             key: 'action',
             render: (text, record) => (
                 <span>
-        
+
                     <Link to={`/app/org/accounts?org=${record.id}`}>账号管理</Link>
-                    <Button onClick={() => { }}>编辑</Button>
+                    <Button onClick={() => { }}>
+                        <Icon type="edit" />
+                        编辑
+                    </Button>
                     <span className="ant-divider" />
-                    <Button onClick={() => { this.deleteOrg(record) }}>删除</Button>
+                    <Button onClick={() => { this.deleteConfirm(record) }}>
+                        <Icon type="delete" />
+                        删除
+                    </Button>
                     <span className="ant-divider" />
                 </span>
             ),
@@ -109,15 +118,15 @@ class Orgs extends React.Component {
         }
         return null;
     }
-
-    deleteOrg = (record) => {
-        Modal.confirm({
-            title: '提示',
-            content: `确认删除客户"${record.name}"吗?`,
-            onOk: () => {
-                this.props.deleteOrg(record.id);
-            }
+    deleteConfirm = (record) => {
+        this.setState({
+            deleteing: record,
+            deleteVisible: true
         })
+    }
+    deleteOrg = () => {
+        this.setState({ deleteConfirm: false, deleteVisible: false, deleteing: null })
+        this.props.deleteOrg(this.state.deleteing.id);
     }
     register = () => {
         const form = this.form;
@@ -150,6 +159,19 @@ class Orgs extends React.Component {
                         onCancel={() => { this.setState({ visible: false }) }}
                     />
                 </Spin>
+                <Modal
+                    title='警告'
+                    visible={this.state.deleteVisible}
+                    onOk={this.deleteOrg}
+                    okButtonProps={{ disabled: !this.state.deleteConfirm }}>
+                    <p>此操作会删除客户下所有数据,并且不可逆</p>
+                    <p>输入客户名称确认"{this.state.deleteing && this.state.deleteing.name}"删除`</p>
+                    <Input onChange={(e) => {
+                        if (e.target.value === this.state.deleteing.name) {
+                            this.setState({ deleteConfirm: true })
+                        }
+                    }} />
+                </Modal>
             </div>
         )
     }
@@ -175,7 +197,7 @@ const mapDispatchToProps = (dispatch) => {
         createOrg: (org) => {
             dispatch(createOrg(org))
         },
-        deleteOrg: (id) =>{
+        deleteOrg: (id) => {
             dispatch(deleteOrg(id))
         }
     }
