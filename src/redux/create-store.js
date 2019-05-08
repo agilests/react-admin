@@ -1,5 +1,5 @@
-import {createStore, applyMiddleware} from 'redux'
-import {combineReducers} from 'redux-immutable'
+import { createStore, applyMiddleware } from 'redux'
+import { combineReducers } from 'redux-immutable'
 import Immutable from 'immutable'
 import createSagaMiddleware from 'redux-saga';
 import userReducer from './user/userReducers';

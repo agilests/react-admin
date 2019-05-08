@@ -1,10 +1,42 @@
 import React, { Component } from 'react';
 import { Spin, Slider, Table, Button, Modal, Input, Steps, Row, Icon, Form, Divider, Col, Empty } from 'antd';
-import { fetchStations } from '../../redux/lines/lineActions';
+import { fetchStations, addStation } from '../../redux/lines/lineActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import StationForm from './StationForm';
+import { success, error } from '../widget/Message';
+
 const Step = Steps.Step;
+const FormItem = Form.Item;
+
+const AddForm = Form.create()(
+    (props) => {
+        const { visible, onOk, onCancel, form } = props;
+        const { getFieldDecorator } = form;
+        return (
+            <Modal
+                visible={visible}
+                title={'注册'}
+                okText={'注册'}
+                onOk={onOk}
+                onCancel={onCancel}
+            >
+                <Form layout="vertical">
+                    <FormItem label="名称">
+                        {getFieldDecorator('name', {
+                            rules: [{ required: true, message: '请输入客户名称!' }],
+                        })(
+                            <Input />
+                        )}
+                    </FormItem>
+                    <FormItem label="描述">
+                        {getFieldDecorator('description')(<Input type="textarea" />)}
+                    </FormItem>
+                </Form>
+            </Modal>
+        )
+    }
+)
 class Station extends Component {
     constructor(props) {
         super(props);
@@ -13,11 +45,49 @@ class Station extends Component {
             upIndex: -1,
             downIndex: -1,
             editStation: null,
-            currentUser: JSON.parse(localStorage.getItem('currentUser'))
+            currentUser: JSON.parse(localStorage.getItem('currentUser')),
+            addStationForm: false
         }
     }
+    showAddStation = (type) => {
+        this.setState({ type: type, addStationForm: true })
+    }
+    addStation = () => {
+
+        const addStationForm = this.addStationForm;
+        addStationForm.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+
+            console.log('Received values of form: ', values);
+            this.setState({ submit: true })
+            values.upOrDown = this.state.type;
+            this.props.addStation(this.props.query.line, values);
+        });
+    }
+
+    static getDerivedStateFromProps(nextProps, nextState) {
+        const { errorMsg, addedStation } = nextProps;
+        const { submit } = nextState;
+        if (submit && errorMsg != '') {
+            error(errorMsg);
+            return { submit: false };
+        } else if (submit && addedStation) {
+            success('添加站点成功!')
+            //TODO 选中当前站点
+            return { addStationForm: false, submit: false };
+        }
+        return null;
+    }
+    saveFormRef = (form) => {
+        this.form = form;
+    }
+    saveAddStationFormRef = (form) => {
+        this.addStationForm = form;
+    }
     buildSteps = (stations, state) => {
-        return stations.map(d =>
+        let steps = stations.map(d =>
             <Step key={d.name} style={{ cursor: "pointer" }}
                 title={d.name}
                 onClick={(v) => {
@@ -26,9 +96,15 @@ class Station extends Component {
                     this.setState({ [state]: index, editStation: stations[index] })
                 }} />
         );
-    }
-    saveFormRef = (form) => {
-        this.form = form;
+        steps.push(<Step
+            style={{ cursor: "pointer" }}
+            icon={<Icon type="plus" />}
+            title={'添加站点'}
+            onClick={() => {
+                this.showAddStation(state === 'upIndex' ? 'UP' : 'DOWN');
+            }}
+        />)
+        return steps;
     }
     render() {
         const { fetching, stations } = this.props;
@@ -41,25 +117,42 @@ class Station extends Component {
                     <Row>上行</Row>
                     {
                         upStations ?
-                            <Steps progressDot style={{ overflow: 'auto' }} current={this.state.upIndex} size="small">
+                            <Steps style={{ overflow: 'auto' }} current={this.state.upIndex} size="small" labelPlacement="vertical">
                                 {upStations}
                             </Steps>
-                            : <Empty />
+                            : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        this.showAddStation('UP')
+                                    }}
+                                >添加站点</Button>
+                            </Empty>
                     }
                 </Row>
                 <Row>
                     <Row>下行</Row>
-                    <Row>
-                        {
-                            downStations ?
-                                <Steps style={{ overflow: 'auto' }} current={this.state.downIndex} size="small" labelPlacement="vertical">
-                                    {downStations}
-                                </Steps>
-                                : <Empty />
-                        }
-                    </Row>
+                    {
+                        downStations ?
+                            <Steps style={{ overflow: 'auto' }} current={this.state.downIndex} size="small" labelPlacement="vertical">
+                                {downStations}
+                            </Steps>
+                            : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        this.showAddStation('DOWN')
+                                    }}
+                                >添加站点</Button>
+                            </Empty>
+                    }
                 </Row>
-                <StationForm orgId={this.state.currentUser.orgId}/>
+                <StationForm orgId={this.state.currentUser.orgId} />
+                <AddForm
+                    ref={this.saveAddStationFormRef}
+                    visible={this.state.addStationForm}
+                    onOk={this.addStation}
+                    onCancel={() => this.setState({ addStationForm: false })} />
             </Spin>
         )
     }
@@ -69,7 +162,8 @@ const mapStateToProps = (state, props) => {
     return {
         errorMsg: state.getIn(['lineReducer', 'errorMsg']),
         fetching: state.getIn(['lineReducer', 'fetching']),
-        stations: state.getIn(['lineReducer', 'stations'])
+        stations: state.getIn(['lineReducer', 'stations']),
+        addedStation: state.getIn(['lineReducer', 'addedStation'])
     }
 }
 
@@ -77,10 +171,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchStations: (lineId) => {
             dispatch(fetchStations(lineId))
-        }
-        // fetchAccounts: (orgId) => {
-        //     dispatch(fetchAccounts(orgId))
-        // },
+        },
+        addStation: (lineId, station) => {
+            dispatch(addStation(lineId, station))
+        },
         // register: (orgId, account) => {
         //     dispatch(createAccount(orgId, account))
         // }

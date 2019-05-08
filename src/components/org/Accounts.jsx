@@ -48,7 +48,6 @@ class Accounts extends React.Component {
     }
     register() {
         this.props.register(this.props.query.org, this.state);
-        // this.setState({ modalVisible: false });
         this.setState({ submit: true });
     }
     static getDerivedStateFromProps(nextProps, nextState) {
@@ -109,7 +108,7 @@ const mapStateToProps = (state, props) => {
         accounts: state.getIn(['orgReducer', 'accounts'], []),
         fetching: state.getIn(['orgReducer', 'fetching']),
         addedOrg: state.getIn(['orgReducer', 'addedOrg']),
-        addedAccount: state.getIn(['orgReducer', 'addAccount'])
+        addedAccount: state.getIn(['orgReducer', 'addedAccount'])
     }
 }
 

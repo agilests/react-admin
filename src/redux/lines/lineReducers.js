@@ -5,7 +5,8 @@ const initialState = Immutable.Map({
     fetching: false,
     added: null,
     errorMsg: '',
-    stations:null
+    stations: null,
+    addedStation: null
 })
 export default function lineReducer(state = initialState, action) {
     switch (action.type) {
@@ -31,6 +32,19 @@ export default function lineReducer(state = initialState, action) {
             return state.set('errorMsg', '').set('fetching', false).set('lines', lines1);
         case lineActionKeys.fetchStationsSuccess:
             return state.set('fetching', false).set('errorMsg', '').set('stations', action.stations);
+        case lineActionKeys.addStationSuccess:
+            let stations = state.get('stations') || {};
+            if (action.station.upOrDown === 'UP') {
+                let upStations = stations.upStations || new Array();
+                upStations.push(action.station);
+                stations.upStations = upStations;
+            }
+            if (action.station.upOrDown === 'DOWN') {
+                let downStations = stations.downStations || new Array();
+                downStations.push(action.station);
+                stations.downStations = downStations;
+            }
+            return state.set('fetching', false).set('errorMsg', '').set('stations', stations).set('addedStation', action.station);
         default:
             return state;
     }

@@ -10,7 +10,7 @@ export default class LineApi {
         return NetUtil.delete(`/api/lines/${id}`);
     }
     static addStation(lineId, station) {
-        return NetUtil.post(`/api/lines/${lineId}/station`, station)
+        return NetUtil.post(`/api/lines/${lineId}/stations`, station)
     }
 
     static getStationList(lineId) {

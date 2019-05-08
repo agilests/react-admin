@@ -58,6 +58,7 @@ export function* addStation(action) {
     if (result && result.code === 0) {
         yield put({
             type: lineActionKeys.addStationSuccess,
+            lineId: action.lineId,
             station: result.result
         });
         return;
