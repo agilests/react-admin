@@ -65,6 +65,7 @@ class Lines extends Component {
             render: (text, record) => (
                 <span>
                     <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>线路规划</Button>
+                    <span className="ant-divider" />
                     <Button onClick={() => this.showEdit(record)}>编辑</Button>
                     <span className="ant-divider" />
                     <Button onClick={() => { this.deleteLine(record) }}>删除</Button>
