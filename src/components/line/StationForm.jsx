@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Spin, Table, Button, Modal, Input, Upload, InputNumber, Steps, Row, Icon, Form, Divider, Col } from 'antd';
 import ResourceUpload from './ResourceUpload'
 import resourceKey from './ResourceKeys';
+import Resource from './Resource';
 const FormItem = Form.Item;
 
 const InputBox = props => <div className={`height-${props.value}`}>{props.children}</div>;
@@ -13,15 +14,15 @@ class StationForm extends Component {
         super(props)
     }
     buildUploadForm = (key) => {
-        const { orgId } = this.props;
         return Modal.info({
             Icon: null,
             title: '上传语音文件',
-            content: <ResourceUpload resourceKey={key} orgId={orgId} />
+            content: <ResourceUpload resourceKey={key} />
         })
     }
     render() {
         const { form, fetching, station } = this.props;
+        console.log(station);
         const { getFieldDecorator } = form;
         const inputStyle = {
             style: { marginBottom: '0px' }
@@ -35,14 +36,18 @@ class StationForm extends Component {
                             <Row type="flex" justify="start" gutter={12}>
                                 <Col span={12}>
                                     <FormItem label="经度" {...inputStyle}>
-                                        {getFieldDecorator('lng')(
+                                        {getFieldDecorator('lng', {
+                                            initialValue: station && station.lng
+                                        })(
                                             <InputNumber />
                                         )}
                                     </FormItem>
                                 </Col>
                                 <Col span={12}>
                                     <FormItem label="纬度" {...inputStyle}>
-                                        {getFieldDecorator('lat')(
+                                        {getFieldDecorator('lat', {
+                                            initialValue: station && station.lat
+                                        })(
                                             <InputNumber />
                                         )}
                                     </FormItem>
@@ -51,7 +56,9 @@ class StationForm extends Component {
                             <Row type="flex" justify="start">
                                 <Col span={24}>
                                     <FormItem label="角度" {...inputStyle}>
-                                        {getFieldDecorator('angle')(
+                                        {getFieldDecorator('angle', {
+                                            initialValue: station && station.angle
+                                        })(
                                             <InputNumber />
                                         )}
                                     </FormItem>
@@ -63,8 +70,11 @@ class StationForm extends Component {
                             <Row>
                                 <Col>
                                     <FormItem label="转弯音乐" {...inputStyle}>
-                                        {getFieldDecorator('swerve.music')(
-                                            <Input />
+                                        {getFieldDecorator('swerve.music', {
+                                            // initialValue: station && station.swerve && station.swerve.filter(h => h.key = resourceKey.ANGLE_AD)
+                                            initialValue: {id:1}
+                                        })(
+                                            <Resource resources={[{id:1,name:'a'},{id:2,name:'b'}]} mark={resourceKey.ANGLE_AD}/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -73,8 +83,10 @@ class StationForm extends Component {
                             <Row>
                                 <Col>
                                     <FormItem label="转弯提示" {...inputStyle}>
-                                        {getFieldDecorator('swerve.hint')(
-                                            <Input />
+                                        {getFieldDecorator('swerve.hint', {
+                                            initialValue: station && station.swerve && station.swerve.filter(h => h.key = resourceKey.ANGLE_HINT)
+                                        })(
+                                            <Resource mark={resourceKey.ANGLE_HINT}/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -88,44 +100,48 @@ class StationForm extends Component {
                                 <Col span={8}>
                                     <FormItem label="站前广告" {...inputStyle}>
                                         {getFieldDecorator('entry.ad', {
-                                            rules: [{ required: true, message: '请选择站前广告!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.ENTER_AD)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.ENTER_STATION_AD)} />
+                                            <Resource mark={resourceKey.ENTER_AD}/>
                                         )}
                                     </FormItem>
                                     <FormItem label="转车提醒" {...inputStyle}>
                                         {getFieldDecorator('enter.junction', {
-                                            rules: [{ required: true, message: '请选择转车提醒!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.ENTER_JUNCTION)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.JUNCTION)} />
+                                            <Resource mark={resourceKey.ENTER_AD}/>
                                         )}
                                     </FormItem>
                                 </Col>
                                 <Col span={8}>
                                     <FormItem label="本站提示" {...inputStyle}>
                                         {getFieldDecorator('enter.current', {
-                                            rules: [{ required: true, message: '请选择本站提示!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.CURRENT)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.CURRENT_STATION)} />
+                                            <Resource mark={resourceKey.CURRENT}/>
                                         )}
                                     </FormItem>
                                     <FormItem label="自定义1" {...inputStyle}>
-                                        {getFieldDecorator('entry.custom1')(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.CUSTOM)} />
+                                        {getFieldDecorator('entry.custom1', {
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.CUSTOM1)
+                                        })(
+                                            <Resource mark={resourceKey.CUSTOM1}/>
                                         )}
                                     </FormItem>
                                 </Col>
                                 <Col span={8}>
                                     <FormItem label="温馨提示" {...inputStyle}>
                                         {getFieldDecorator('entry.hint', {
-                                            rules: [{ required: true, message: '请选择温馨提示!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.ENTER_HINT)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.HINT)} />
+                                            <Resource mark={resourceKey.ENTER_HINT}/>
                                         )}
                                     </FormItem>
                                     <FormItem label="自定义2" {...inputStyle}>
-                                        {getFieldDecorator('entry.custom2')(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.CUSTOM)} />
+                                        {getFieldDecorator('entry.custom2', {
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.CUSTOM2)
+                                        })(
+                                            <Resource mark={resourceKey.CUSTOM2}/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -137,44 +153,48 @@ class StationForm extends Component {
                                 <Col span={8}>
                                     <FormItem label="出站广告" {...inputStyle}>
                                         {getFieldDecorator('exit.ad', {
-                                            rules: [{ required: true, message: '请选择出站广告!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.EXIT_AD)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.EXIT_STATION_AD)} />
+                                            <Resource mark={resourceKey.EXIT_AD}/>
                                         )}
                                     </FormItem>
                                     <FormItem label="转车提醒" {...inputStyle}>
                                         {getFieldDecorator('exit.junction', {
-                                            rules: [{ required: true, message: '请选择转车提醒!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.EXIT_JUNCTION)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.JUNCTION)} />
+                                            <Resource mark={resourceKey.EXIT_JUNCTION}/>
                                         )}
                                     </FormItem>
                                 </Col>
                                 <Col span={8}>
                                     <FormItem label="下一站" {...inputStyle}>
                                         {getFieldDecorator('exit.next', {
-                                            rules: [{ required: true, message: '请选择下一站!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.NEXT)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.NEXT_STATION)} />
+                                            <Resource mark={resourceKey.NEXT}/>
                                         )}
                                     </FormItem>
                                     <FormItem label="自定义1" {...inputStyle}>
-                                        {getFieldDecorator('exit.custom1')(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.CUSTOM)} />
+                                        {getFieldDecorator('exit.custom1', {
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.CUSTOM1)
+                                        })(
+                                            <Resource mark={resourceKey.CUSTOM1}/>
                                         )}
                                     </FormItem>
                                 </Col>
                                 <Col span={8}>
                                     <FormItem label="温馨提示" {...inputStyle}>
                                         {getFieldDecorator('exit.hint', {
-                                            rules: [{ required: true, message: '请选择温馨提示!' }],
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.EXIT_HINT)
                                         })(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.HINT)} />
+                                            <Resource mark={resourceKey.EXIT_HINT}/>
                                         )}
                                     </FormItem>
                                     <FormItem label="自定义2" {...inputStyle}>
-                                        {getFieldDecorator('exit.custom2')(
-                                            <Input onClick={() => this.buildUploadForm(resourceKey.CUSTOM)} />
+                                        {getFieldDecorator('exit.custom2', {
+                                            initialValue: station && station.enter && station.enter.filter(h => h.key = resourceKey.CUSTOM2)
+                                        })(
+                                            <Resource mark={resourceKey.CUSTOM2}/>
                                         )}
                                     </FormItem>
                                 </Col>

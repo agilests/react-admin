@@ -18,7 +18,7 @@ class ResourceUpload extends Component {
     }
 
     upload = () => {
-        const { orgId, resourceKey } = this.props;
+        const { resourceKey } = this.props;
         debugger;
         let data = new FormData();
         if (this.state.official) {
@@ -31,7 +31,7 @@ class ResourceUpload extends Component {
             data.append('english', this.state.english)
         }
         data.append('name', this.state.name);
-        this.props.upload(data, orgId, resourceKey);
+        this.props.upload(data, resourceKey);
     }
     _handleUploadChange = (prop) => (input) => {
         this.setState({ [prop]: input.file })
@@ -113,8 +113,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        upload: (formData, orgId, key) => {
-            dispatch(upload(formData, orgId, key))
+        upload: (formData, key) => {
+            dispatch(upload(formData, key))
         }
     }
 }

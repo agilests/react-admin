@@ -7,11 +7,10 @@ export const fetchResources = (orgId) => {
     }
 };
 
-export const upload = (formData, orgId, key) => {
+export const upload = (formData, key) => {
     return {
         type: resActionKeys.upload,
         formData: formData,
-        orgId: orgId,
         key: key
     }
 };

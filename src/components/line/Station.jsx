@@ -97,6 +97,7 @@ class Station extends Component {
                 }} />
         );
         steps.push(<Step
+            key={'add'}
             style={{ cursor: "pointer" }}
             icon={<Icon type="plus" />}
             title={'添加站点'}
@@ -147,7 +148,7 @@ class Station extends Component {
                             </Empty>
                     }
                 </Row>
-                <StationForm orgId={this.state.currentUser.orgId} />
+                <StationForm station={this.state.editStation} orgId={this.state.currentUser.orgId} />
                 <AddForm
                     ref={this.saveAddStationFormRef}
                     visible={this.state.addStationForm}

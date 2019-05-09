@@ -17,7 +17,7 @@ export function* fetchResources(action) {
 
 export function* upload(action) {
     const result = yield call((action) => {
-        return ResourceApi.upload(action.formData, action.orgId, action.key);
+        return ResourceApi.upload(action.formData, action.key);
     }, action);
     if (result && result.code === 0) {
         yield put({
