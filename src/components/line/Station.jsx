@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Spin, Slider, Table, Button, Modal, Input, Steps, Row, Icon, Form, Divider, Col, Empty } from 'antd';
-import { fetchStations, addStation } from '../../redux/lines/lineActions';
+import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty } from 'antd';
+import { fetchStations, addStation, updateStationKey } from '../../redux/lines/lineActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import StationForm from './StationForm';
@@ -107,6 +107,13 @@ class Station extends Component {
         />)
         return steps;
     }
+    change = (key, value) => {
+        const editStation = this.state.editStation;
+        editStation[key]=value;
+        this.props.updateStationKey(editStation.Id, key, value)
+        this.form.resetFields([key]);
+        this.setState({editStation:editStation})
+    }
     render() {
         const { fetching, stations } = this.props;
         const upStations = stations && stations.upStations && this.buildSteps(stations.upStations, 'upIndex');
@@ -148,7 +155,7 @@ class Station extends Component {
                             </Empty>
                     }
                 </Row>
-                <StationForm station={this.state.editStation} orgId={this.state.currentUser.orgId} />
+                <StationForm ref={this.saveFormRef} change={this.change} station={this.state.editStation} orgId={this.state.currentUser.orgId} />
                 <AddForm
                     ref={this.saveAddStationFormRef}
                     visible={this.state.addStationForm}
@@ -164,7 +171,8 @@ const mapStateToProps = (state, props) => {
         errorMsg: state.getIn(['lineReducer', 'errorMsg']),
         fetching: state.getIn(['lineReducer', 'fetching']),
         stations: state.getIn(['lineReducer', 'stations']),
-        addedStation: state.getIn(['lineReducer', 'addedStation'])
+        addedStation: state.getIn(['lineReducer', 'addedStation']),
+        currentStation: state.getIn(['lineReducer','currentStation'])
     }
 }
 
@@ -176,6 +184,9 @@ const mapDispatchToProps = (dispatch) => {
         addStation: (lineId, station) => {
             dispatch(addStation(lineId, station))
         },
+        updateStationKey: (stationId, key, value) => {
+            dispatch(updateStationKey(stationId, key, value))
+        }
         // register: (orgId, account) => {
         //     dispatch(createAccount(orgId, account))
         // }

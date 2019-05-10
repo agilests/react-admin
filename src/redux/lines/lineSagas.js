@@ -73,11 +73,28 @@ export function* fetchStation(action) {
     const result = yield call((lineId) => {
         return LineApi.getStationList(lineId);
     }, action.lineId);
-    if(result && result.code===0){
+    if (result && result.code === 0) {
         yield put({
-            type:lineActionKeys.fetchStationsSuccess,
-            stations:result.result
+            type: lineActionKeys.fetchStationsSuccess,
+            stations: result.result
         })
     }
 }
-export default { fetchLines, createLine, deleteLine, addStation, fetchStation }
+export function* updateStationKey(action) {
+    const result = yield call((id, key, value) => {
+        return LineApi.updateStationKey(id, key, value)
+    }, action.stationId, action.key, action.value)
+
+    if (result && result.code === 0) {
+        yield put({
+            type: lineActionKeys.updateStationKeySuccess,
+            station: result.result
+        })
+    } else {
+        yield put({
+            type: lineActionKeys.updateStationKeyFailed,
+            errorMsg: result.result
+        })
+    }
+}
+export default { fetchLines, createLine, deleteLine, addStation, fetchStation, updateStationKey }

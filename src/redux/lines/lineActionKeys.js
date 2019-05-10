@@ -13,5 +13,8 @@ export default {
     addStation:'ADD_STATION',
     addStationSuccess:'ADD_STATION_SUCCESS',
     addStationFailed:'ADD_STATION_FAILED',
+    updateStationKey:'UPDATE_STATION_KEY',
+    updateStationKeySuccess:'UPDATE_STATION_KEY_SUCCESS',
+    updateStationKeyFailed:'UPDATE_STATION_KEY_FAILED',
 
 }

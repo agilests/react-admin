@@ -6,7 +6,8 @@ const initialState = Immutable.Map({
     added: null,
     errorMsg: '',
     stations: null,
-    addedStation: null
+    addedStation: null,
+    currentStation: null
 })
 export default function lineReducer(state = initialState, action) {
     switch (action.type) {
@@ -15,10 +16,12 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.addStation:
         case lineActionKeys.deleteLine:
         case lineActionKeys.fetchStations:
+        case lineActionKeys.updateStationKey:
             return state.set('fetching', true).set('errorMsg', '');
         case lineActionKeys.createLineFailed:
         case lineActionKeys.addStationFailed:
         case lineActionKeys.deleteLineFailed:
+        case lineActionKeys.updateStationKeyFailed:
             return state.set('fetching', false).set('errorMsg', action.errorMsg);
         case lineActionKeys.fetchLinesSuccess:
             return state.set('fetching', false).set('errorMsg', '').set('lines', action.lines);
@@ -45,6 +48,19 @@ export default function lineReducer(state = initialState, action) {
                 stations.downStations = downStations;
             }
             return state.set('fetching', false).set('errorMsg', '').set('stations', stations).set('addedStation', action.station);
+        case lineActionKeys.updateStationKeySuccess:
+
+            let stations1 = state.get('stations');
+            stations1 
+            && stations1.upStations 
+            && stations1.upStations.map(s => { if (s.id === action.station.id) return action.station; return s });
+            
+            stations1 
+            && stations1.downStations 
+            && stations1.downStations.map(s => { if (s.id === action.station.id) return action.station; return s });
+            
+
+            return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations',stations1);
         default:
             return state;
     }

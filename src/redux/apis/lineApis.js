@@ -16,4 +16,7 @@ export default class LineApi {
     static getStationList(lineId) {
         return NetUtil.get(`/api/lines/${lineId}/stations`);
     }
+    static updateStationKey(stationId, key, value) {
+        return NetUtil.put(`/api/stations/${stationId}/${key}`, { value: value })
+    }
 }

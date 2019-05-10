@@ -31,3 +31,11 @@ export const fetchStations = (id) => {
         lineId: id
     }
 }
+export const updateStationKey = (stationId, key, value) => {
+    return {
+        type: lineActionKeys.updateStationKey,
+        stationId: stationId,
+        key: key,
+        value: value
+    }
+}

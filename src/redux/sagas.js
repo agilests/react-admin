@@ -33,6 +33,7 @@ function* rootSaga() {
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),
     takeEvery(lineActionKeys.deleteLine, lineSagas.deleteLine),
     takeEvery(lineActionKeys.addStation, lineSagas.addStation),
+    takeEvery(lineActionKeys.updateStationKey, lineSagas.updateStationKey),
     //站点
     takeEvery(lineActionKeys.fetchStations, lineSagas.fetchStation),
     //资源相关
