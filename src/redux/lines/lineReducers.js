@@ -13,15 +13,17 @@ export default function lineReducer(state = initialState, action) {
     switch (action.type) {
         case lineActionKeys.fetchLines:
         case lineActionKeys.createLine:
-        case lineActionKeys.addStation:
+        case lineActionKeys.updateLine:
         case lineActionKeys.deleteLine:
+        case lineActionKeys.addStation:
         case lineActionKeys.deleteStation:
         case lineActionKeys.fetchStations:
         case lineActionKeys.updateStationKey:
             return state.set('fetching', true).set('errorMsg', '').set('addedStation', null).set('added', null);
         case lineActionKeys.createLineFailed:
-        case lineActionKeys.addStationFailed:
+        case lineActionKeys.updateLineFailed:
         case lineActionKeys.deleteLineFailed:
+        case lineActionKeys.addStationFailed:
         case lineActionKeys.deleteStationFailed:
         case lineActionKeys.updateStationKeyFailed:
             return state.set('fetching', false).set('errorMsg', action.errorMsg);
@@ -31,9 +33,13 @@ export default function lineReducer(state = initialState, action) {
             let lines = state.get('lines');
             lines.unshift(action.line);
             return state.set('errorMsg', '').set('fetching', false).set('added', action.line).set('lines', lines);
+        case lineActionKeys.updateLineSuccess:
+            let lines2 = state.get('lines');
+            lines2 = lines2.map(l => { if (l.id === action.line.id) return action.line; return l });
+            return state.set('errorMsg', '').set('fetching', false).set('added',action.line).set('lines', lines2);
         case lineActionKeys.deleteLineSuccess:
             let lines1 = state.get('lines');
-            lines1 = lines1.filter(l => l.id != action.id);
+            lines1.splice(lines1.findIndex(l => l.id === action.id), 1);
             return state.set('errorMsg', '').set('fetching', false).set('lines', lines1);
         case lineActionKeys.fetchStationsSuccess:
             return state.set('fetching', false).set('errorMsg', '').set('stations', action.stations);

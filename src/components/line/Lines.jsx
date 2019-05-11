@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Spin, Modal, Table, Form, Input, Button, Select } from 'antd';
+import { Spin, Modal, Table, Form, Input, Button, Select, Popover } from 'antd';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import { fetchLines, createLine, deleteLine } from '../../redux/lines/lineActions';
+import { fetchLines, createLine, updateLine, deleteLine } from '../../redux/lines/lineActions';
 import { fetchOrgs } from '../../redux/org/orgActions';
 import { success, error } from '../widget/Message';
-import { Link } from 'react-router-dom';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,7 +13,7 @@ const Option = Select.Option;
 
 const LineForm = Form.create()(
     (props) => {
-        const { visible, onOk, onCancel, form, fetching } = props;
+        const { visible, onOk, onCancel, form, fetching, editLine } = props;
         const { getFieldDecorator } = form;
         return (
             <Modal
@@ -28,13 +27,16 @@ const LineForm = Form.create()(
                 <Form layout="vertical">
                     <FormItem label="线路名称">
                         {getFieldDecorator('name', {
+                            initialValue: editLine ? editLine.name : '',
                             rules: [{ required: true, message: '请输入线路名称!' }],
                         })(
                             <Input />
                         )}
                     </FormItem>
                     <FormItem label="描述">
-                        {getFieldDecorator('desc')(<Input type="textarea" />)}
+                        {getFieldDecorator('desc', {
+                            initialValue: editLine ? editLine.desc : '',
+                        })(<Input type="textarea" />)}
                     </FormItem>
                 </Form>
             </Modal>
@@ -56,9 +58,38 @@ class Lines extends Component {
             render: text => <span>{text}</span>,
         }, {
             title: '站点',
-            dataIndex: 'stations',
+            dataIndex: 'downStations',
             key: 'stations',
-            render: text => <span>{text ? text.length : 0}</span>,
+            render: (e, record) => {
+                const upStations = record.upStations;
+                const downStations = record.downStations;
+                let length = 0;
+                if (upStations) {
+                    length += upStations.length;
+                }
+                if (downStations) {
+                    length += downStations.length;
+                }
+                const content = (
+                    <div>
+                        <div>
+                            {
+                                upStations && upStations.map(s => <span style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
+                            }
+                        </div>
+                        <div>
+                            {
+                                downStations && downStations.map(s => <span style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
+                            }
+                        </div>
+                    </div>
+                )
+                return (
+                    <Popover content={content}>
+                        <span>{length}</span>
+                    </Popover>
+                )
+            },
         }, {
             title: 'Action',
             key: 'action',
@@ -78,6 +109,9 @@ class Lines extends Component {
         } else {
             this.props.fetchOrgs();
         }
+    }
+    showEdit = (record) => {
+        this.setState({ editLine: record, visible: true })
     }
 
     deleteLine = (record) => {
@@ -100,6 +134,18 @@ class Lines extends Component {
             this.props.createLine(values);
         });
     }
+    editLine = () => {
+        const form = this.form;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            console.log('Received values of form: ', values);
+            this.setState({ submit: true })
+            values.id = this.state.editLine.id;
+            this.props.updateLine(values);
+        });
+    }
 
     static getDerivedStateFromProps(nextProps, nextState) {
         const { errorMsg, added } = nextProps;
@@ -111,7 +157,7 @@ class Lines extends Component {
             // success('添加线路成功!')
             Modal.confirm({
                 title: '提示',
-                content: '线路添加成功,是否开始规划站点?',
+                content: '线路保存成功,是否开始规划站点?',
                 onOk: () => {
                     nextProps.history.push(`/app/stations?line=${added.id}`)
                 }
@@ -140,7 +186,7 @@ class Lines extends Component {
 
                     {
 
-                        this.state.currentUser.role==='ROLE_ADMIN'
+                        this.state.currentUser.role === 'ROLE_ADMIN'
                             ? <Select
                                 showSearch
                                 style={{ width: 200 }}
@@ -153,13 +199,14 @@ class Lines extends Component {
                     }
 
 
-                    <Table columns={this.columns} rowKey = 'id' dataSource={lines} />
+                    <Table columns={this.columns} rowKey='id' dataSource={lines} />
 
                     <LineForm
                         ref={this.saveFormRef}
                         visible={this.state.visible}
+                        editLine={this.state.editLine}
                         fetching={fetching}
-                        onOk={this.addLine}
+                        onOk={this.state.editLine ? this.editLine : this.addLine}
                         onCancel={() => { this.setState({ visible: false }) }}
                     />
                 </Spin>
@@ -186,6 +233,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         createLine: (line) => {
             dispatch(createLine(line))
+        },
+        updateLine: (line) => {
+            dispatch(updateLine(line))
         },
         deleteLine: (id) => {
             dispatch(deleteLine(id))

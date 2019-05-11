@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty, Popover } from 'antd';
-import { fetchStations, addStation, updateStationKey,deleteStation } from '../../redux/lines/lineActions';
+import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty, Col } from 'antd';
+import { fetchStations, addStation, updateStationKey, deleteStation } from '../../redux/lines/lineActions';
 import { fetchVoices } from '../../redux/resource/resActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -119,7 +119,7 @@ class Station extends Component {
     }
     delete = () => {
         this.props.deleteStation(this.state.editStation.id)
-        this.setState({editStation:null,stationFormVisible:false})
+        this.setState({ editStation: null, stationFormVisible: false })
     }
     render() {
         const { fetching, stations, resources } = this.props;
@@ -166,10 +166,20 @@ class Station extends Component {
                 </Row>
                 {
                     this.state.editStation ?
-                        (<Button type="primary" onClick={this.delete}>
-                            <Icon type='remove' />
-                            删除站点
-                        </Button>)
+                        (
+                            <Row gutter={24} type="flex" justify="start">
+                                <Col span={3}>
+                                    <Input
+                                    defaultValue={this.state.editStation.name} 
+                                    onBlur={(e)=>{this.change('name',e.target.value)}}/>
+                                </Col>
+                                <Col span={3}>
+                                    <Button type="primary" onClick={this.delete}>
+                                        <Icon type='remove' />
+                                        删除站点
+                                    </Button>
+                                </Col>
+                            </Row>)
                         : ''
                 }
                 <StationForm ref={this.saveFormRef}

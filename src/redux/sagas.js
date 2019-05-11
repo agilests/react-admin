@@ -31,6 +31,7 @@ function* rootSaga() {
     //线路相关
     takeEvery(lineActionKeys.fetchLines, lineSagas.fetchLines),
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),
+    takeEvery(lineActionKeys.updateLine, lineSagas.updateLine),
     takeEvery(lineActionKeys.deleteLine, lineSagas.deleteLine),
     takeEvery(lineActionKeys.addStation, lineSagas.addStation),
     takeEvery(lineActionKeys.updateStationKey, lineSagas.updateStationKey),

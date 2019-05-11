@@ -31,6 +31,22 @@ export function* createLine(action) {
         errorMsg: result.result
     });
 }
+export function* updateLine(action) {
+    const result = yield call((line) => {
+        return LineApi.updateLine(line);
+    }, action.line);
+    if (result && result.code === 0) {
+        yield put({
+            type: lineActionKeys.updateLineSuccess,
+            line: result.result
+        });
+        return;
+    }
+    yield put({
+        type: lineActionKeys.updateLineFailed,
+        errorMsg: result.result
+    });
+}
 export function* deleteLine(action) {
     const result = yield call((id) => {
         return LineApi.deleteLine(id)
@@ -114,4 +130,4 @@ export function* updateStationKey(action) {
         })
     }
 }
-export default { fetchLines, createLine, deleteLine, addStation, deleteStation, fetchStation, updateStationKey }
+export default { fetchLines, createLine, updateLine, deleteLine, addStation, deleteStation, fetchStation, updateStationKey }
