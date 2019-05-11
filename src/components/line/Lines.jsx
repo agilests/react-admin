@@ -74,12 +74,12 @@ class Lines extends Component {
                     <div>
                         <div>
                             {
-                                upStations && upStations.map(s => <span style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
+                                upStations && upStations.map(s => <span key={s.id} style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
                             }
                         </div>
                         <div>
                             {
-                                downStations && downStations.map(s => <span style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
+                                downStations && downStations.map(s => <span key={s.id} style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
                             }
                         </div>
                     </div>

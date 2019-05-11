@@ -21,17 +21,18 @@ export default class Resource extends Component {
         ))
         if (options.length == 0) return null;
         options.unshift(
-            <Option key={'add'} value={'add'} onClick={() => console.log('click')}>
+            <Option key={'add'} value={'add'} onClick={this.buildUploadForm}>
                 上传
             </Option>)
         return options;
     }
-    buildUploadForm = (key) => {
+    buildUploadForm = () => {
+        const {mark} = this.props;
         this.upload = Modal.info({
             Icon: <Icon type='user' />,
             title: '上传语音文件',
             footer: {},
-            content: <ResourceUpload resourceKey={key} onComplete={this.onComplete} />
+            content: <ResourceUpload resourceKey={mark} onComplete={this.onComplete} />
         })
         return this.upload;
     }
@@ -45,15 +46,14 @@ export default class Resource extends Component {
     }
     onChange = (value) => {
         if (value === 'add') return;
-        const { done } = this.props;
         const propResources = this.props.resources;
         const stateResources = this.state.resources;
         const resources = stateResources || propResources || [];
         const v = resources.find(r => r.id == value);
-        done(v);
+        this.props.done(v);
     }
     render() {
-        const { mark } = this.props;
+        // const { mark } = this.props;
         const propResources = this.props.resources;
         const propValue = this.props.value;
         const stateResources = this.state.resources;
@@ -65,7 +65,7 @@ export default class Resource extends Component {
                 {this.buildOptions()}
             </Select>)
             : (
-                <Button block onClick={() => this.buildUploadForm(mark)} >
+                <Button block onClick={this.buildUploadForm} >
                     <Icon type="upload" />
                     上传
                 </Button>

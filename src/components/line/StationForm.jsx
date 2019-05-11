@@ -50,7 +50,7 @@ class StationForm extends Component {
                                             {getFieldDecorator('lng', {
                                                 initialValue: station && station.lng
                                             })(
-                                                <InputNumber onBlur={(e) => change('lng', parseFloat(e.target.value))} />
+                                                <InputNumber onBlur={(e) => change('lng', '', parseFloat(e.target.value))} />
                                             )}
                                         </FormItem>
                                     </Col>
@@ -59,7 +59,7 @@ class StationForm extends Component {
                                             {getFieldDecorator('lat', {
                                                 initialValue: station && station.lat
                                             })(
-                                                <InputNumber onBlur={(e) => change('lat', parseFloat(e.target.value))} />
+                                                <InputNumber onBlur={(e) => change('lat', '', parseFloat(e.target.value))} />
                                             )}
                                         </FormItem>
                                     </Col>
@@ -70,7 +70,7 @@ class StationForm extends Component {
                                             {getFieldDecorator('angle', {
                                                 initialValue: station && station.angle
                                             })(
-                                                <InputNumber onBlur={(e) => change('angle', parseFloat(e.target.value))} />
+                                                <InputNumber onBlur={(e) => change('angle', '', parseFloat(e.target.value))} />
                                             )}
                                         </FormItem>
                                     </Col>
@@ -86,7 +86,7 @@ class StationForm extends Component {
                                             })(
                                                 <Resource
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ANGLE_AD)}
-                                                    done={(v) => change('swerve.ad',resourceKey.ANGLE_AD, v)}
+                                                    done={(v) => change('swerve.ad', resourceKey.ANGLE_AD, v)}
                                                     mark={resourceKey.ANGLE_AD} />
                                             )}
                                         </FormItem>
@@ -101,7 +101,7 @@ class StationForm extends Component {
                                             })(
                                                 <Resource
                                                     mark={resourceKey.ANGLE_HINT}
-                                                    done={(v) => change('swerve.hint',resourceKey.ANGLE_HINT, v)}
+                                                    done={(v) => change('swerve.hint', resourceKey.ANGLE_HINT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ANGLE_HINT)} />
                                             )}
                                         </FormItem>
@@ -119,7 +119,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('entry', resourceKey.ENTRY_AD)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_AD}
-                                                    done={(v) => change('entry.ad',resourceKey.ENTRY_AD, v)}
+                                                    done={(v) => change('entry.ad', resourceKey.ENTRY_AD, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_AD)} />
                                             )}
                                         </FormItem>
@@ -128,7 +128,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('entry', resourceKey.ENTRY_JUNCTION)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_JUNCTION}
-                                                    done={(v) => change('entry.junction',resourceKey.ENTRY_JUNCTION, v)}
+                                                    done={(v) => change('entry.junction', resourceKey.ENTRY_JUNCTION, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_JUNCTION)} />
                                             )}
                                         </FormItem>
@@ -139,7 +139,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('entry', resourceKey.CURRENT)
                                             })(
                                                 <Resource mark={resourceKey.CURRENT}
-                                                    done={(v) => change('entry.current',resourceKey.CURRENT, v)}
+                                                    done={(v) => change('entry.current', resourceKey.CURRENT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.CURRENT)} />
                                             )}
                                         </FormItem>
@@ -148,7 +148,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('entry', resourceKey.ENTRY_CUSTOM1)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_CUSTOM1}
-                                                    done={(v) => change('entry.custom1',resourceKey.ENTRY_CUSTOM1, v)}
+                                                    done={(v) => change('entry.custom1', resourceKey.ENTRY_CUSTOM1, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_CUSTOM1)} />
                                             )}
                                         </FormItem>
@@ -159,7 +159,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('entry', resourceKey.ENTRY_HINT)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_HINT}
-                                                    done={(v) => change('entry.hint',resourceKey.ENTRY_HINT, v)}
+                                                    done={(v) => change('entry.hint', resourceKey.ENTRY_HINT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_HINT)} />
                                             )}
                                         </FormItem>
@@ -168,7 +168,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('entry', resourceKey.ENTRY_CUSTOM2)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_CUSTOM2}
-                                                    done={(v) => change('entry.custom2',resourceKey.ENTRY_CUSTOM2, v)}
+                                                    done={(v) => change('entry.custom2', resourceKey.ENTRY_CUSTOM2, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_CUSTOM2)} />
                                             )}
                                         </FormItem>
@@ -184,7 +184,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_AD)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_AD}
-                                                    done={(v) => change('exit.ad',resourceKey.EXIT_AD, v)}
+                                                    done={(v) => change('exit.ad', resourceKey.EXIT_AD, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_AD)} />
                                             )}
                                         </FormItem>
@@ -193,7 +193,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_JUNCTION)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_JUNCTION}
-                                                    done={(v) => change('exit.junction',resourceKey.EXIT_JUNCTION, v)}
+                                                    done={(v) => change('exit.junction', resourceKey.EXIT_JUNCTION, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_JUNCTION)} />
                                             )}
                                         </FormItem>
@@ -204,7 +204,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.NEXT)
                                             })(
                                                 <Resource mark={resourceKey.NEXT}
-                                                    done={(v) => change('exit.next',resourceKey.NEXT, v)}
+                                                    done={(v) => change('exit.next', resourceKey.NEXT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.NEXT)} />
                                             )}
                                         </FormItem>
@@ -213,7 +213,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_CUSTOM1)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_CUSTOM1}
-                                                    done={(v) => change('exit.custom1',resourceKey.EXIT_CUSTOM1, v)}
+                                                    done={(v) => change('exit.custom1', resourceKey.EXIT_CUSTOM1, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_CUSTOM1)} />
                                             )}
                                         </FormItem>
@@ -224,7 +224,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_HINT)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_HINT}
-                                                    done={(v) => change('exit.hint',resourceKey.EXIT_HINT, v)}
+                                                    done={(v) => change('exit.hint', resourceKey.EXIT_HINT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_HINT)} />
                                             )}
                                         </FormItem>
@@ -233,7 +233,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_CUSTOM2)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_CUSTOM2}
-                                                    done={(v) => change('exit.custom2',resourceKey.EXIT_CUSTOM2, v)}
+                                                    done={(v) => change('exit.custom2', resourceKey.EXIT_CUSTOM2, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_CUSTOM2)} />
                                             )}
                                         </FormItem>

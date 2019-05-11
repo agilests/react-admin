@@ -112,18 +112,18 @@ class Station extends Component {
     }
     change = (field, key, value) => {
         const editStation = this.state.editStation;
-        debugger;
         if (field.indexOf('.') != -1) {
             let sp = field.split('.');
             let o = editStation[sp[0]] || [];
             let index = o.findIndex(l => l.id === value.id || l.key === key);
             o.splice(index, index === -1 ? 0 : 1, value);
             editStation[sp[0]] = o;
+            this.props.updateStationKey(editStation.id, field, value.id)
         } else {
             editStation[key] = value;
+            this.props.updateStationKey(editStation.id, field, value)
         }
 
-        this.props.updateStationKey(editStation.id, field, value)
         this.form.resetFields([key]);
         this.setState({ editStation: editStation })
     }
