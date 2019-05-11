@@ -49,7 +49,7 @@ class ResourceUpload extends Component {
             return { submit: false };
         } else if (submit && added) {
             success('上传成功!')
-            nextProps.done(added.id);
+            nextProps.done(added);
             return { submit: false };
         }
         return null;

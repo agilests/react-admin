@@ -7,8 +7,10 @@ export default {
     NEXT: 'N',
     EXIT_HINT: 'TH',
     EXIT_JUNCTION: 'TJ',
-    CUSTOM1: 'C1',
-    CUSTOM2: 'C2',
+    ENTRY_CUSTOM1: 'EC1',
+    ENTRY_CUSTOM2: 'EC2',
+    EXIT_CUSTOM1: 'TC1',
+    EXIT_CUSTOM2: 'TC2',
     ANGLE_AD: 'AA',
     ANGLE_HINT: 'AH'
 }

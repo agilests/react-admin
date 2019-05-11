@@ -86,7 +86,7 @@ class StationForm extends Component {
                                             })(
                                                 <Resource
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ANGLE_AD)}
-                                                    done={(v) => change('swerve.ad', v)}
+                                                    done={(v) => change('swerve.ad',resourceKey.ANGLE_AD, v)}
                                                     mark={resourceKey.ANGLE_AD} />
                                             )}
                                         </FormItem>
@@ -101,7 +101,7 @@ class StationForm extends Component {
                                             })(
                                                 <Resource
                                                     mark={resourceKey.ANGLE_HINT}
-                                                    done={(v) => change('swerve.hint', v)}
+                                                    done={(v) => change('swerve.hint',resourceKey.ANGLE_HINT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ANGLE_HINT)} />
                                             )}
                                         </FormItem>
@@ -115,61 +115,61 @@ class StationForm extends Component {
                                 <Row gutter={24}>
                                     <Col span={8}>
                                         <FormItem label="站前广告" {...inputStyle}>
-                                            {getFieldDecorator('enter.ad', {
-                                                initialValue: this.getValue('enter', resourceKey.ENTRY_AD)
+                                            {getFieldDecorator('entry.ad', {
+                                                initialValue: this.getValue('entry', resourceKey.ENTRY_AD)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_AD}
-                                                    done={(v) => change('enter.ad', v)}
+                                                    done={(v) => change('entry.ad',resourceKey.ENTRY_AD, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_AD)} />
                                             )}
                                         </FormItem>
                                         <FormItem label="转车提醒" {...inputStyle}>
-                                            {getFieldDecorator('enter.junction', {
-                                                initialValue: this.getValue('enter', resourceKey.ENTRY_JUNCTION)
+                                            {getFieldDecorator('entry.junction', {
+                                                initialValue: this.getValue('entry', resourceKey.ENTRY_JUNCTION)
                                             })(
-                                                <Resource mark={resourceKey.ENTRY_AD}
-                                                    done={(v) => change('enter.junction', v)}
+                                                <Resource mark={resourceKey.ENTRY_JUNCTION}
+                                                    done={(v) => change('entry.junction',resourceKey.ENTRY_JUNCTION, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_JUNCTION)} />
                                             )}
                                         </FormItem>
                                     </Col>
                                     <Col span={8}>
                                         <FormItem label="本站提示" {...inputStyle}>
-                                            {getFieldDecorator('enter.current', {
-                                                initialValue: this.getValue('enter', resourceKey.CURRENT)
+                                            {getFieldDecorator('entry.current', {
+                                                initialValue: this.getValue('entry', resourceKey.CURRENT)
                                             })(
                                                 <Resource mark={resourceKey.CURRENT}
-                                                    done={(v) => change('enter.current', v)}
+                                                    done={(v) => change('entry.current',resourceKey.CURRENT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.CURRENT)} />
                                             )}
                                         </FormItem>
                                         <FormItem label="自定义1" {...inputStyle}>
                                             {getFieldDecorator('entry.custom1', {
-                                                initialValue: this.getValue('enter', resourceKey.CUSTOM1)
+                                                initialValue: this.getValue('entry', resourceKey.ENTRY_CUSTOM1)
                                             })(
-                                                <Resource mark={resourceKey.CUSTOM1}
-                                                    done={(v) => change('enter.custom1', v)}
-                                                    resources={resources && resources.filter(r => r.key === resourceKey.CUSTOM1)} />
+                                                <Resource mark={resourceKey.ENTRY_CUSTOM1}
+                                                    done={(v) => change('entry.custom1',resourceKey.ENTRY_CUSTOM1, v)}
+                                                    resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_CUSTOM1)} />
                                             )}
                                         </FormItem>
                                     </Col>
                                     <Col span={8}>
                                         <FormItem label="温馨提示" {...inputStyle}>
                                             {getFieldDecorator('entry.hint', {
-                                                initialValue: this.getValue('enter', resourceKey.ENTRY_HINT)
+                                                initialValue: this.getValue('entry', resourceKey.ENTRY_HINT)
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_HINT}
-                                                    done={(v) => change('enter.hint', v)}
+                                                    done={(v) => change('entry.hint',resourceKey.ENTRY_HINT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_HINT)} />
                                             )}
                                         </FormItem>
                                         <FormItem label="自定义2" {...inputStyle}>
                                             {getFieldDecorator('entry.custom2', {
-                                                initialValue: this.getValue('enter', resourceKey.CUSTOM2)
+                                                initialValue: this.getValue('entry', resourceKey.ENTRY_CUSTOM2)
                                             })(
-                                                <Resource mark={resourceKey.CUSTOM2}
-                                                    done={(v) => change('enter.custom2', v)}
-                                                    resources={resources && resources.filter(r => r.key === resourceKey.CUSTOM2)} />
+                                                <Resource mark={resourceKey.ENTRY_CUSTOM2}
+                                                    done={(v) => change('entry.custom2',resourceKey.ENTRY_CUSTOM2, v)}
+                                                    resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_CUSTOM2)} />
                                             )}
                                         </FormItem>
                                     </Col>
@@ -184,7 +184,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_AD)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_AD}
-                                                    done={(v) => change('exit.ad', v)}
+                                                    done={(v) => change('exit.ad',resourceKey.EXIT_AD, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_AD)} />
                                             )}
                                         </FormItem>
@@ -193,7 +193,7 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_JUNCTION)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_JUNCTION}
-                                                    done={(v) => change('exit.junction', v)}
+                                                    done={(v) => change('exit.junction',resourceKey.EXIT_JUNCTION, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_JUNCTION)} />
                                             )}
                                         </FormItem>
@@ -204,17 +204,17 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.NEXT)
                                             })(
                                                 <Resource mark={resourceKey.NEXT}
-                                                    done={(v) => change('exit.next', v)}
+                                                    done={(v) => change('exit.next',resourceKey.NEXT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.NEXT)} />
                                             )}
                                         </FormItem>
                                         <FormItem label="自定义1" {...inputStyle}>
                                             {getFieldDecorator('exit.custom1', {
-                                                initialValue: this.getValue('exit', resourceKey.CUSTOM1)
+                                                initialValue: this.getValue('exit', resourceKey.EXIT_CUSTOM1)
                                             })(
-                                                <Resource mark={resourceKey.CUSTOM1}
-                                                    done={(v) => change('exit.custom1', v)}
-                                                    resources={resources && resources.filter(r => r.key === resourceKey.CUSTOM1)} />
+                                                <Resource mark={resourceKey.EXIT_CUSTOM1}
+                                                    done={(v) => change('exit.custom1',resourceKey.EXIT_CUSTOM1, v)}
+                                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_CUSTOM1)} />
                                             )}
                                         </FormItem>
                                     </Col>
@@ -224,17 +224,17 @@ class StationForm extends Component {
                                                 initialValue: this.getValue('exit', resourceKey.EXIT_HINT)
                                             })(
                                                 <Resource mark={resourceKey.EXIT_HINT}
-                                                    done={(v) => change('exit.hint', v)}
+                                                    done={(v) => change('exit.hint',resourceKey.EXIT_HINT, v)}
                                                     resources={resources && resources.filter(r => r.key === resourceKey.EXIT_HINT)} />
                                             )}
                                         </FormItem>
                                         <FormItem label="自定义2" {...inputStyle}>
                                             {getFieldDecorator('exit.custom2', {
-                                                initialValue: this.getValue('exit', resourceKey.CUSTOM2)
+                                                initialValue: this.getValue('exit', resourceKey.EXIT_CUSTOM2)
                                             })(
-                                                <Resource mark={resourceKey.CUSTOM2}
-                                                    done={(v) => change('exit.custom2', v)}
-                                                    resources={resources && resources.filter(r => r.key === resourceKey.CUSTOM2)} />
+                                                <Resource mark={resourceKey.EXIT_CUSTOM2}
+                                                    done={(v) => change('exit.custom2',resourceKey.EXIT_CUSTOM2, v)}
+                                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_CUSTOM2)} />
                                             )}
                                         </FormItem>
                                     </Col>
