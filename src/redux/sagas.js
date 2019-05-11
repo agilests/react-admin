@@ -37,7 +37,7 @@ function* rootSaga() {
     //站点
     takeEvery(lineActionKeys.fetchStations, lineSagas.fetchStation),
     //资源相关
-    takeEvery(resActionKeys.fetchResources, resSagas.fetchResources),
+    takeEvery(resActionKeys.fetchVoices, resSagas.fetchVoices),
     takeEvery(resActionKeys.upload, resSagas.upload)
     ]);
 

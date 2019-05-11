@@ -10,33 +10,40 @@ export default class Resource extends Component {
     buildOptions = () => {
         const { resources } = this.props;
         let options = new Array();
+        options.push(resources.map(d =>
+            <Option key={d.id} value={d.id}>
+                {d.name}
+            </Option>
+        ));
+
         options.push(
             <Option key={'add'} onClick={() => console.log('click')}>
                 上传
             </Option>
         )
-        options.push(resources.map(d =>
-            <Option key={d.name} value={d.id}>
-                {d.name}
-            </Option>
-        ));
         return options;
     }
     buildUploadForm = (key) => {
-        return Modal.info({
-            Icon: null,
+        this.upload = Modal.info({
+            Icon: <Icon type='user' />,
             title: '上传语音文件',
-            content: <ResourceUpload resourceKey={key} />
+            footer: {},
+            content: <ResourceUpload resourceKey={key} done={this.done} />
         })
+        return this.upload;
+    }
+    done = (v) => {
+        this.upload && this.upload.destroy();
+        this.props.done(v);
     }
     render() {
-        const { resources, value, key } = this.props;
+        const { resources, value, mark, done } = this.props;
         return resources
-            ? (<Select defaultValue={value && value.id}>
+            ? (<Select value={value && value.id} onChange={(v) => done(v)}>
                 {this.buildOptions()}
             </Select>)
             : (
-                <Button block onClick={() => this.buildUploadForm(key)} >
+                <Button block onClick={() => this.buildUploadForm(mark)} >
                     <Icon type="upload" />
                     上传
                 </Button>

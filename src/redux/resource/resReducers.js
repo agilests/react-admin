@@ -1,23 +1,23 @@
 import Immutable from 'immutable';
 import resActionKeys from './resActionKeys';
 const initialState = Immutable.Map({
-    resources: [],
+    voices: [],
     fetching: false,
     errorMsg: '',
-    added:null
+    added: null
 })
-export default function orgReducer(state = initialState, action) {
+export default function resReducer(state = initialState, action) {
     switch (action.type) {
-        case resActionKeys.fetchResources:
+        case resActionKeys.fetchVoices:
         case resActionKeys.upload:
-            return state.set('errorMsg','').set('fetching',true);
-        case resActionKeys.fetchResourcesSuccess:
-            return state.set('errorMsg','').set('fetching',false).set('resources',action.resources);
+            return state.set('errorMsg', '').set('fetching', true);
+        case resActionKeys.fetchVoicesSuccess:
+            return state.set('errorMsg', '').set('fetching', false).set('voices', action.voices);
         case resActionKeys.uploadSuccess:
-            return state.set('errorMsg','').set('fetching',false).set('added',action.resourceId)
+            return state.set('errorMsg', '').set('fetching', false).set('added', action.resource)
         case resActionKeys.uploadFailed:
-            return state.set('errorMsg',action.errorMsg).set('fetching',false)
-        default: 
+            return state.set('errorMsg', action.errorMsg).set('fetching', false)
+        default:
             return state
     }
 }

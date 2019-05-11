@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty } from 'antd';
 import { fetchStations, addStation, updateStationKey } from '../../redux/lines/lineActions';
+import { fetchVoices } from '../../redux/resource/resActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import StationForm from './StationForm';
@@ -48,6 +49,7 @@ class Station extends Component {
             currentUser: JSON.parse(localStorage.getItem('currentUser')),
             addStationForm: false
         }
+        this.props.fetchResources();
     }
     showAddStation = (type) => {
         this.setState({ type: type, addStationForm: true })
@@ -109,13 +111,13 @@ class Station extends Component {
     }
     change = (key, value) => {
         const editStation = this.state.editStation;
-        editStation[key]=value;
-        this.props.updateStationKey(editStation.Id, key, value)
+        editStation[key] = value;
+        this.props.updateStationKey(editStation.id, key, value)
         this.form.resetFields([key]);
-        this.setState({editStation:editStation})
+        this.setState({ editStation: editStation })
     }
     render() {
-        const { fetching, stations } = this.props;
+        const { fetching, stations, resources } = this.props;
         const upStations = stations && stations.upStations && this.buildSteps(stations.upStations, 'upIndex');
         const downStations = stations && stations.downStations && this.buildSteps(stations.downStations, 'downIndex');
         return (
@@ -155,7 +157,10 @@ class Station extends Component {
                             </Empty>
                     }
                 </Row>
-                <StationForm ref={this.saveFormRef} change={this.change} station={this.state.editStation} orgId={this.state.currentUser.orgId} />
+                <StationForm ref={this.saveFormRef}
+                    change={this.change}
+                    station={this.state.editStation}
+                    resources={resources} />
                 <AddForm
                     ref={this.saveAddStationFormRef}
                     visible={this.state.addStationForm}
@@ -172,7 +177,8 @@ const mapStateToProps = (state, props) => {
         fetching: state.getIn(['lineReducer', 'fetching']),
         stations: state.getIn(['lineReducer', 'stations']),
         addedStation: state.getIn(['lineReducer', 'addedStation']),
-        currentStation: state.getIn(['lineReducer','currentStation'])
+        currentStation: state.getIn(['lineReducer', 'currentStation']),
+        resources: state.getIn(['resourceReducer', 'voices'])
     }
 }
 
@@ -186,6 +192,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateStationKey: (stationId, key, value) => {
             dispatch(updateStationKey(stationId, key, value))
+        },
+        fetchResources: () => {
+            dispatch(fetchVoices())
         }
         // register: (orgId, account) => {
         //     dispatch(createAccount(orgId, account))

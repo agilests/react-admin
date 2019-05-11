@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Spin, Form, Icon, Input, Button, Upload } from 'antd';
 import { connect } from '../../connect'
 import { upload } from '../../redux/resource/resActions';
+import { success, error } from '../widget/Message';
 
 
 const FormItem = Form.Item;
@@ -19,7 +20,6 @@ class ResourceUpload extends Component {
 
     upload = () => {
         const { resourceKey } = this.props;
-        debugger;
         let data = new FormData();
         if (this.state.official) {
             data.append('official', this.state.official)
@@ -31,6 +31,7 @@ class ResourceUpload extends Component {
             data.append('english', this.state.english)
         }
         data.append('name', this.state.name);
+        this.setState({ submit: true })
         this.props.upload(data, resourceKey);
     }
     _handleUploadChange = (prop) => (input) => {
@@ -38,6 +39,20 @@ class ResourceUpload extends Component {
     }
     _handleInputChange = (prop) => (input) => {
         this.setState({ [prop]: input.target.value })
+    }
+
+    static getDerivedStateFromProps(nextProps, nextState) {
+        const { errorMsg, added } = nextProps;
+        const { submit } = nextState;
+        if (submit && errorMsg != '') {
+            error(errorMsg);
+            return { submit: false };
+        } else if (submit && added) {
+            success('上传成功!')
+            nextProps.done(added.id);
+            return { submit: false };
+        }
+        return null;
     }
     render() {
         const { form } = this.props;
@@ -106,7 +121,8 @@ class ResourceUpload extends Component {
 const mapStateToProps = (state, props) => {
     return {
         errorMsg: state.getIn(['resourceReducer', 'errorMsg']),
-        uploading: state.getIn(['resourceReducer', 'fetching'])
+        uploading: state.getIn(['resourceReducer', 'fetching']),
+        added: state.getIn(['resourceReducer', 'added'])
     }
 }
 

@@ -2,14 +2,14 @@ import { call, put } from 'redux-saga/effects'
 import resActionKeys from './resActionKeys';
 import ResourceApi from '../apis/ResourceApis';
 
-export function* fetchResources(action) {
-    const result = yield call((orgId) => {
-        return ResourceApi.fetchResources(orgId);
-    }, action.orgId)
+export function* fetchVoices(action) {
+    const result = yield call(() => {
+        return ResourceApi.fetchVoices();
+    })
     if (result && result.code === 0) {
         yield put({
-            type: resActionKeys.fetchResourcesSuccess,
-            resources: result.result
+            type: resActionKeys.fetchVoicesSuccess,
+            voices: result.result
         });
         return;
     }
@@ -22,7 +22,7 @@ export function* upload(action) {
     if (result && result.code === 0) {
         yield put({
             type: resActionKeys.uploadSuccess,
-            resourceId: result.result
+            resource: result.result
         })
 
     } else {
@@ -33,4 +33,4 @@ export function* upload(action) {
     }
 
 }
-export default { fetchResources, upload }
+export default { fetchVoices, upload }
