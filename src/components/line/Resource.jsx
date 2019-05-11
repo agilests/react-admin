@@ -21,7 +21,7 @@ export default class Resource extends Component {
         ))
         if (options.length == 0) return null;
         options.unshift(
-            <Option key={'add'} onClick={() => console.log('click')}>
+            <Option key={'add'} value={'add'} onClick={() => console.log('click')}>
                 上传
             </Option>)
         return options;
@@ -31,14 +31,11 @@ export default class Resource extends Component {
             Icon: <Icon type='user' />,
             title: '上传语音文件',
             footer: {},
-            content: <ResourceUpload resourceKey={key} done={this.done} />
+            content: <ResourceUpload resourceKey={key} onComplete={this.onComplete} />
         })
         return this.upload;
     }
-    addOption = (v) => {
-
-    }
-    done = (v) => {
+    onComplete = (v) => {
         this.upload && this.upload.destroy();
         let resources = this.props.resources || [];
         let value = this.props.value || v;
@@ -46,8 +43,17 @@ export default class Resource extends Component {
         this.setState({ resources: resources, value: value });
         this.props.done(v);
     }
+    onChange = (value) => {
+        if (value === 'add') return;
+        const { done } = this.props;
+        const propResources = this.props.resources;
+        const stateResources = this.state.resources;
+        const resources = stateResources || propResources || [];
+        const v = resources.find(r => r.id == value);
+        done(v);
+    }
     render() {
-        const { mark, done } = this.props;
+        const { mark } = this.props;
         const propResources = this.props.resources;
         const propValue = this.props.value;
         const stateResources = this.state.resources;
@@ -55,7 +61,7 @@ export default class Resource extends Component {
         const resources = stateResources || propResources || [];
         const value = stateValue || propValue || null;
         return resources && resources.length > 0
-            ? (<Select value={value && value.id} onChange={(v) => done(v)}>
+            ? (<Select value={value && value.id} onChange={this.onChange}>
                 {this.buildOptions()}
             </Select>)
             : (

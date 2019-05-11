@@ -117,7 +117,7 @@ class Station extends Component {
             let sp = field.split('.');
             let o = editStation[sp[0]] || [];
             let index = o.findIndex(l => l.id === value.id || l.key === key);
-            o.splice(index, index == -1 ? 0 : 1, value);
+            o.splice(index, index === -1 ? 0 : 1, value);
             editStation[sp[0]] = o;
         } else {
             editStation[key] = value;
