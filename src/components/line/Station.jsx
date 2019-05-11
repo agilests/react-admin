@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty } from 'antd';
-import { fetchStations, addStation, updateStationKey } from '../../redux/lines/lineActions';
+import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty, Popover } from 'antd';
+import { fetchStations, addStation, updateStationKey,deleteStation } from '../../redux/lines/lineActions';
 import { fetchVoices } from '../../redux/resource/resActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -47,7 +47,8 @@ class Station extends Component {
             downIndex: -1,
             editStation: null,
             currentUser: JSON.parse(localStorage.getItem('currentUser')),
-            addStationForm: false
+            addStationForm: false,
+            stationFormVisible: false
         }
         this.props.fetchResources();
     }
@@ -95,7 +96,7 @@ class Station extends Component {
                 onClick={(v) => {
                     let index = stations.findIndex(e => e.name === d.name);
                     this.setState({ upIndex: -1, downIndex: -1 })
-                    this.setState({ [state]: index, editStation: stations[index] })
+                    this.setState({ [state]: index, editStation: stations[index], stationFormVisible: true })
                 }} />
         );
         steps.push(<Step
@@ -116,6 +117,10 @@ class Station extends Component {
         this.form.resetFields([key]);
         this.setState({ editStation: editStation })
     }
+    delete = () => {
+        this.props.deleteStation(this.state.editStation.id)
+        this.setState({editStation:null,stationFormVisible:false})
+    }
     render() {
         const { fetching, stations, resources } = this.props;
         const upStations = stations && stations.upStations && this.buildSteps(stations.upStations, 'upIndex');
@@ -127,7 +132,9 @@ class Station extends Component {
                     <Row>上行</Row>
                     {
                         upStations ?
-                            <Steps style={{ overflow: 'auto' }} current={this.state.upIndex} size="small" labelPlacement="vertical">
+                            <Steps style={{ overflow: 'auto' }}
+                                current={this.state.upIndex} size="small"
+                                labelPlacement="vertical">
                                 {upStations}
                             </Steps>
                             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}>
@@ -157,7 +164,16 @@ class Station extends Component {
                             </Empty>
                     }
                 </Row>
+                {
+                    this.state.editStation ?
+                        (<Button type="primary" onClick={this.delete}>
+                            <Icon type='remove' />
+                            删除站点
+                        </Button>)
+                        : ''
+                }
                 <StationForm ref={this.saveFormRef}
+                    visible={this.state.stationFormVisible}
                     change={this.change}
                     station={this.state.editStation}
                     resources={resources} />
@@ -189,6 +205,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         addStation: (lineId, station) => {
             dispatch(addStation(lineId, station))
+        },
+        deleteStation: (id) => {
+            dispatch(deleteStation(id))
         },
         updateStationKey: (stationId, key, value) => {
             dispatch(updateStationKey(stationId, key, value))

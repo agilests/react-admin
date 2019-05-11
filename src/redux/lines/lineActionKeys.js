@@ -16,5 +16,7 @@ export default {
     updateStationKey:'UPDATE_STATION_KEY',
     updateStationKeySuccess:'UPDATE_STATION_KEY_SUCCESS',
     updateStationKeyFailed:'UPDATE_STATION_KEY_FAILED',
-
+    deleteStation:'DELETE_STATION',
+    deleteStationSuccess:'DELETE_STATION_SUCCESS',
+    deleteStationFailed:'DELETE_STATION_FAILED'
 }

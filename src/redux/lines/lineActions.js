@@ -12,6 +12,12 @@ export const createLine = (line) => {
         line: line
     }
 }
+export const deleteLine = (id) => {
+    return {
+        type: lineActionKeys.deleteLine,
+        id: id
+    }
+}
 export const addStation = (lineId, station) => {
     return {
         type: lineActionKeys.addStation,
@@ -19,9 +25,9 @@ export const addStation = (lineId, station) => {
         station: station
     }
 }
-export const deleteLine = (id) => {
+export const deleteStation = (id) => {
     return {
-        type: lineActionKeys.deleteLine,
+        type: lineActionKeys.deleteStation,
         id: id
     }
 }

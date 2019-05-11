@@ -15,12 +15,14 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.createLine:
         case lineActionKeys.addStation:
         case lineActionKeys.deleteLine:
+        case lineActionKeys.deleteStation:
         case lineActionKeys.fetchStations:
         case lineActionKeys.updateStationKey:
-            return state.set('fetching', true).set('errorMsg', '');
+            return state.set('fetching', true).set('errorMsg', '').set('addedStation', null).set('added', null);
         case lineActionKeys.createLineFailed:
         case lineActionKeys.addStationFailed:
         case lineActionKeys.deleteLineFailed:
+        case lineActionKeys.deleteStationFailed:
         case lineActionKeys.updateStationKeyFailed:
             return state.set('fetching', false).set('errorMsg', action.errorMsg);
         case lineActionKeys.fetchLinesSuccess:
@@ -51,16 +53,28 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.updateStationKeySuccess:
 
             let stations1 = state.get('stations');
-            stations1 
-            && stations1.upStations 
-            && stations1.upStations.map(s => { if (s.id === action.station.id) return action.station; return s });
-            
-            stations1 
-            && stations1.downStations 
-            && stations1.downStations.map(s => { if (s.id === action.station.id) return action.station; return s });
-            
+            stations1
+                && stations1.upStations
+                && stations1.upStations.map(s => { if (s.id === action.station.id) return action.station; return s });
 
-            return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations',stations1);
+            stations1
+                && stations1.downStations
+                && stations1.downStations.map(s => { if (s.id === action.station.id) return action.station; return s });
+
+
+            return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations', stations1);
+        case lineActionKeys.deleteStationSuccess:
+            let stations2 = state.get('stations');
+            stations2
+                && stations2.upStations
+                && stations2.upStations.splice(stations2.upStations.findIndex(s => s.id === action.id), 1)
+
+            stations2
+                && stations2.downStations
+                && stations2.downStations.splice(stations2.downStations.findIndex(s => s.id === action.id), 1)
+
+            return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations', stations2);
+
         default:
             return state;
     }

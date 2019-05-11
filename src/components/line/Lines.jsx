@@ -153,7 +153,7 @@ class Lines extends Component {
                     }
 
 
-                    <Table columns={this.columns} dataSource={lines} />
+                    <Table columns={this.columns} rowKey = 'id' dataSource={lines} />
 
                     <LineForm
                         ref={this.saveFormRef}

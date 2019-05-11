@@ -10,7 +10,7 @@ export default function resReducer(state = initialState, action) {
     switch (action.type) {
         case resActionKeys.fetchVoices:
         case resActionKeys.upload:
-            return state.set('errorMsg', '').set('fetching', true);
+            return state.set('errorMsg', '').set('fetching', true).set('added',null);
         case resActionKeys.fetchVoicesSuccess:
             return state.set('errorMsg', '').set('fetching', false).set('voices', action.voices);
         case resActionKeys.uploadSuccess:

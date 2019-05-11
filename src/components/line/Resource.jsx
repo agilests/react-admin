@@ -14,13 +14,12 @@ export default class Resource extends Component {
             <Option key={d.id} value={d.id}>
                 {d.name}
             </Option>
-        ));
-
-        options.push(
+        ))
+        if (options.length == 0) return null;
+        options.unshift(
             <Option key={'add'} onClick={() => console.log('click')}>
                 上传
-            </Option>
-        )
+            </Option>)
         return options;
     }
     buildUploadForm = (key) => {
@@ -38,7 +37,9 @@ export default class Resource extends Component {
     }
     render() {
         const { resources, value, mark, done } = this.props;
-        return resources
+        console.log(mark)
+        console.log(resources)
+        return resources && resources.length>0
             ? (<Select value={value && value.id} onChange={(v) => done(v)}>
                 {this.buildOptions()}
             </Select>)

@@ -1,8 +1,8 @@
 export default {
-    ENTER_AD: 'EA',
+    ENTRY_AD: 'EA',
     CURRENT: 'C',
-    ENTER_HINT: 'EH',
-    ENTER_JUNCTION: 'EJ',
+    ENTRY_HINT: 'EH',
+    ENTRY_JUNCTION: 'EJ',
     EXIT_AD: 'TA',
     NEXT: 'N',
     EXIT_HINT: 'TH',
