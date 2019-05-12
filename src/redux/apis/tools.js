@@ -18,7 +18,7 @@ export function checkStatus(response) {
 	}else if(response.status===403){
 		window.location.href = '/#/login'
 	}
-	let errMsg = (response.status == 502) ? '服务器升级中，请稍后再试' : response._bodyText
+	let errMsg = (response.status == 502 || response.status==504) ? '服务器升级中，请稍后再试' : response._bodyText
 	if (!errMsg) errMsg = response.statusText
 	const error = new Error(errMsg);
 	error.response = response;

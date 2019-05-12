@@ -1,4 +1,4 @@
-import {all, takeEvery} from 'redux-saga/effects'
+import { all, takeEvery } from 'redux-saga/effects'
 import userActionKeys from './user/userActionKeys';
 import userSagas from './user/userSagas';
 import orgActionKeys from './org/orgActionKeys';
@@ -9,6 +9,8 @@ import lineActionKeys from './lines/lineActionKeys';
 import lineSagas from './lines/lineSagas';
 import resActionKeys from './resource/resActionKeys';
 import resSagas from './resource/resSagas';
+import logActionKeys from './logs/logActionKeys';
+import logSagas from './logs/logSagas';
 function* rootSaga() {
   yield all([
     //用户相关
@@ -18,7 +20,7 @@ function* rootSaga() {
     takeEvery(orgActionKeys.fetchOrgs, orgSagas.fetchOrgs),
     takeEvery(orgActionKeys.fetchAccounts, orgSagas.fetchAccounts),
     takeEvery(orgActionKeys.createOrg, orgSagas.createOrg),
-    takeEvery(orgActionKeys.updateOrg,orgSagas.updateOrg),
+    takeEvery(orgActionKeys.updateOrg, orgSagas.updateOrg),
     takeEvery(orgActionKeys.deleteOrg, orgSagas.deleteOrg),
     takeEvery(orgActionKeys.createAccount, orgSagas.createAccount),
     takeEvery(orgActionKeys.updateAccount, orgSagas.updateAccount),
@@ -40,8 +42,11 @@ function* rootSaga() {
     takeEvery(lineActionKeys.fetchStations, lineSagas.fetchStation),
     //资源相关
     takeEvery(resActionKeys.fetchVoices, resSagas.fetchVoices),
-    takeEvery(resActionKeys.upload, resSagas.upload)
-    ]);
+    takeEvery(resActionKeys.upload, resSagas.upload),
+
+    //日志相关
+    takeEvery(logActionKeys.fetchLogs, logSagas.fetchLogs)
+  ]);
 
 }
 

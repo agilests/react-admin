@@ -32,6 +32,8 @@ import Accounts from './org/Accounts';
 import Devices from './device/Devices';
 import Lines from './line/Lines';
 import Station from './line/Station';
+import Resources from './resource/Resources';
+import Logs from './logs/Logs';
 const WysiwygBundle = Loadable({ // 按需加载富文本配置
     loader: () => import('./ui/Wysiwyg'),
     loading: Loading,
@@ -43,6 +45,6 @@ export default {
     Tabs, Banners, Drags, Dashboard, Gallery, BasicAnimations,
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
     Cssmodule, MapUi, QueryParams,
-    Orgs, Accounts, Devices, Lines, Station
+    Orgs, Accounts, Devices, Lines, Station, Resources, Logs
 
 }

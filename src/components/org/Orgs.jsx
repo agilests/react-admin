@@ -64,22 +64,20 @@ class Orgs extends React.Component {
             title: '创建时间',
             dataIndex: 'created',
             key: 'created',
-            // render: text => <span>${new Date(text)}</span>
+            render: text=> <span>{new Date(parseInt(text) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')}</span>
         }, {
             title: '联系人',
             dataIndex: 'contact',
             key: 'contact',
-            // render: text => <span>${new Date(text)}</span>
         }, {
             title: '联系方式',
             dataIndex: 'mobile',
             key: 'mobile',
-            // render: text => <span>${new Date(text)}</span>
         }, {
             title: '更新时间',
             dataIndex: 'lastModified',
             key: 'lastModified',
-            // render: text => <span>${new Date(text)}</span>
+            render: text=> <span>{new Date(parseInt(text) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')}</span>
         }, {
             title: 'Action',
             key: 'action',

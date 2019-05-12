@@ -67,7 +67,7 @@ class Devices extends Component {
                 title: '注册时间',
                 dataIndex: 'created',
                 key: 'created',
-                render: text => <span>{text}</span>,
+                render: text=> <span>{new Date(parseInt(text) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')}</span>
             }, {
                 title: '车辆',
                 dataIndex: 'vehicle',

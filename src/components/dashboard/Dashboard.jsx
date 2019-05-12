@@ -7,13 +7,22 @@ import BreadcrumbCustom from '../BreadcrumbCustom';
 import EchartsViews from './EchartsViews';
 import EchartsProjects from './EchartsProjects';
 import b1 from '../../style/imgs/b1.jpg';
-
+import { connect } from '../../connect'
+import { fetchOrgs } from '../../redux/org/orgActions'
 
 class Dashboard extends React.Component {
+    constructor(props){
+        super(props)
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+        if(currentUser && currentUser.role === 'ROLE_ADMIN'){
+            this.props.fetchOrgs()
+        }
+
+    }
     render() {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        return currentUser?(
+
+        return currentUser ? (
             <div className="gutter-example button-demo">
                 <BreadcrumbCustom />
                 {/*
@@ -171,10 +180,19 @@ class Dashboard extends React.Component {
                 </Row>
                  */}
             </div>
-        ):(
-            window.location.href="/login"
-        )
+        ) : (
+                window.location.href = "/login"
+            )
     }
 }
-
-export default Dashboard;
+const mapStateToProps = (state, props) => {
+    return {}
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchOrgs: () => {
+            dispatch(fetchOrgs())
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

@@ -36,6 +36,12 @@ export default {
             ],
         },
         {
+            key: '/app/resources', title: '资源', icon: 'resource',
+            subs: [
+                { key: '/app/resources', title: '资源', component: 'Resources'},
+            ],
+        },
+        {
             key: '/app/form', title: '监控', icon: 'video-camera',
             subs: []
             // subs: [
@@ -44,7 +50,9 @@ export default {
         },
         {
             key: '/app/chart', title: '日志', icon: 'laptop',
-            subs: []
+            subs: [
+                { key: '/app/logs', title: '日志', component: 'Logs' },
+            ]
             // subs: [
             //     { key: '/app/chart/echarts', title: 'echarts', component: 'Echarts' },
             //     { key: '/app/chart/recharts', title: 'recharts', component: 'Recharts' },

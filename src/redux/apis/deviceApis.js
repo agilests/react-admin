@@ -1,6 +1,10 @@
 
 import NetUtil from './net_utils';
 export default class DevicesApi {
+
+    static getDevicesList() {
+        return NetUtil.get(`/api/devices`);
+    }
     static getDevicesList(orgId) {
         return NetUtil.get(`/api/devices?orgId=${orgId}`);
     }
