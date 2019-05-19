@@ -8,7 +8,7 @@ export default class ResourcesApi {
             return NetUtil.get(`/api/resources/voices`);
         }
     }
-    static upload(formData, key) {
-        return NetUtil.upload(`/api/resources/voice?key=${key}`, formData);
+    static upload(formData) {
+        return NetUtil.upload(`/api/resources/voice`, formData);
     }
 }

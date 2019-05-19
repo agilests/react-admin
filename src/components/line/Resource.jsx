@@ -27,12 +27,11 @@ export default class Resource extends Component {
         return options;
     }
     buildUploadForm = () => {
-        const {mark} = this.props;
         this.upload = Modal.info({
             Icon: <Icon type='user' />,
             title: '上传语音文件',
             footer: {},
-            content: <ResourceUpload resourceKey={mark} onComplete={this.onComplete} />
+            content: <ResourceUpload onComplete={this.onComplete} />
         })
         return this.upload;
     }
@@ -53,7 +52,6 @@ export default class Resource extends Component {
         this.props.done(v);
     }
     render() {
-        // const { mark } = this.props;
         const propResources = this.props.resources;
         const propValue = this.props.value;
         const stateResources = this.state.resources;

@@ -3,7 +3,6 @@ import { Spin, Modal, Table, Form, Input, Button, Select, Popover } from 'antd';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { fetchLines, createLine, updateLine, deleteLine } from '../../redux/lines/lineActions';
-import { fetchOrgs } from '../../redux/org/orgActions';
 import { success, error } from '../widget/Message';
 
 const FormItem = Form.Item;
@@ -106,8 +105,6 @@ class Lines extends Component {
         }];
         if (this.state.currentUser.role !== 'ROLE_ADMIN') {
             this.onChange();
-        } else {
-            this.props.fetchOrgs();
         }
     }
     showEdit = (record) => {
@@ -239,9 +236,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteLine: (id) => {
             dispatch(deleteLine(id))
-        },
-        fetchOrgs: () => {
-            dispatch(fetchOrgs())
         }
     }
 }

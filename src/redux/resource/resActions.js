@@ -7,10 +7,9 @@ export const fetchVoices = (orgId) => {
     }
 };
 
-export const upload = (formData, key) => {
+export const upload = (formData) => {
     return {
         type: resActionKeys.upload,
-        formData: formData,
-        key: key
+        formData: formData
     }
 };

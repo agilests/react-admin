@@ -19,8 +19,11 @@ class ResourceUpload extends Component {
     }
 
     upload = () => {
-        const { resourceKey } = this.props;
         let data = new FormData();
+        if(!this.state.official && !this.state.locality && !this.state.english){
+            error('上传资源不能为空');
+            return ;
+        }
         if (this.state.official) {
             data.append('official', this.state.official)
         }
@@ -32,7 +35,7 @@ class ResourceUpload extends Component {
         }
         data.append('name', this.state.name);
         this.setState({ submit: true })
-        this.props.upload(data, resourceKey);
+        this.props.upload(data);
     }
     _handleUploadChange = (prop) => (input) => {
         this.setState({ [prop]: input.file })
@@ -129,8 +132,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        upload: (formData, key) => {
-            dispatch(upload(formData, key))
+        upload: (formData) => {
+            dispatch(upload(formData))
         }
     }
 }

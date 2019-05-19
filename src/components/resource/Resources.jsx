@@ -1,12 +1,49 @@
 import React, { Component } from "react";
 import { fetchVoices } from '../../redux/resource/resActions';
-import { fetchOrgs, fetchSetting, updateSetting } from '../../redux/org/orgActions';
+import { fetchSetting, updateSetting } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import { Tabs, Spin, Modal, Table, Form, Input, Button, Select, Popover } from "antd";
+import { Tabs, Spin, Modal, Table, Form, Input, Button, Select, Popover, Switch } from "antd";
 import ResourceKeys from '../line/ResourceKeys'
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
+const FormItem = Form.Item;
+const SettingForm = Form.create()(
+    (props) => {
+        const { visible, resource, onOk, onCancel, form } = props;
+        const { getFieldDecorator } = form;
+        return (
+            <Modal
+                visible={visible}
+                title={'设置'}
+                okText={'确认'}
+                onOk={onOk}
+                onCancel={onCancel}
+            >
+                {
+                    resource &&
+                    <Form layout="vertical">
+                        <FormItem label="默认进站音乐">
+                            {getFieldDecorator('defaultEntryMusic')(
+                                <Switch defaultChecked={resource.defaultEntryMusic != null} />
+                            )}
+                        </FormItem>
+                        <FormItem label="默认出站音乐">
+                            {getFieldDecorator('defaultExitMusic')(
+                                <Switch defaultChecked={resource.defaultExitMusic != null} />
+                            )}
+                        </FormItem>
+                        <FormItem label="默认转弯音乐">
+                            {getFieldDecorator('defaultSwerveMusic')(
+                                <Switch defaultChecked={resource.defaultSwerveMusic != null} />
+                            )}
+                        </FormItem>
+                    </Form>
+                }
+            </Modal>
+        )
+    }
+)
 
 class Resources extends Component {
     constructor(props) {
@@ -16,8 +53,6 @@ class Resources extends Component {
         }
         if (this.state.currentUser.role !== 'ROLE_ADMIN') {
             this.onChange();
-        } else {
-            this.props.fetchOrgs();
         }
         this.voiceColumns = [
             {
@@ -34,25 +69,25 @@ class Resources extends Component {
             },
             {
                 title: '是否默认',
-                dataIndex: 'key',
-                key: 'key',
+                dataIndex: 'isDefault',
+                key: 'isDefault',
                 render: (text, record) => {
                     if (this.isDefault(record)) {
-                        return '默认' + this.displayName(text);
+                        return '是'
                     }
-                    return '';
+                    return '否';
                 }
             },
             {
                 title: 'action',
                 dataIndex: 'action',
-                key: 'key',
+                key: 'action',
                 render: (text, record) => {
                     if (!this.isDefault(record)) {
                         return (
                             this.state.currentUser.role !== 'ROLE_ADMIN' &&
-                            <Button onClick={() => {this.updateSetting(record) }}>
-                                设为默认{this.displayName(record.key)}
+                            <Button onClick={() => { this.openSetting(record) }}>
+                                设为默认
                             </Button>
                         )
                     }
@@ -62,9 +97,34 @@ class Resources extends Component {
 
         ]
     }
-    updateSetting = (record) => {
-        const key = this.resolveKey(record.key);
-        this.props.updateOrgSetting(this.state.currentUser.orgId,key,{value:record.id});
+    openSetting = (record) => {
+        // const key = this.resolveKey(record.key);
+        // this.props.updateOrgSetting(this.state.currentUser.orgId,key,{value:record.id});
+        if (record.key === ResourceKeys.ENTRY_MUSIC
+            || record.key === ResourceKeys.ENTRY_AD
+            || record.key === ResourceKeys.ENTRY_HINT
+            || record.key === ResourceKeys.EXIT_MUSIC
+            || record.key === ResourceKeys.EXIT_AD
+            || record.key === ResourceKeys.EXIT_HIST
+            || record.key === ResourceKeys.ANGLE_MUSIC) {
+            this.setState({ settingFormVisible: true, resource: record })
+        }
+    }
+    closeSetting = () => {
+        this.setState({ settingFormVisible: false, resource: null })
+    }
+    updateSetting = () => {
+
+        const form = this.settingForm;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+
+            console.log('Received values of form: ', values);
+            // this.setState({ submit: true })
+            // this.props.createOrg(values);
+        });
     }
     displayName = (text) => {
 
@@ -100,10 +160,12 @@ class Resources extends Component {
         this.props.fetchVoices(orgId);
         if (orgId) {
             this.getSetting(orgId);
-        } else {
-            this.getSetting(this.state.currentUser.orgId);
         }
     }
+    saveFormRef = (form) => {
+        this.settingForm = form;
+    };
+
     render() {
         const { voices, fetching, orgs } = this.props;
         const options = orgs.map(d => <Option key={d.id}>{d.name}</Option>);
@@ -126,7 +188,13 @@ class Resources extends Component {
                     }
                     <Tabs>
                         <TabPane tab="语音" key="voices">
-                            <Table rowKey={'id'} columns={this.voiceColumns} dataSource={voices} />
+                            <Table rowKey='id' columns={this.voiceColumns} dataSource={voices} />
+                            <SettingForm
+                                ref={this.saveFormRef}
+                                visible={this.state.settingFormVisible}
+                                resource={this.state.resource}
+                                onOk={this.updateSetting}
+                                onCancel={this.closeSetting} />
                         </TabPane>
                         <TabPane tab="广告" key="ads">
                             ads
@@ -156,9 +224,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateOrgSetting: (orgId, key, value) => {
             dispatch(updateSetting(orgId, key, value))
-        },
-        fetchOrgs: () => {
-            dispatch(fetchOrgs())
         }
     }
 }

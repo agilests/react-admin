@@ -8,7 +8,7 @@ import EchartsViews from './EchartsViews';
 import EchartsProjects from './EchartsProjects';
 import b1 from '../../style/imgs/b1.jpg';
 import { connect } from '../../connect'
-import { fetchOrgs } from '../../redux/org/orgActions'
+import { fetchOrgs, fetchSetting } from '../../redux/org/orgActions'
 
 class Dashboard extends React.Component {
     constructor(props){
@@ -16,8 +16,9 @@ class Dashboard extends React.Component {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'))
         if(currentUser && currentUser.role === 'ROLE_ADMIN'){
             this.props.fetchOrgs()
+        }else{
+            this.props.fetchSetting(currentUser.orgId);
         }
-
     }
     render() {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -192,7 +193,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchOrgs: () => {
             dispatch(fetchOrgs())
-        }
+        },
+        fetchSetting: (orgId) => {
+            dispatch(fetchSetting(orgId))
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

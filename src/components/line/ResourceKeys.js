@@ -13,6 +13,6 @@ export default {
     ENTRY_CUSTOM2: 'EC2',
     EXIT_CUSTOM1: 'TC1',
     EXIT_CUSTOM2: 'TC2',
-    ANGLE_AD: 'AA',
+    ANGLE_MUSIC: 'AM',
     ANGLE_HINT: 'AH'
 }

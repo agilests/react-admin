@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import orgActionKeys from './orgActionKeys';
 const initialState = Immutable.Map({
     orgs: [],
-    setting: null,
+    setting: localStorage.getItem('setting') && JSON.parse(localStorage.getItem('setting')),
     addedOrg: null,
     accounts: [],
     addedAccount: null,
@@ -56,6 +56,7 @@ export default function orgReducer(state = initialState, action) {
         case orgActionKeys.deleteAccountSuccess:
             return state.set('errorMsg', '').set('fetching', false).get('accounts').find(o => { if (o.id === action.accId) return null; return o; });
         case orgActionKeys.fetchOrgSettingSuccess:
+            localStorage.setItem('setting', JSON.stringify(action.setting));
         case orgActionKeys.updateOrgSettingSuccess:
             return state.set('errorMsg', '').set('fetching', false).set('setting',action.setting)
         default:

@@ -115,7 +115,7 @@ class Station extends Component {
         if (field.indexOf('.') != -1) {
             let sp = field.split('.');
             let o = editStation[sp[0]] || [];
-            let index = o.findIndex(l => l.id === value.id || l.key === key);
+            let index = o.findIndex(l => l.id === value.id);
             o.splice(index, index === -1 ? 0 : 1, value);
             editStation[sp[0]] = o;
             this.props.updateStationKey(editStation.id, field, value.id)
@@ -132,7 +132,7 @@ class Station extends Component {
         this.setState({ editStation: null, stationFormVisible: false })
     }
     render() {
-        const { fetching, stations, resources } = this.props;
+        const { fetching, stations, resources, setting } = this.props;
         const upStations = stations && stations.upStations && this.buildSteps(stations.upStations, 'upIndex');
         const downStations = stations && stations.downStations && this.buildSteps(stations.downStations, 'downIndex');
         return (
@@ -196,7 +196,8 @@ class Station extends Component {
                     visible={this.state.stationFormVisible}
                     change={this.change}
                     station={this.state.editStation}
-                    resources={resources} />
+                    resources={resources}
+                    setting={setting} />
                 <AddForm
                     ref={this.saveAddStationFormRef}
                     visible={this.state.addStationForm}
@@ -214,7 +215,8 @@ const mapStateToProps = (state, props) => {
         stations: state.getIn(['lineReducer', 'stations']),
         addedStation: state.getIn(['lineReducer', 'addedStation']),
         currentStation: state.getIn(['lineReducer', 'currentStation']),
-        resources: state.getIn(['resourceReducer', 'voices'])
+        resources: state.getIn(['resourceReducer', 'voices']),
+        setting: state.getIn(['orgReducer', 'setting'])
     }
 }
 

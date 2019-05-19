@@ -22,7 +22,7 @@ export function* fetchVoices(action) {
 
 export function* upload(action) {
     const result = yield call((action) => {
-        return ResourceApi.upload(action.formData, action.key);
+        return ResourceApi.upload(action.formData);
     }, action);
     if (result && result.code === 0) {
         yield put({
