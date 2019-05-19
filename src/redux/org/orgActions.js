@@ -35,7 +35,7 @@ export const fetchAccounts = (orgId) => {
     }
 };
 
-export const createAccount = (orgId,account) => {
+export const createAccount = (orgId, account) => {
     return {
         type: orgActionKeys.createAccount,
         orgId: orgId,
@@ -56,3 +56,17 @@ export const deleteAccount = (accId) => {
         accId: accId
     }
 };
+export const fetchSetting = (orgId) => {
+    return {
+        type: orgActionKeys.fetchOrgSetting,
+        orgId: orgId
+    }
+}
+export const updateSetting = (orgId, key, value) => {
+    return {
+        type: orgActionKeys.updateOrgSetting,
+        orgId: orgId,
+        key: key,
+        value: value
+    }
+}

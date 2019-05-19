@@ -23,6 +23,13 @@ export default{
     updateAccountFailed: 'UPDATE_ACCOUNTS_FAILED',
     deleteAccount: 'DELETE_ACCOUNTS',
     deleteAccountSuccess: 'DELETE_ACCOUNTS_SUCCESS',
-    deleteAccountFailed: 'DELETE_ACCOUNTS_FAILED'
+    deleteAccountFailed: 'DELETE_ACCOUNTS_FAILED',
+
+    fetchOrgSetting:'FETCH_ORG_SETTING',
+    fetchOrgSettingSuccess:'FETCH_ORG_SETTING_SUCCESS',
+    fetchOrgSettingFailed:'FETCH_ORG_SETTING_FAILED',
+    updateOrgSetting:'UPDATE_ORG_SETTING',
+    updateOrgSettingSuccess:'UPDATE_ORG_SETTING_SUCCESS',
+    updateOrgSettingFailed:'UPDATE_ORG_SETTING_FAILED',
     
 }

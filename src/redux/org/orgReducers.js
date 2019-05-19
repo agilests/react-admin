@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import orgActionKeys from './orgActionKeys';
 const initialState = Immutable.Map({
     orgs: [],
+    setting: null,
     addedOrg: null,
     accounts: [],
     addedAccount: null,
@@ -11,6 +12,7 @@ const initialState = Immutable.Map({
 export default function orgReducer(state = initialState, action) {
     switch (action.type) {
         case orgActionKeys.fetchOrgs:
+        case orgActionKeys.fetchOrgSetting:
         case orgActionKeys.fetchAccounts:
         case orgActionKeys.createOrg:
         case orgActionKeys.createAccount:
@@ -18,15 +20,18 @@ export default function orgReducer(state = initialState, action) {
         case orgActionKeys.updateAccount:
         case orgActionKeys.deleteOrg:
         case orgActionKeys.deleteAccount:
+        case orgActionKeys.updateOrgSetting:
             return state.set('fetching', true).set('errorMsg', '');
         case orgActionKeys.createOrgFailed:
         case orgActionKeys.updateOrgFailed:
+        case orgActionKeys.updateOrgSettingFailed:
         case orgActionKeys.deleteOrgFailed:
         case orgActionKeys.createAccountFailed:
         case orgActionKeys.updateAccountFailed:
         case orgActionKeys.deleteAccountFailed:
         case orgActionKeys.FetchAccountsFailed:
         case orgActionKeys.FetchOrgsFailed:
+        case orgActionKeys.FetchOrgSettingFailed:
             return state.set('errorMsg', action.errorMsg).set('fetching', false);
         case orgActionKeys.fetchOrgsSuccess:
             return state.set('orgs', action.orgs).set('errorMsg', '').set('fetching', false);
@@ -50,6 +55,9 @@ export default function orgReducer(state = initialState, action) {
             return state.set('errorMsg', '').set('fetching', false).get('accounts').find(o => { if (o.id === action.account.id) return action.account; return o; })
         case orgActionKeys.deleteAccountSuccess:
             return state.set('errorMsg', '').set('fetching', false).get('accounts').find(o => { if (o.id === action.accId) return null; return o; });
+        case orgActionKeys.fetchOrgSettingSuccess:
+        case orgActionKeys.updateOrgSettingSuccess:
+            return state.set('errorMsg', '').set('fetching', false).set('setting',action.setting)
         default:
             return state;
     }

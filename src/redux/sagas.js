@@ -18,6 +18,8 @@ function* rootSaga() {
     takeEvery(userActionKeys.logout, userSagas.logout),
     //组织相关
     takeEvery(orgActionKeys.fetchOrgs, orgSagas.fetchOrgs),
+    takeEvery(orgActionKeys.fetchOrgSetting, orgSagas.fetchOrgSetting),
+    takeEvery(orgActionKeys.updateOrgSetting, orgSagas.updateSetting),
     takeEvery(orgActionKeys.fetchAccounts, orgSagas.fetchAccounts),
     takeEvery(orgActionKeys.createOrg, orgSagas.createOrg),
     takeEvery(orgActionKeys.updateOrg, orgSagas.updateOrg),
