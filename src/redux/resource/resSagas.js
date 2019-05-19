@@ -4,15 +4,19 @@ import ResourceApi from '../apis/ResourceApis';
 import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchVoices(action) {
-    const result = yield call(() => {
-        return ResourceApi.fetchVoices();
-    })
+    const result = yield call((orgId) => {
+        return ResourceApi.fetchVoices(orgId);
+    }, action.orgId)
     if (result && result.code === 0) {
         yield put({
             type: resActionKeys.fetchVoicesSuccess,
             voices: result.result
         });
-        return;
+    } else {
+        yield put({
+            type: resActionKeys.fetchVoicesFailed,
+            errorMsg: formatAlertMessage(result.result)
+        })
     }
 }
 

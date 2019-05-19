@@ -1,8 +1,10 @@
 export default {
+    ENTRY_MUSIC: 'EM',
     ENTRY_AD: 'EA',
     CURRENT: 'C',
     ENTRY_HINT: 'EH',
     ENTRY_JUNCTION: 'EJ',
+    EXIT_MUSIC: 'TM',
     EXIT_AD: 'TA',
     NEXT: 'N',
     EXIT_HINT: 'TH',

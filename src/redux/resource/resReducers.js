@@ -11,6 +11,9 @@ export default function resReducer(state = initialState, action) {
         case resActionKeys.fetchVoices:
         case resActionKeys.upload:
             return state.set('errorMsg', '').set('fetching', true).set('added', null);
+        case resActionKeys.uploadFailed:
+        case resActionKeys.fetchVoicesFailed:
+            return state.set('errorMsg', action.errorMsg).set('fetching', false)
         case resActionKeys.fetchVoicesSuccess:
             return state.set('errorMsg', '').set('fetching', false).set('voices', action.voices);
         case resActionKeys.uploadSuccess:
@@ -20,9 +23,6 @@ export default function resReducer(state = initialState, action) {
                 return state.set('errorMsg', '').set('fetching', false).set('added', action.resource).set('voices', voices)
             }
             return state.set('errorMsg', '').set('fetching', false).set('added', action.resource)
-        case resActionKeys.uploadFailed:
-        case resActionKeys.fetchVoicesFailed:
-            return state.set('errorMsg', action.errorMsg).set('fetching', false)
         default:
             return state
     }

@@ -1,8 +1,9 @@
 import resActionKeys from './resActionKeys';
 
-export const fetchVoices = () => {
+export const fetchVoices = (orgId) => {
     return {
-        type: resActionKeys.fetchVoices
+        type: resActionKeys.fetchVoices,
+        orgId: orgId
     }
 };
 

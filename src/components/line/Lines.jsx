@@ -105,7 +105,7 @@ class Lines extends Component {
             ),
         }];
         if (this.state.currentUser.role !== 'ROLE_ADMIN') {
-            this.onChange(this.state.currentUser.orgId);
+            this.onChange();
         } else {
             this.props.fetchOrgs();
         }

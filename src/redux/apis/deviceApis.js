@@ -3,10 +3,13 @@ import NetUtil from './net_utils';
 export default class DevicesApi {
 
     static getDevicesList() {
-        return NetUtil.get(`/api/devices`);
     }
     static getDevicesList(orgId) {
-        return NetUtil.get(`/api/devices?orgId=${orgId}`);
+        if (orgId) {
+            return NetUtil.get(`/api/devices?orgId=${orgId}`);
+        } else {
+            return NetUtil.get(`/api/devices`);
+        }
     }
     static createDevice(device) {
         return NetUtil.post('/api/devices', device);

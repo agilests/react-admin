@@ -1,7 +1,12 @@
 import NetUtil from './net_utils';
 export default class LineApi {
     static getLineList(orgId) {
-        return NetUtil.get(`/api/lines?orgId=${orgId}`);
+        if (orgId) {
+            return NetUtil.get(`/api/lines?orgId=${orgId}`);
+        }else{
+            return NetUtil.get(`/api/lines`);
+        }
+
     }
     static createLine(line) {
         return NetUtil.post('/api/lines', line);
