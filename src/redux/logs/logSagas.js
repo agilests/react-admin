@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import logActionKeys from './logActionKeys'
 import LogApi from '../apis/logApis'
+import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchLogs(action) {
     const result = yield call((page, orgId) => {
@@ -16,7 +17,10 @@ export function* fetchLogs(action) {
             logs: result.result
         })
     }else{
-        //todo
+        yield put({
+            type: logActionKeys.fetchLogsFailed,
+            errorMsg: formatAlertMessage(result.result)
+        })
     }
 }
 export default{fetchLogs}

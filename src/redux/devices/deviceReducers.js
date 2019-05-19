@@ -16,6 +16,7 @@ export default function deviceReducer(state = initialState, action) {
         case deviceActionKeys.createDeviceFailed:
         case deviceActionKeys.updateDeviceFailed:
         case deviceActionKeys.deleteDeviceFailed:
+        case deviceActionKeys.fetchDevicesFailed:
             return state.set('errorMsg', action.errorMsg).set('fetching', false);
         case deviceActionKeys.fetchDevicesSuccess:
             return state.set('fetching', false).set('errorMsg', '').set('devices', action.devices);

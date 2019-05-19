@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import orgActionKeys from './orgActionKeys';
 import OrgApi from '../apis/orgApis';
+import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchOrgs(action) {
     const result = yield call(() => {
@@ -12,6 +13,12 @@ export function* fetchOrgs(action) {
             orgs: result.result
         });
         return;
+    }else{
+        yield put({
+            type: orgActionKeys.fetchOrgsFailed,
+            errorMsg: formatAlertMessage(result.result)
+        });
+
     }
 }
 export function* fetchAccounts(action) {
@@ -23,6 +30,12 @@ export function* fetchAccounts(action) {
             type: orgActionKeys.fetchAccountsSuccess,
             accounts: result.result
         })
+    }else{
+        yield put({
+            type: orgActionKeys.fetchAccountsFailed,
+            errorMsg: formatAlertMessage(result.result)
+        });
+
     }
 }
 export function* createOrg(action) {
@@ -38,7 +51,7 @@ export function* createOrg(action) {
     } else {
         yield put({
             type: orgActionKeys.createOrgFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -56,7 +69,7 @@ export function* updateOrg(action) {
     } else {
         yield put({
             type: orgActionKeys.updateOrgFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -74,7 +87,7 @@ export function* deleteOrg(action) {
     } else {
         yield put({
             type: orgActionKeys.deleteOrgFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -93,7 +106,7 @@ export function* createAccount(action) {
     } else {
         yield put({
             type: orgActionKeys.createAccountFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -111,7 +124,7 @@ export function* updateAccount(action) {
     } else {
         yield put({
             type: orgActionKeys.updateAccountFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -129,7 +142,7 @@ export function* deleteAccount(action) {
     } else {
         yield put({
             type: orgActionKeys.deleteAccountFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }

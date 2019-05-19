@@ -25,6 +25,8 @@ export default function orgReducer(state = initialState, action) {
         case orgActionKeys.createAccountFailed:
         case orgActionKeys.updateAccountFailed:
         case orgActionKeys.deleteAccountFailed:
+        case orgActionKeys.FetchAccountsFailed:
+        case orgActionKeys.FetchOrgsFailed:
             return state.set('errorMsg', action.errorMsg).set('fetching', false);
         case orgActionKeys.fetchOrgsSuccess:
             return state.set('orgs', action.orgs).set('errorMsg', '').set('fetching', false);

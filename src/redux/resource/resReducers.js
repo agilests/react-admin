@@ -21,6 +21,7 @@ export default function resReducer(state = initialState, action) {
             }
             return state.set('errorMsg', '').set('fetching', false).set('added', action.resource)
         case resActionKeys.uploadFailed:
+        case resActionKeys.fetchVoicesFailed:
             return state.set('errorMsg', action.errorMsg).set('fetching', false)
         default:
             return state

@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import resActionKeys from './resActionKeys';
 import ResourceApi from '../apis/ResourceApis';
+import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchVoices(action) {
     const result = yield call(() => {
@@ -28,7 +29,7 @@ export function* upload(action) {
     } else {
         yield put({
             type: resActionKeys.uploadFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         })
     }
 

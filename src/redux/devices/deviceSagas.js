@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import deviceActionKeys from './deviceActionKeys';
 import DeviceApi from '../apis/deviceApis';
+import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchDevices(action) {
     const result = yield call((orgId) => {
@@ -12,6 +13,12 @@ export function* fetchDevices(action) {
             devices: result.result
         });
         return;
+    }else{
+        yield put({
+            type: deviceActionKeys.fetchDevicesFailed,
+            errorMsg: formatAlertMessage(result.result)
+        });
+
     }
 }
 export function* createDevice(action) {
@@ -23,13 +30,11 @@ export function* createDevice(action) {
             type: deviceActionKeys.createDeviceSuccess,
             device: result.result
         });
-        return;
     } else {
         yield put({
             type: deviceActionKeys.createDeviceFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
-        return;
     }
 }
 
@@ -43,13 +48,11 @@ export function* updateDevice(action) {
             type: deviceActionKeys.updateDeviceSuccess,
             device: result.result
         });
-        return;
     } else {
         yield put({
             type: deviceActionKeys.updateDeviceFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
-        return;
     }
 }
 export function* deleteDevice(action) {
@@ -61,13 +64,11 @@ export function* deleteDevice(action) {
             type: deviceActionKeys.deleteDeviceSuccess,
             id: result.result.id
         });
-        return;
     } else {
         yield put({
             type: deviceActionKeys.deleteDeviceFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
-        return;
     }
 }
 

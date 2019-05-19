@@ -1,8 +1,7 @@
 import React from 'react';
-import { Spin, Modal, Table, Form, Input, Button, Select, Icon } from 'antd';
+import { Spin, Table, Select } from 'antd';
 import { fetchLogs, } from '../../redux/logs/logAction';
 import { connect } from '../../connect'
-import { Link } from 'react-router-dom';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import TimeToDate from '../utils/Time2Date';
 const Option = Select.Option;

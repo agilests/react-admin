@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import lineActionKeys from './lineActionKeys';
 import LineApi from '../apis/lineApis';
+import { formatAlertMessage } from '../apis/tools';
 
 export function* fetchLines(action) {
     const result = yield call((orgId) => {
@@ -12,6 +13,11 @@ export function* fetchLines(action) {
             lines: result.result
         });
         return;
+    }else{
+        yield put({
+            type: lineActionKeys.fetchLinesFailed,
+            errorMsg: formatAlertMessage(result.result)
+        })
     }
 }
 
@@ -28,7 +34,7 @@ export function* createLine(action) {
     }
     yield put({
         type: lineActionKeys.createLineFailed,
-        errorMsg: result.result
+        errorMsg: formatAlertMessage(result.result)
     });
 }
 export function* updateLine(action) {
@@ -44,7 +50,7 @@ export function* updateLine(action) {
     }
     yield put({
         type: lineActionKeys.updateLineFailed,
-        errorMsg: result.result
+        errorMsg: formatAlertMessage(result.result)
     });
 }
 export function* deleteLine(action) {
@@ -62,7 +68,7 @@ export function* deleteLine(action) {
 
     yield put({
         type: lineActionKeys.deleteLineFailed,
-        errorMsg: result.result
+        errorMsg: formatAlertMessage(result.result)
     });
 }
 
@@ -75,6 +81,11 @@ export function* fetchStation(action) {
         yield put({
             type: lineActionKeys.fetchStationsSuccess,
             stations: result.result
+        })
+    }else{
+        yield put({
+            type: lineActionKeys.fetchStationsFailed,
+            errorMsg: formatAlertMessage(result.result)
         })
     }
 }
@@ -91,7 +102,7 @@ export function* addStation(action) {
     } else {
         yield put({
             type: lineActionKeys.addStationFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -108,7 +119,7 @@ export function* deleteStation(action) {
     } else {
         yield put({
             type: lineActionKeys.deleteStationFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         });
     }
 }
@@ -126,7 +137,7 @@ export function* updateStationKey(action) {
     } else {
         yield put({
             type: lineActionKeys.updateStationKeyFailed,
-            errorMsg: result.result
+            errorMsg: formatAlertMessage(result.result)
         })
     }
 }

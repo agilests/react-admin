@@ -1,6 +1,7 @@
 export default{
     fetchOrgs: 'FETCH_ORGS',
     fetchOrgsSuccess: 'FETCH_ORGS_SUCCESS',
+    fetchOrgsFailed: 'FETCH_ORGS_FAILED',
     createOrg: 'CREATE_ORG',
     createOrgSuccess: 'CREATE_ORG_SUCCESS',
     createOrgFailed: 'CREATE_ORG_FAILED',
@@ -13,6 +14,7 @@ export default{
 
     fetchAccounts: 'FETCH_ACCOUNTS',
     fetchAccountsSuccess: 'FETCH_ACCOUNTS_SUCCESS',
+    fetchAccountsFailed: 'FETCH_ACCOUNTS_FAILED',
     createAccount: 'CREATE_ACCOUNT',
     createAccountSuccess: 'CREATE_ACCOUNTS_SUCCESS',
     createAccountFailed: 'CREATE_ACCOUNTS_FAILED',

@@ -10,6 +10,9 @@ export default function resReducer(state = initialState, action) {
         return state.set('errorMsg', '').set('fetching', true);
     } else if (action.type === logActionKeys.fetchLogsSuccess) {
         return state.set('errorMsg', '').set('fetching', false).set('logs', action.logs);
+    } else if(action.type===logActionKeys.fetchLogsFailed){
+        return state.set('errorMsg', action.errorMsg).set('fetching', false);
+
     }
     return state;
 }
