@@ -21,16 +21,11 @@ class StationForm extends Component {
         })
     }
     getValue = (k, rk) => {
-        const { station, setting } = this.props;
+        const { station } = this.props;
         if (station && station[k]) {
             return station[k];
         }
-        // if (setting) {
-        //     for (let k in setting) {
-        //         if (setting[k] && rk === setting[k].key)
-        //             return setting[k];
-        //     }
-        // }
+        
         return null;
     }
     render() {
@@ -119,7 +114,7 @@ class StationForm extends Component {
                                     <Col span={8}>
                                         <FormItem label="站前广告" {...inputStyle}>
                                             {getFieldDecorator('entry.ad', {
-                                                initialValue: this.getValue('entryAd', resourceKey.ENTRY_AD)
+                                                initialValue: this.getValue('entryMusic', 'defaultEntryMusic')
                                             })(
                                                 <Resource mark={resourceKey.ENTRY_AD}
                                                     done={(v) => change('entry.ad', resourceKey.ENTRY_AD, v)}
