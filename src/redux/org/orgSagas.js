@@ -44,9 +44,9 @@ export function* fetchOrgSetting(action) {
 }
 
 export function* updateSetting(action) {
-    const result = yield call((orgId, key, value) => {
-        return OrgApi.updateSetting(orgId, key, value)
-    }, action.orgId, action.key, action.value);
+    const result = yield call((orgId, value) => {
+        return OrgApi.updateSetting(orgId, value)
+    }, action.orgId, action.value);
 
     if (result && formatResultsErrors.code === 0) {
         yield put({

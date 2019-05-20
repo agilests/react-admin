@@ -29,7 +29,7 @@ export default class OrgApi {
     static getSetting(orgId) {
         return NetUtil.get(`/api/orgs/${orgId}/setting`)
     }
-    static updateSetting(orgId, key, value) {
-        return NetUtil.put(`/api/orgs/${orgId}/setting?key=${key}`, value)
+    static updateSetting(orgId, value) {
+        return NetUtil.put(`/api/orgs/${orgId}/setting`, value)
     }
 }

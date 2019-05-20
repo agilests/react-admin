@@ -62,11 +62,10 @@ export const fetchSetting = (orgId) => {
         orgId: orgId
     }
 }
-export const updateSetting = (orgId, key, value) => {
+export const updateSetting = (orgId, value) => {
     return {
         type: orgActionKeys.updateOrgSetting,
         orgId: orgId,
-        key: key,
         value: value
     }
 }

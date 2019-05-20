@@ -3,11 +3,12 @@ import { fetchVoices } from '../../redux/resource/resActions';
 import { fetchSetting, updateSetting } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import { Tabs, Spin, Modal, Table, Form, Input, Button, Select, Popover, Switch } from "antd";
-import ResourceKeys from '../line/ResourceKeys'
+import { Tabs, Spin, Modal, Table, Form, Input, Button, Select, Popover, Switch, Row, Col } from "antd";
+import { success, error } from '../widget/Message';
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const FormItem = Form.Item;
+
 const SettingForm = Form.create()(
     (props) => {
         const { visible, resource, onOk, onCancel, form } = props;
@@ -22,22 +23,55 @@ const SettingForm = Form.create()(
             >
                 {
                     resource &&
-                    <Form layout="vertical">
-                        <FormItem label="默认进站音乐">
-                            {getFieldDecorator('defaultEntryMusic')(
-                                <Switch defaultChecked={resource.defaultEntryMusic != null} />
-                            )}
-                        </FormItem>
-                        <FormItem label="默认出站音乐">
-                            {getFieldDecorator('defaultExitMusic')(
-                                <Switch defaultChecked={resource.defaultExitMusic != null} />
-                            )}
-                        </FormItem>
-                        <FormItem label="默认转弯音乐">
-                            {getFieldDecorator('defaultSwerveMusic')(
-                                <Switch defaultChecked={resource.defaultSwerveMusic != null} />
-                            )}
-                        </FormItem>
+                    <Form layout='horizontal'>
+                        <Row>
+                            <Col span={8}>
+                                <FormItem label="默认进站音乐">
+                                    {getFieldDecorator('defaultEntryMusic')(
+                                        <Switch defaultChecked={resource.defaultEntryMusic} />
+                                    )}
+                                </FormItem>
+                                <FormItem label="默认进站广告">
+                                    {getFieldDecorator('defaultEntryAd')(
+                                        <Switch defaultChecked={resource.defaultEntryAd} />
+                                    )}
+                                </FormItem>
+                                <FormItem label="默认进站提醒">
+                                    {getFieldDecorator('defaultEntryHint')(
+                                        <Switch defaultChecked={resource.defaultEntryHint} />
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={8}>
+                                <FormItem label="默认出站音乐">
+                                    {getFieldDecorator('defaultExitMusic')(
+                                        <Switch defaultChecked={resource.defaultExitMusic} />
+                                    )}
+                                </FormItem>
+                                <FormItem label="默认出站广告">
+                                    {getFieldDecorator('defaultExitAd')(
+                                        <Switch defaultChecked={resource.defaultExitAd} />
+                                    )}
+                                </FormItem>
+                                <FormItem label="默认出站提醒">
+                                    {getFieldDecorator('defaultExitHint')(
+                                        <Switch defaultChecked={resource.defaultExitHint} />
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={8}>
+                                <FormItem label="默认转弯音乐">
+                                    {getFieldDecorator('defaultSwerveMusic')(
+                                        <Switch defaultChecked={resource.defaultSwerveMusic} />
+                                    )}
+                                </FormItem>
+                                <FormItem label="默认转弯提醒">
+                                    {getFieldDecorator('defaultSwerveHint')(
+                                        <Switch defaultChecked={resource.defaultSwerveHint} />
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
                     </Form>
                 }
             </Modal>
@@ -62,37 +96,22 @@ class Resources extends Component {
                 render: text => <span>{text}</span>,
             },
             {
-                title: '类型',
-                dataIndex: 'key',
-                key: 'key',
-                render: text => this.displayName(text),
+                title: '资源文件',
+                dataIndex: 'files',
+                key: 'files',
+                render: text => <span>{text}</span>
             },
             {
-                title: '是否默认',
-                dataIndex: 'isDefault',
-                key: 'isDefault',
-                render: (text, record) => {
-                    if (this.isDefault(record)) {
-                        return '是'
-                    }
-                    return '否';
-                }
-            },
-            {
-                title: 'action',
+                title: '操作',
                 dataIndex: 'action',
                 key: 'action',
-                render: (text, record) => {
-                    if (!this.isDefault(record)) {
-                        return (
-                            this.state.currentUser.role !== 'ROLE_ADMIN' &&
-                            <Button onClick={() => { this.openSetting(record) }}>
-                                设为默认
+                render: (text, record) => (
+                    this.state.currentUser.role !== 'ROLE_ADMIN' &&
+                    <Button onClick={() => { this.openSetting(record) }}>
+                        设为默认
                             </Button>
-                        )
-                    }
-                    return ''
-                }
+                )
+
             }
 
         ]
@@ -100,15 +119,34 @@ class Resources extends Component {
     openSetting = (record) => {
         // const key = this.resolveKey(record.key);
         // this.props.updateOrgSetting(this.state.currentUser.orgId,key,{value:record.id});
-        if (record.key === ResourceKeys.ENTRY_MUSIC
-            || record.key === ResourceKeys.ENTRY_AD
-            || record.key === ResourceKeys.ENTRY_HINT
-            || record.key === ResourceKeys.EXIT_MUSIC
-            || record.key === ResourceKeys.EXIT_AD
-            || record.key === ResourceKeys.EXIT_HIST
-            || record.key === ResourceKeys.ANGLE_MUSIC) {
-            this.setState({ settingFormVisible: true, resource: record })
+        let res = { id: record.id };
+        if (this.props.setting) {
+            if (this.props.setting.defaultEntryMusic && this.props.setting.defaultEntryMusic.id === record.id) {
+                res.defaultEntryMusic = true;
+            }
+            if (this.props.setting.defaultEntryAd && this.props.setting.defaultEntryAd.id === record.id) {
+                res.defaultEntryAd = true;
+            }
+            if (this.props.setting.defaultEntryHint && this.props.setting.defaultEntryHint.id === record.id) {
+                res.defaultEntryHint = true;
+            }
+            if (this.props.setting.defaultExitMusic && this.props.setting.defaultExitMusic.id === record.id) {
+                res.defaultExitMusic = true;
+            }
+            if (this.props.setting.defaultExitAd && this.props.setting.defaultExitAd.id === record.id) {
+                res.defaultExitAd = true;
+            }
+            if (this.props.setting.defaultExitHint && this.props.setting.defaultExitHint.id === record.id) {
+                res.defaultExitHint = true;
+            }
+            if (this.props.setting.defaultSwerveMusic && this.props.setting.defaultSwerveMusic.id === record.id) {
+                res.defaultSwerveMusic = true;
+            }
+            if (this.props.setting.defaultSwerveHint && this.props.setting.defaultSwerveHint.id === record.id) {
+                res.defaultSwerveHint = true;
+            }
         }
+        this.setState({ settingFormVisible: true, resource: res })
     }
     closeSetting = () => {
         this.setState({ settingFormVisible: false, resource: null })
@@ -121,28 +159,33 @@ class Resources extends Component {
                 return;
             }
 
-            console.log('Received values of form: ', values);
-            // this.setState({ submit: true })
-            // this.props.createOrg(values);
+            let submit = {};
+            for (let k in values) {
+                if (values[k]) {
+                    submit[k] = this.state.resource.id;
+                }
+            }
+            console.log('Received values of form: ', submit);
+            this.setState({ submit: true })
+            this.props.updateOrgSetting(this.state.currentUser.orgId, submit);
         });
     }
-    displayName = (text) => {
 
-        switch (text) {
-            case ResourceKeys.ENTRY_AD:
-                return '进站广告'
-            default:
-                return '自定义'
-        }
-    }
-    resolveKey = (key) => {
 
-        switch (key) {
-            case ResourceKeys.ENTRY_AD:
-                return 'defaultEntryAd'
-            default:
-                return ''
+    static getDerivedStateFromProps(nextProps, nextState) {
+        const { errorMsg } = nextProps;
+        const { submit } = nextState;
+        if (submit) {
+            if (errorMsg) {
+                debugger;
+                error(errorMsg);
+                return { submit: false };
+            } else {
+                success('设置成功!')
+                return { settingFormVisible: false, submit: false };
+            }
         }
+        return null;
     }
     isDefault = (record) => {
         if (!this.props.setting)
@@ -222,8 +265,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchOrgSetting: (orgId) => {
             dispatch(fetchSetting(orgId))
         },
-        updateOrgSetting: (orgId, key, value) => {
-            dispatch(updateSetting(orgId, key, value))
+        updateOrgSetting: (orgId, value) => {
+            dispatch(updateSetting(orgId, value))
         }
     }
 }
