@@ -59,11 +59,11 @@ export default class Resource extends Component {
         const resources = stateResources || propResources || [];
         const value = stateValue || propValue || null;
         return resources && resources.length > 0
-            ? (<Select value={value && value.id} onChange={this.onChange}>
+            ? (<Select style={{...this.props.style,width:'100%'}} value={value && value.id} onChange={this.onChange}>
                 {this.buildOptions()}
             </Select>)
             : (
-                <Button block onClick={this.buildUploadForm} >
+                <Button style={{...this.props.style}} block onClick={this.buildUploadForm} >
                     <Icon type="upload" />
                     上传
                 </Button>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty, Col } from 'antd';
+import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty, Tabs } from 'antd';
 import { fetchStations, addStation, updateStationKey, deleteStation } from '../../redux/lines/lineActions';
 import { fetchVoices } from '../../redux/resource/resActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import StationForm from './StationForm';
+import { BaseForm, CoordinateForm, SwerveForm, EntryForm, ExitForm } from './StationForm';
 import { success, error } from '../widget/Message';
 
+const TabPane = Tabs.TabPane;
 const Step = Steps.Step;
 const FormItem = Form.Item;
 
@@ -82,9 +83,6 @@ class Station extends Component {
             return { addStationForm: false, submit: false };
         }
         return null;
-    }
-    saveFormRef = (form) => {
-        this.form = form;
     }
     saveAddStationFormRef = (form) => {
         this.addStationForm = form;
@@ -174,7 +172,7 @@ class Station extends Component {
                             </Empty>
                     }
                 </Row>
-                {
+                {/* {
                     this.state.editStation ?
                         (
                             <Row gutter={24} type="flex" justify="start">
@@ -191,13 +189,48 @@ class Station extends Component {
                                 </Col>
                             </Row>)
                         : ''
-                }
-                <StationForm ref={this.saveFormRef}
-                    visible={this.state.stationFormVisible}
-                    change={this.change}
-                    station={this.state.editStation}
-                    resources={resources}
-                    setting={setting} />
+                } */}
+                <Tabs>
+                    <TabPane tab="基础信息" key="Base">
+                        <BaseForm
+                            visible={this.state.stationFormVisible}
+                            change={this.change}
+                            station={this.state.editStation}
+                            resources={resources}
+                            setting={setting} />
+                    </TabPane><TabPane tab="坐标" key="Coordinate">
+                        <CoordinateForm
+                            visible={this.state.stationFormVisible}
+                            change={this.change}
+                            station={this.state.editStation}
+                            resources={resources}
+                            setting={setting} />
+                    </TabPane>
+                    <TabPane tab="转弯信息" key="Swerve">
+                        <SwerveForm
+                            visible={this.state.stationFormVisible}
+                            change={this.change}
+                            station={this.state.editStation}
+                            resources={resources}
+                            setting={setting} />
+                    </TabPane>
+                    <TabPane tab="进站信息" key="Entry">
+                        <EntryForm
+                            visible={this.state.stationFormVisible}
+                            change={this.change}
+                            station={this.state.editStation}
+                            resources={resources}
+                            setting={setting} />
+                    </TabPane>
+                    <TabPane tab="出站信息" key="Exit">
+                        <ExitForm
+                            visible={this.state.stationFormVisible}
+                            change={this.change}
+                            station={this.state.editStation}
+                            resources={resources}
+                            setting={setting} />
+                    </TabPane>
+                </Tabs>
                 <AddForm
                     ref={this.saveAddStationFormRef}
                     visible={this.state.addStationForm}
