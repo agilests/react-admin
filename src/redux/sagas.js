@@ -1,4 +1,4 @@
-import { all, takeEvery } from 'redux-saga/effects'
+import { all, takeEvery, take } from 'redux-saga/effects'
 import userActionKeys from './user/userActionKeys';
 import userSagas from './user/userSagas';
 import orgActionKeys from './org/orgActionKeys';
@@ -11,6 +11,9 @@ import resActionKeys from './resource/resActionKeys';
 import resSagas from './resource/resSagas';
 import logActionKeys from './logs/logActionKeys';
 import logSagas from './logs/logSagas';
+import vehicleActionKeys from './vehicle/vehicleActionKeys';
+import vehicleSagas from './vehicle/vehicleSagas';
+
 function* rootSaga() {
   yield all([
     //用户相关
@@ -47,7 +50,11 @@ function* rootSaga() {
     takeEvery(resActionKeys.upload, resSagas.upload),
 
     //日志相关
-    takeEvery(logActionKeys.fetchLogs, logSagas.fetchLogs)
+    takeEvery(logActionKeys.fetchLogs, logSagas.fetchLogs),
+
+    //车辆相关
+    takeEvery(vehicleActionKeys.fetchVehicle, vehicleSagas.fetchVehicles),
+    takeEvery(vehicleActionKeys.createVehicle, vehicleSagas.createVehicle),
   ]);
 
 }

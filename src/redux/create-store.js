@@ -8,6 +8,7 @@ import deviceReducer from './devices/deviceReducers';
 import lineReducer from './lines/lineReducers';
 import resourceReducer from './resource/resReducers';
 import logReducer from './logs/logReducers';
+import vehicleReducer from './vehicle/vehicleReducers';
 import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   deviceReducer,
   lineReducer,
   resourceReducer,
-  logReducer
+  logReducer,
+  vehicleReducer
 });
 const finalCreateStore = applyMiddleware(sagaMiddleware)(createStore);
 const initialState = Immutable.Map();

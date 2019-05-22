@@ -3,7 +3,9 @@ export default {
         { key: '/app/dashboard/index', title: '首页', icon: 'home', component: 'Dashboard' },
         {
             key: '/app/ui', title: '车辆', icon: 'car',
-            subs: []
+            subs: [
+                { key: '/app/vehicles', title: '车辆', component: 'Vehicles' }
+            ]
             // subs: [
             //     { key: '/app/ui/buttons', title: '按钮', component: 'Buttons'},
             //     { key: '/app/ui/icons', title: '图标', component: 'Icons'},
@@ -38,7 +40,7 @@ export default {
         {
             key: '/app/resources', title: '资源', icon: 'resource',
             subs: [
-                { key: '/app/resources', title: '资源', component: 'Resources'},
+                { key: '/app/resources', title: '资源', component: 'Resources' },
             ],
         },
         {
