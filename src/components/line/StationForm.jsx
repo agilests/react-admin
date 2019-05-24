@@ -122,7 +122,7 @@ export class Swerve extends Component {
                                 <Resource
                                     mark={resourceKey.ANGLE_HINT}
                                     done={(v) => change('swerve.hint', resourceKey.ANGLE_HINT, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.ANGLE_HINT)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
@@ -165,7 +165,7 @@ export class Entry extends Component {
                             })(
                                 <Resource mark={resourceKey.ENTRY_JUNCTION}
                                     done={(v) => change('entry.junction', resourceKey.ENTRY_JUNCTION, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_JUNCTION)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
@@ -176,7 +176,7 @@ export class Entry extends Component {
                             })(
                                 <Resource mark={resourceKey.CURRENT}
                                     done={(v) => change('entry.current', resourceKey.CURRENT, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.CURRENT)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                         <FormItem label="自定义1" {...inputStyle}>
@@ -185,7 +185,7 @@ export class Entry extends Component {
                             })(
                                 <Resource mark={resourceKey.ENTRY_CUSTOM1}
                                     done={(v) => change('entry.custom1', resourceKey.ENTRY_CUSTOM1, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_CUSTOM1)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
@@ -196,7 +196,7 @@ export class Entry extends Component {
                             })(
                                 <Resource mark={resourceKey.ENTRY_HINT}
                                     done={(v) => change('entry.hint', resourceKey.ENTRY_HINT, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_HINT)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                         <FormItem label="自定义2" {...inputStyle}>
@@ -205,7 +205,7 @@ export class Entry extends Component {
                             })(
                                 <Resource mark={resourceKey.ENTRY_CUSTOM2}
                                     done={(v) => change('entry.custom2', resourceKey.ENTRY_CUSTOM2, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.ENTRY_CUSTOM2)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
@@ -240,7 +240,7 @@ export class Exit extends Component {
                             })(
                                 <Resource mark={resourceKey.EXIT_AD}
                                     done={(v) => change('exit.ad', resourceKey.EXIT_AD, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_AD)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                         <FormItem label="转车提醒" {...inputStyle}>
@@ -249,7 +249,7 @@ export class Exit extends Component {
                             })(
                                 <Resource mark={resourceKey.EXIT_JUNCTION}
                                     done={(v) => change('exit.junction', resourceKey.EXIT_JUNCTION, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_JUNCTION)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
@@ -260,7 +260,7 @@ export class Exit extends Component {
                             })(
                                 <Resource mark={resourceKey.NEXT}
                                     done={(v) => change('exit.next', resourceKey.NEXT, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.NEXT)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                         <FormItem label="自定义1" {...inputStyle}>
@@ -269,7 +269,7 @@ export class Exit extends Component {
                             })(
                                 <Resource mark={resourceKey.EXIT_CUSTOM1}
                                     done={(v) => change('exit.custom1', resourceKey.EXIT_CUSTOM1, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_CUSTOM1)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
@@ -280,7 +280,7 @@ export class Exit extends Component {
                             })(
                                 <Resource mark={resourceKey.EXIT_HINT}
                                     done={(v) => change('exit.hint', resourceKey.EXIT_HINT, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_HINT)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                         <FormItem label="自定义2" {...inputStyle}>
@@ -289,7 +289,7 @@ export class Exit extends Component {
                             })(
                                 <Resource mark={resourceKey.EXIT_CUSTOM2}
                                     done={(v) => change('exit.custom2', resourceKey.EXIT_CUSTOM2, v)}
-                                    resources={resources && resources.filter(r => r.key === resourceKey.EXIT_CUSTOM2)} />
+                                    resources={resources} />
                             )}
                         </FormItem>
                     </Col>
