@@ -110,19 +110,27 @@ class Station extends Component {
     }
     change = (field, key, value) => {
         const editStation = this.state.editStation;
-        if (field.indexOf('.') != -1) {
-            let sp = field.split('.');
-            let o = editStation[sp[0]] || [];
-            let index = o.findIndex(l => l.id === value.id);
-            o.splice(index, index === -1 ? 0 : 1, value);
-            editStation[sp[0]] = o;
-            this.props.updateStationKey(editStation.id, field, value.id)
+        const resources = this.props.resources;
+        // if (field.indexOf('.') != -1) {
+        //     let sp = field.split('.');
+        //     let o = editStation[sp[0]] || [];
+        //     let index = o.findIndex(l => l.id === value.id);
+        //     o.splice(index, index === -1 ? 0 : 1, value);
+        //     editStation[sp[0]] = o;
+        //     this.props.updateStationKey(editStation.id, field, value.id)
+        // } else {
+        //     editStation[key] = value;
+        //     this.props.updateStationKey(editStation.id, field, value)
+        // }
+
+        editStation[field] = value;
+        if (key === '') {
+            this.props.updateStationKey(editStation.id, field, value);
         } else {
-            editStation[key] = value;
-            this.props.updateStationKey(editStation.id, field, value)
+            this.props.updateStationKey(editStation.id, key, value.id);
         }
 
-        this.form.resetFields([key]);
+        // this.form.resetFields([field]);
         this.setState({ editStation: editStation })
     }
     delete = () => {
