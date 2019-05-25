@@ -63,7 +63,9 @@ class Station extends Component {
             if (err) {
                 return;
             }
-
+            if (this.state.seq !== -1) {
+                values.seq = this.state.seq;
+            }
             console.log('Received values of form: ', values);
             this.setState({ submit: true })
             values.upOrDown = this.state.type;
@@ -110,32 +112,23 @@ class Station extends Component {
     }
     change = (field, key, value) => {
         const editStation = this.state.editStation;
-        const resources = this.props.resources;
-        // if (field.indexOf('.') != -1) {
-        //     let sp = field.split('.');
-        //     let o = editStation[sp[0]] || [];
-        //     let index = o.findIndex(l => l.id === value.id);
-        //     o.splice(index, index === -1 ? 0 : 1, value);
-        //     editStation[sp[0]] = o;
-        //     this.props.updateStationKey(editStation.id, field, value.id)
-        // } else {
-        //     editStation[key] = value;
-        //     this.props.updateStationKey(editStation.id, field, value)
-        // }
-
         editStation[field] = value;
         if (key === '') {
             this.props.updateStationKey(editStation.id, field, value);
         } else {
             this.props.updateStationKey(editStation.id, key, value.id);
         }
-
-        // this.form.resetFields([field]);
         this.setState({ editStation: editStation })
     }
     delete = () => {
         this.props.deleteStation(this.state.editStation.id)
         this.setState({ editStation: null, stationFormVisible: false })
+    }
+    insert = (type, seq) => {
+        // this.props.deleteStation(this.state.editStation.id)
+        // this.setState({ editStation: null, stationFormVisible: false })
+        this.setState({ seq: seq });
+        this.showAddStation(type);
     }
     render() {
         const { fetching, stations, resources, setting } = this.props;
@@ -201,12 +194,15 @@ class Station extends Component {
                 <Tabs>
                     <TabPane tab="基础信息" key="Base">
                         <BaseForm
+                            deleteHandler={this.delete}
+                            insertHandler={this.insert}
                             visible={this.state.stationFormVisible}
                             change={this.change}
                             station={this.state.editStation}
                             resources={resources}
                             setting={setting} />
-                    </TabPane><TabPane tab="坐标" key="Coordinate">
+                    </TabPane>
+                    <TabPane tab="坐标" key="Coordinate">
                         <CoordinateForm
                             visible={this.state.stationFormVisible}
                             change={this.change}

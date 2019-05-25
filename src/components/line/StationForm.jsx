@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, InputNumber, Row, Form, Col } from 'antd';
+import { Input, InputNumber, Row, Form, Col, Button, Icon } from 'antd';
 import resourceKey from './ResourceKeys';
 import Resource from './Resource';
 const FormItem = Form.Item;
@@ -21,22 +21,32 @@ export class Base extends Component {
         super(props)
     }
     render() {
-        const { form, resources, station, change, visible } = this.props;
+        const { form, station, change, visible, deleteHandler, insertHandler } = this.props;
         console.log(station);
         const { getFieldDecorator } = form;
-        const inputStyle = {
-            style: { marginBottom: '0px' }
-        }
         return (
-            <Form layout="vertical">
-                <FormItem label="名称">
-                    {getFieldDecorator('name', {
-                        initialValue: station && station.name
-                    })(
-                        <Input style={{ width: '30%' }} onBlur={(e) => change('name', '', e.target.value)} />
-                    )}
-                </FormItem>
-            </Form>
+
+            <div style={{ display: visible ? 'inline' : 'none' }}>
+                <Form layout="vertical">
+                    <FormItem label="名称">
+                        {getFieldDecorator('name', {
+                            initialValue: station && station.name
+                        })(
+                            <Input style={{ width: '30%' }} onBlur={(e) => change('name', '', e.target.value)} />
+                        )}
+                    </FormItem>
+                    <Button type="primary" onClick={() => {
+                        insertHandler(station.orientation, station.seq + 1)
+                    }}>
+                        <Icon type='remove' />
+                        插入站点
+                    </Button>
+                    <Button type="primary" onClick={deleteHandler}>
+                        <Icon type='remove' />
+                        删除站点
+                    </Button>
+                </Form>
+            </div>
         )
     }
 }
@@ -49,36 +59,35 @@ export class Coordinate extends Component {
         super(props)
     }
     render() {
-        const { form, resources, station, change, visible } = this.props;
+        const { form, station, change, visible } = this.props;
         console.log(station);
         const { getFieldDecorator } = form;
-        const inputStyle = {
-            style: { marginBottom: '0px' }
-        }
         return (
-            <Form layout="vertical">
-                <FormItem label="经度">
-                    {getFieldDecorator('lng', {
-                        initialValue: station && station.lng
-                    })(
-                        <InputNumber style={{ width: '30%' }} onBlur={(e) => change('lng', '', parseFloat(e.target.value))} />
-                    )}
-                </FormItem>
-                <FormItem label="纬度">
-                    {getFieldDecorator('lat', {
-                        initialValue: station && station.lat
-                    })(
-                        <InputNumber style={{ width: '30%' }} onBlur={(e) => change('lat', '', parseFloat(e.target.value))} />
-                    )}
-                </FormItem>
-                <FormItem label="角度">
-                    {getFieldDecorator('angle', {
-                        initialValue: station && station.angle
-                    })(
-                        <InputNumber style={{ width: '30%' }} onBlur={(e) => change('angle', '', parseFloat(e.target.value))} />
-                    )}
-                </FormItem>
-            </Form>
+            <div style={{ display: visible ? 'inline' : 'none' }}>
+                <Form layout="vertical">
+                    <FormItem label="经度">
+                        {getFieldDecorator('lng', {
+                            initialValue: station && station.lng
+                        })(
+                            <InputNumber style={{ width: '30%' }} onBlur={(e) => change('lng', '', parseFloat(e.target.value))} />
+                        )}
+                    </FormItem>
+                    <FormItem label="纬度">
+                        {getFieldDecorator('lat', {
+                            initialValue: station && station.lat
+                        })(
+                            <InputNumber style={{ width: '30%' }} onBlur={(e) => change('lat', '', parseFloat(e.target.value))} />
+                        )}
+                    </FormItem>
+                    <FormItem label="角度">
+                        {getFieldDecorator('angle', {
+                            initialValue: station && station.angle
+                        })(
+                            <InputNumber style={{ width: '30%' }} onBlur={(e) => change('angle', '', parseFloat(e.target.value))} />
+                        )}
+                    </FormItem>
+                </Form>
+            </div>
         )
     }
 }
@@ -106,7 +115,7 @@ export class Swerve extends Component {
                             })(
                                 <Resource
                                     resources={resources}
-                                    done={(v) => change('swerveMusic', 'swerve.music', v)}/>
+                                    done={(v) => change('swerveMusic', 'swerve.music', v)} />
                             )}
                         </FormItem>
                     </Col>
@@ -162,7 +171,7 @@ export class Entry extends Component {
                                 initialValue: getValue(station, 'entryJunction')
                             })(
                                 <Resource mark={resourceKey.ENTRY_JUNCTION}
-                                    done={(v) => change('entryJunction','entry.junction', v)}
+                                    done={(v) => change('entryJunction', 'entry.junction', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -173,7 +182,7 @@ export class Entry extends Component {
                                 initialValue: getValue(station, 'current')
                             })(
                                 <Resource mark={resourceKey.CURRENT}
-                                    done={(v) => change('current','entry.current', v)}
+                                    done={(v) => change('current', 'entry.current', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -182,7 +191,7 @@ export class Entry extends Component {
                                 initialValue: getValue(station, 'entryCustom1')
                             })(
                                 <Resource mark={resourceKey.ENTRY_CUSTOM1}
-                                    done={(v) => change('entryCustom1','entry.custom1', v)}
+                                    done={(v) => change('entryCustom1', 'entry.custom1', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -193,7 +202,7 @@ export class Entry extends Component {
                                 initialValue: getValue(station, 'entryHint')
                             })(
                                 <Resource mark={resourceKey.ENTRY_HINT}
-                                    done={(v) => change('entryHint','entry.hint',  v)}
+                                    done={(v) => change('entryHint', 'entry.hint', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -202,7 +211,7 @@ export class Entry extends Component {
                                 initialValue: getValue(station, 'entryCustom2')
                             })(
                                 <Resource mark={resourceKey.ENTRY_CUSTOM2}
-                                    done={(v) => change('entryCustom2','entry.custom2',  v)}
+                                    done={(v) => change('entryCustom2', 'entry.custom2', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -237,7 +246,7 @@ export class Exit extends Component {
                                 initialValue: getValue(station, 'exitAd')
                             })(
                                 <Resource mark={resourceKey.EXIT_AD}
-                                    done={(v) => change('exitAd','exit.ad', v)}
+                                    done={(v) => change('exitAd', 'exit.ad', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -246,7 +255,7 @@ export class Exit extends Component {
                                 initialValue: getValue(station, 'exitJunction')
                             })(
                                 <Resource mark={resourceKey.EXIT_JUNCTION}
-                                    done={(v) => change('exitJunction','exit.junction', v)}
+                                    done={(v) => change('exitJunction', 'exit.junction', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -257,7 +266,7 @@ export class Exit extends Component {
                                 initialValue: getValue(station, 'next')
                             })(
                                 <Resource mark={resourceKey.NEXT}
-                                    done={(v) => change('next','exit.next',  v)}
+                                    done={(v) => change('next', 'exit.next', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -266,7 +275,7 @@ export class Exit extends Component {
                                 initialValue: getValue(station, 'exitCustom1')
                             })(
                                 <Resource mark={resourceKey.EXIT_CUSTOM1}
-                                    done={(v) => change('exitCustom1','exit.custom1',  v)}
+                                    done={(v) => change('exitCustom1', 'exit.custom1', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -277,7 +286,7 @@ export class Exit extends Component {
                                 initialValue: getValue(station, 'exitHint')
                             })(
                                 <Resource mark={resourceKey.EXIT_HINT}
-                                    done={(v) => change('exitHint','exit.hint', v)}
+                                    done={(v) => change('exitHint', 'exit.hint', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -286,7 +295,7 @@ export class Exit extends Component {
                                 initialValue: getValue(station, 'exitCustom2')
                             })(
                                 <Resource mark={resourceKey.EXIT_CUSTOM2}
-                                    done={(v) => change('exitCustom2','exit.custom2', v)}
+                                    done={(v) => change('exitCustom2', 'exit.custom2', v)}
                                     resources={resources} />
                             )}
                         </FormItem>

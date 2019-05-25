@@ -13,7 +13,7 @@ export function* fetchLines(action) {
             lines: result.result
         });
         return;
-    }else{
+    } else {
         yield put({
             type: lineActionKeys.fetchLinesFailed,
             errorMsg: formatAlertMessage(result.result)
@@ -82,7 +82,7 @@ export function* fetchStation(action) {
             type: lineActionKeys.fetchStationsSuccess,
             stations: result.result
         })
-    }else{
+    } else {
         yield put({
             type: lineActionKeys.fetchStationsFailed,
             errorMsg: formatAlertMessage(result.result)
@@ -114,7 +114,8 @@ export function* deleteStation(action) {
     if (result && result.code === 0) {
         yield put({
             type: lineActionKeys.deleteStationSuccess,
-            id:action.id
+            id: action.id,
+            orientation: action.orientation
         });
     } else {
         yield put({

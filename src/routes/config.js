@@ -38,7 +38,7 @@ export default {
             ],
         },
         {
-            key: '/app/resources', title: '资源', icon: 'resource',
+            key: '/app/resources', title: '资源', icon: 'audio',
             subs: [
                 { key: '/app/resources', title: '资源', component: 'Resources' },
             ],

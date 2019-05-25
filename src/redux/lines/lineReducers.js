@@ -38,7 +38,7 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.updateLineSuccess:
             let lines2 = state.get('lines');
             lines2 = lines2.map(l => { if (l.id === action.line.id) return action.line; return l });
-            return state.set('errorMsg', '').set('fetching', false).set('added',action.line).set('lines', lines2);
+            return state.set('errorMsg', '').set('fetching', false).set('added', action.line).set('lines', lines2);
         case lineActionKeys.deleteLineSuccess:
             let lines1 = state.get('lines');
             lines1.splice(lines1.findIndex(l => l.id === action.id), 1);
@@ -50,12 +50,12 @@ export default function lineReducer(state = initialState, action) {
             if (action.station.orientation === 'UP') {
                 let upStations = stations.upStations || new Array();
                 upStations.push(action.station);
-                stations.upStations = upStations;
+                stations.upStations = upStations.sort((a, b) => { if (a.seq > b.seq) return 1; else return -1; });
             }
             if (action.station.orientation === 'DOWN') {
                 let downStations = stations.downStations || new Array();
                 downStations.push(action.station);
-                stations.downStations = downStations;
+                stations.downStations = downStations.sort((a, b) => { if (a.seq > b.seq) return 1; else return -1; });;
             }
             return state.set('fetching', false).set('errorMsg', '').set('stations', stations).set('addedStation', action.station);
         case lineActionKeys.updateStationKeySuccess:
@@ -73,14 +73,15 @@ export default function lineReducer(state = initialState, action) {
             return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations', stations1);
         case lineActionKeys.deleteStationSuccess:
             let stations2 = state.get('stations');
-            stations2
-                && stations2.upStations
-                && stations2.upStations.splice(stations2.upStations.findIndex(s => s.id === action.id), 1)
-
-            stations2
-                && stations2.downStations
-                && stations2.downStations.splice(stations2.downStations.findIndex(s => s.id === action.id), 1)
-
+            if (action.orientation === 'UP') {
+                stations2
+                    && stations2.upStations
+                    && stations2.upStations.splice(stations2.upStations.findIndex(s => s.id === action.id), 1)
+            } else {
+                stations2
+                    && stations2.downStations
+                    && stations2.downStations.splice(stations2.downStations.findIndex(s => s.id === action.id), 1)
+            }
             return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations', stations2);
 
         default:
