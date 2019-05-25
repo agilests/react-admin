@@ -5,6 +5,8 @@ import orgActionKeys from './org/orgActionKeys';
 import orgSagas from './org/orgSagas';
 import deviceActionKeys from './devices/deviceActionKeys';
 import deviceSagas from './devices/deviceSagas';
+import signActionKeys from './sign/signActionKeys';
+import signSagas from './sign/signSagas';
 import lineActionKeys from './lines/lineActionKeys';
 import lineSagas from './lines/lineSagas';
 import resActionKeys from './resource/resActionKeys';
@@ -35,6 +37,10 @@ function* rootSaga() {
     takeEvery(deviceActionKeys.createDevice, deviceSagas.createDevice),
     takeEvery(deviceActionKeys.deleteDevice, deviceSagas.deleteDevice),
     takeEvery(deviceActionKeys.updateDevice, deviceSagas.updateDevice),
+    //路牌相关
+    takeEvery(signActionKeys.fetchSigns, signSagas.fetchSigns),
+    takeEvery(signActionKeys.fetchSignTemplates, signSagas.fetchSignTemplates),
+    takeEvery(signActionKeys.createSign, signSagas.createSign),
     //线路相关
     takeEvery(lineActionKeys.fetchLines, lineSagas.fetchLines),
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),

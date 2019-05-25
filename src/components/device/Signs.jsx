@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import { Modal, Table, Form, Input, Button, Select, Icon, InputNumber } from 'antd';
-import { fetchDevices, createDevice, updateDevice, deleteDevice } from '../../redux/devices/deviceActions';
-import { fetchOrgs } from '../../redux/org/orgActions';
+import { Modal, Table, Button, Icon } from 'antd';
+import { fetchSigns, fetchSignTemplates, createSign } from '../../redux/sign/signActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import { success, error } from '../widget/Message';
 import TimeToDate from '../utils/Time2Date';
 import SignForm from './SignForm';
-
-const Option = Select.Option;
+import { success, error } from '../widget/Message';
 
 class Signs extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            edit: false,
-            currentUser: JSON.parse(localStorage.getItem('currentUser'))
+            edit: null
         }
         this.columns = [
             {
                 title: '路牌编号',
                 dataIndex: 'deviceId',
                 key: 'deviceId',
-                render: text => <span>{text}</span>,
+                render: text => <span>{text.substring(0,4)}</span>,
             }, {
                 title: '注册时间',
                 dataIndex: 'created',
@@ -54,12 +50,8 @@ class Signs extends Component {
                 ),
             }
         ];
-
-        if (this.state.currentUser.role !== 'ROLE_ADMIN') {
-            this.onChange();
-        } else {
-            this.props.fetchOrgs();
-        }
+        this.props.fetchSigns(this.props.query.device)
+        this.props.fetchSignTemplates();
     }
     delete = (record) => {
         Modal.confirm({
@@ -71,15 +63,13 @@ class Signs extends Component {
         })
     }
     edit = (record) => {
-        // const form = this.form;
-        // this.setState({ id: record.id, edit: true, visible: true })
-        // form.setFieldsValue({
-        //     deviceId: record.deviceId,
-        //     model: record.model,
-        //     description: record.desc
-        // })
+        this.setState({ edit: record, visible: true });
     }
-    register = () => {
+    saveFormRef = (form) => {
+        this.form = form;
+    };
+
+    create = () => {
         const form = this.form;
         form.validateFields((err, values) => {
             if (err) {
@@ -88,7 +78,11 @@ class Signs extends Component {
 
             console.log('Received values of form: ', values);
             this.setState({ submit: true })
-            this.state.edit ? this.props.update(this.state.id, values) : this.props.register(values);
+            if (this.state.edit) {
+            } else {
+                this.props.createSign(this.props.query.device, values);
+            }
+            form.resetFields();
         });
     };
     static getDerivedStateFromProps(nextProps, nextState) {
@@ -98,55 +92,37 @@ class Signs extends Component {
             error(errorMsg);
             return { submit: false };
         } else if (submit && added && Object.keys(added).length != 0) {
-            success('保存设备成功!')
-            return { visible: false, submit: false, edit: false };
+            success('添加路牌成功!')
+            return { submit: false, continues: true };
         }
         return null;
     }
-    saveFormRef = (form) => {
-        this.form = form;
-    };
-    onChange = (orgId) => {
-        this.props.fetchDevices(orgId);
-    }
+
     render() {
-        const { signs, orgs } = this.props;
-        const options = orgs.map(d => <Option key={d.id}>{d.name}</Option>);
-        const form = this.form || null;
-        if (this.state.visible === false && this.state.submit === false) {
-            form.resetFields();
-        }
+        const { signs } = this.props;
         return (
             <div className="gutter-example button-demo">
                 <BreadcrumbCustom first="设备" second="路牌" />
-                <div>
-                    {
-                        this.state.currentUser.role === 'ROLE_ADMIN'
-                            ? (<Select
-                                showSearch
-                                style={{ width: 200 }}
-                                placeholder="输入客户名称"
-                                onChange={(v) => this.onChange(v)}
-                            >
-                                {options}
-                            </Select>
-                            )
-                            : <Button onClick={() => this.setState({ visible: true })}>
-                                <Icon type='plus' />新建路牌
-                            </Button>
-                    }
+                <Button onClick={() => { this.setState({ visible: true }) }}>
+                    <Icon type='plus' />新建路牌
+                </Button>
 
-                </div>
+                <Table rowKey='id' columns={this.columns} dataSource={signs} />
 
-                <Table columns={this.columns} dataSource={signs} />
-                <SignForm
-                    ref={this.saveFormRef}
-                    edit={this.state.edit}
+
+                <Modal
                     visible={this.state.visible}
-                    onOk={this.register}
+                    title={this.state.edit ? '编辑' : '添加路牌'}
+                    cancelText={'取消'}
+                    okText={!this.state.edit && this.state.continues ? '继续添加' : '保存'}
+                    onOk={this.create}
                     onCancel={() => { this.setState({ visible: false }) }}
-                />
-
+                >
+                    <SignForm
+                        ref={this.saveFormRef}
+                        sign={this.state.edit}
+                        templates={this.props.templates} />
+                </Modal>
             </div>
         )
     }
@@ -155,32 +131,31 @@ class Signs extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        errorMsg: state.getIn(['deviceReducer', 'errorMsg']),
-        devices: state.getIn(['deviceReducer', 'devices'], []),
-        added: state.getIn(['deviceReducer', 'added']),
-        fetching: state.getIn(['deviceReducer', 'fetching']),
-        orgs: state.getIn(['orgReducer', 'orgs'])
+        errorMsg: state.getIn(['signReducer', 'errorMsg']),
+        signs: state.getIn(['signReducer', 'signs'], []),
+        added: state.getIn(['signReducer', 'added']),
+        fetching: state.getIn(['signReducer', 'fetching'])
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchOrgs: () => {
-            dispatch(fetchOrgs())
+        fetchSigns: (deviceId) => {
+            dispatch(fetchSigns(deviceId))
         },
-        fetchDevices: (orgId) => {
-            dispatch(fetchDevices(orgId))
+        fetchSignTemplates: () => {
+            dispatch(fetchSignTemplates())
         },
-        register: (device) => {
-            dispatch(createDevice(device))
+        createSign: (deviceId, sign) => {
+            dispatch(createSign(deviceId, sign))
         },
-        update: (id, device) => {
-            dispatch(updateDevice(id, device))
-        },
-        deleteDevice: (id) => {
-            dispatch(deleteDevice(id))
-        }
+        // update: (id, device) => {
+        //     dispatch(updateDevice(id, device))
+        // },
+        // deleteDevice: (id) => {
+        //     dispatch(deleteDevice(id))
+        // }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Signs)

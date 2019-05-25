@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import userReducer from './user/userReducers';
 import orgReducer from './org/orgReducers';
 import deviceReducer from './devices/deviceReducers';
+import signReducer from './sign/signReducers';
 import lineReducer from './lines/lineReducers';
 import resourceReducer from './resource/resReducers';
 import logReducer from './logs/logReducers';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   userReducer,
   orgReducer,
   deviceReducer,
+  signReducer,
   lineReducer,
   resourceReducer,
   logReducer,
