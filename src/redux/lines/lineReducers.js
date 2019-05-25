@@ -51,8 +51,7 @@ export default function lineReducer(state = initialState, action) {
                 let upStations = stations.upStations || new Array();
                 upStations.push(action.station);
                 stations.upStations = upStations.sort((a, b) => { if (a.seq > b.seq) return 1; else return -1; });
-            }
-            if (action.station.orientation === 'DOWN') {
+            } else {
                 let downStations = stations.downStations || new Array();
                 downStations.push(action.station);
                 stations.downStations = downStations.sort((a, b) => { if (a.seq > b.seq) return 1; else return -1; });;
@@ -61,14 +60,15 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.updateStationKeySuccess:
 
             let stations1 = state.get('stations');
-            stations1
-                && stations1.upStations
-                && stations1.upStations.map(s => { if (s.id === action.station.id) return action.station; return s });
-
-            stations1
-                && stations1.downStations
-                && stations1.downStations.map(s => { if (s.id === action.station.id) return action.station; return s });
-
+            if (action.orientation === 'UP') {
+                stations1
+                    && stations1.upStations
+                    && stations1.upStations.map(s => { if (s.id === action.station.id) return action.station; return s });
+            } else {
+                stations1
+                    && stations1.downStations
+                    && stations1.downStations.map(s => { if (s.id === action.station.id) return action.station; return s });
+            }
 
             return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations', stations1);
         case lineActionKeys.deleteStationSuccess:

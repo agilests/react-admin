@@ -133,7 +133,8 @@ export function* updateStationKey(action) {
     if (result && result.code === 0) {
         yield put({
             type: lineActionKeys.updateStationKeySuccess,
-            station: result.result
+            station: result.result,
+            orientation: action.orientation
         })
     } else {
         yield put({
