@@ -128,7 +128,7 @@ export class Swerve extends Component {
                                 initialValue: getValue(station, 'swerveHint')
                             })(
                                 <Resource
-                                    mark={resourceKey.ANGLE_HINT}
+                                    resources={resources}
                                     done={(v) => change('swerveHint', 'swerve.hint', v)} />
                             )}
                         </FormItem>
@@ -157,12 +157,31 @@ export class Entry extends Component {
             <div style={{ display: visible ? 'inline' : 'none' }}>
                 <Row gutter={24}>
                     <Col span={8}>
-                        <FormItem label="站前广告" {...inputStyle}>
+
+                        <FormItem label="站前音乐" {...inputStyle}>
                             {getFieldDecorator('entryMusic', {
                                 initialValue: getValue(station, 'entryMusic')
                             })(
-                                <Resource mark={resourceKey.ENTRY_AD}
-                                    done={(v) => change('entryMusic', 'entry.ad', v)}
+                                <Resource
+                                    done={(v) => change('entryMusic', 'entry.Music', v)}
+                                    resources={resources} />
+                            )}
+                        </FormItem>
+                        <FormItem label="站前广告" {...inputStyle}>
+                            {getFieldDecorator('entryAd', {
+                                initialValue: getValue(station, 'entryAd')
+                            })(
+                                <Resource
+                                    done={(v) => change('entryAd', 'entry.ad', v)}
+                                    resources={resources} />
+                            )}
+                        </FormItem>
+                        <FormItem label="本站提示" {...inputStyle}>
+                            {getFieldDecorator('current', {
+                                initialValue: getValue(station, 'current')
+                            })(
+                                <Resource 
+                                    done={(v) => change('current', 'entry.current', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -170,28 +189,8 @@ export class Entry extends Component {
                             {getFieldDecorator('entryJunction', {
                                 initialValue: getValue(station, 'entryJunction')
                             })(
-                                <Resource mark={resourceKey.ENTRY_JUNCTION}
+                                <Resource
                                     done={(v) => change('entryJunction', 'entry.junction', v)}
-                                    resources={resources} />
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label="本站提示" {...inputStyle}>
-                            {getFieldDecorator('current', {
-                                initialValue: getValue(station, 'current')
-                            })(
-                                <Resource mark={resourceKey.CURRENT}
-                                    done={(v) => change('current', 'entry.current', v)}
-                                    resources={resources} />
-                            )}
-                        </FormItem>
-                        <FormItem label="自定义1" {...inputStyle}>
-                            {getFieldDecorator('entryCustom1', {
-                                initialValue: getValue(station, 'entryCustom1')
-                            })(
-                                <Resource mark={resourceKey.ENTRY_CUSTOM1}
-                                    done={(v) => change('entryCustom1', 'entry.custom1', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -201,8 +200,17 @@ export class Entry extends Component {
                             {getFieldDecorator('entryHint', {
                                 initialValue: getValue(station, 'entryHint')
                             })(
-                                <Resource mark={resourceKey.ENTRY_HINT}
+                                <Resource 
                                     done={(v) => change('entryHint', 'entry.hint', v)}
+                                    resources={resources} />
+                            )}
+                        </FormItem>
+                        <FormItem label="自定义1" {...inputStyle}>
+                            {getFieldDecorator('entryCustom1', {
+                                initialValue: getValue(station, 'entryCustom1')
+                            })(
+                                <Resource 
+                                    done={(v) => change('entryCustom1', 'entry.custom1', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -210,7 +218,7 @@ export class Entry extends Component {
                             {getFieldDecorator('entryCustom2', {
                                 initialValue: getValue(station, 'entryCustom2')
                             })(
-                                <Resource mark={resourceKey.ENTRY_CUSTOM2}
+                                <Resource 
                                     done={(v) => change('entryCustom2', 'entry.custom2', v)}
                                     resources={resources} />
                             )}
@@ -241,12 +249,31 @@ export class Exit extends Component {
 
                 <Row gutter={24}>
                     <Col span={8}>
+
+                    <FormItem label="出站音乐" {...inputStyle}>
+                            {getFieldDecorator('exitMusic', {
+                                initialValue: getValue(station, 'exitMusic')
+                            })(
+                                <Resource 
+                                    done={(v) => change('exitMusic', 'exit.music', v)}
+                                    resources={resources} />
+                            )}
+                        </FormItem>
                         <FormItem label="出站广告" {...inputStyle}>
                             {getFieldDecorator('exitAd', {
                                 initialValue: getValue(station, 'exitAd')
                             })(
-                                <Resource mark={resourceKey.EXIT_AD}
+                                <Resource
                                     done={(v) => change('exitAd', 'exit.ad', v)}
+                                    resources={resources} />
+                            )}
+                        </FormItem>
+                        <FormItem label="下一站" {...inputStyle}>
+                            {getFieldDecorator('next', {
+                                initialValue: getValue(station, 'next')
+                            })(
+                                <Resource
+                                    done={(v) => change('next', 'exit.next', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -254,28 +281,8 @@ export class Exit extends Component {
                             {getFieldDecorator('exitJunction', {
                                 initialValue: getValue(station, 'exitJunction')
                             })(
-                                <Resource mark={resourceKey.EXIT_JUNCTION}
+                                <Resource 
                                     done={(v) => change('exitJunction', 'exit.junction', v)}
-                                    resources={resources} />
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label="下一站" {...inputStyle}>
-                            {getFieldDecorator('next', {
-                                initialValue: getValue(station, 'next')
-                            })(
-                                <Resource mark={resourceKey.NEXT}
-                                    done={(v) => change('next', 'exit.next', v)}
-                                    resources={resources} />
-                            )}
-                        </FormItem>
-                        <FormItem label="自定义1" {...inputStyle}>
-                            {getFieldDecorator('exitCustom1', {
-                                initialValue: getValue(station, 'exitCustom1')
-                            })(
-                                <Resource mark={resourceKey.EXIT_CUSTOM1}
-                                    done={(v) => change('exitCustom1', 'exit.custom1', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -285,8 +292,17 @@ export class Exit extends Component {
                             {getFieldDecorator('exitHint', {
                                 initialValue: getValue(station, 'exitHint')
                             })(
-                                <Resource mark={resourceKey.EXIT_HINT}
+                                <Resource
                                     done={(v) => change('exitHint', 'exit.hint', v)}
+                                    resources={resources} />
+                            )}
+                        </FormItem>
+                        <FormItem label="自定义1" {...inputStyle}>
+                            {getFieldDecorator('exitCustom1', {
+                                initialValue: getValue(station, 'exitCustom1')
+                            })(
+                                <Resource
+                                    done={(v) => change('exitCustom1', 'exit.custom1', v)}
                                     resources={resources} />
                             )}
                         </FormItem>
@@ -294,7 +310,7 @@ export class Exit extends Component {
                             {getFieldDecorator('exitCustom2', {
                                 initialValue: getValue(station, 'exitCustom2')
                             })(
-                                <Resource mark={resourceKey.EXIT_CUSTOM2}
+                                <Resource
                                     done={(v) => change('exitCustom2', 'exit.custom2', v)}
                                     resources={resources} />
                             )}
