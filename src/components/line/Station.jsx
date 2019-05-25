@@ -13,13 +13,14 @@ const FormItem = Form.Item;
 
 const AddForm = Form.create()(
     (props) => {
-        const { visible, onOk, onCancel, form } = props;
+        const { visible, onOk, onCancel, form, continues } = props;
         const { getFieldDecorator } = form;
         return (
             <Modal
+                centered={true}
                 visible={visible}
-                title={'注册'}
-                okText={'注册'}
+                title={'添加站点'}
+                okText={continues ? '继续添加' : '保存'}
                 onOk={onOk}
                 onCancel={onCancel}
             >
@@ -49,7 +50,8 @@ class Station extends Component {
             editStation: null,
             currentUser: JSON.parse(localStorage.getItem('currentUser')),
             addStationForm: false,
-            stationFormVisible: false
+            stationFormVisible: false,
+            continues: false
         }
         this.props.fetchResources();
     }
@@ -70,6 +72,7 @@ class Station extends Component {
             this.setState({ submit: true })
             values.upOrDown = this.state.type;
             this.props.addStation(this.props.query.line, values);
+            addStationForm.resetFields();
         });
     }
 
@@ -82,7 +85,7 @@ class Station extends Component {
         } else if (submit && addedStation) {
             success('添加站点成功!')
             //TODO 选中当前站点
-            return { addStationForm: false, submit: false };
+            return { submit: false, continues: true };
         }
         return null;
     }
@@ -224,6 +227,7 @@ class Station extends Component {
                 </Tabs>
                 <AddForm
                     ref={this.saveAddStationFormRef}
+                    continues={this.state.continues}
                     visible={this.state.addStationForm}
                     onOk={this.addStation}
                     onCancel={() => this.setState({ addStationForm: false })} />
