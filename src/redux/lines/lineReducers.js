@@ -26,7 +26,7 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.addStationFailed:
         case lineActionKeys.deleteStationFailed:
         case lineActionKeys.updateStationKeyFailed:
-        case lineActionKeys.FetchStationsFailed:
+        case lineActionKeys.fetchStationsFailed:
         case lineActionKeys.fetchLinesFailed:
             return state.set('fetching', false).set('errorMsg', action.errorMsg);
         case lineActionKeys.fetchLinesSuccess:
