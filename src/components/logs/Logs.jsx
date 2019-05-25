@@ -15,8 +15,8 @@ class Logs extends React.Component {
         }
         this.columns = [{
             title: '操作',
-            dataIndex: 'op',
-            key: 'op',
+            dataIndex: 'o',
+            key: 'o',
             render: text => <span>{text}</span>,
         }, {
             title: '操作时间',
@@ -25,8 +25,8 @@ class Logs extends React.Component {
             render: text => <span>{TimeToDate(text)}</span>
         }, {
             title: '操作人',
-            dataIndex: 'acc',
-            key: 'acc',
+            dataIndex: 'a',
+            key: 'a',
         }, {
             title: '是否成功',
             dataIndex: 's',
@@ -34,8 +34,8 @@ class Logs extends React.Component {
             render: text => <span>{text === 1 ? '成功' : '失败'}</span>
         }, {
             title: '失败原因',
-            dataIndex: 'reason',
-            key: 'reason'
+            dataIndex: 'r',
+            key: 'r'
         }];
 
         if (this.state.currentUser.role !== 'ROLE_ADMIN') {
