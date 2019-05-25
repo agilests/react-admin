@@ -90,7 +90,7 @@ class Lines extends Component {
                 )
             },
         }, {
-            title: 'Action',
+            title: '操作',
             key: 'action',
             render: (text, record) => (
                 <span>

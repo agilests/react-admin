@@ -60,7 +60,7 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.updateStationKeySuccess:
 
             let stations1 = state.get('stations');
-            if (action.orientation === 'UP') {
+            if (action.station.orientation === 'UP') {
                 stations1
                     && stations1.upStations
                     && stations1.upStations.map(s => { if (s.id === action.station.id) return action.station; return s });

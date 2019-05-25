@@ -115,7 +115,7 @@ export function* deleteStation(action) {
         yield put({
             type: lineActionKeys.deleteStationSuccess,
             id: action.id,
-            orientation: action.orientation
+            orientation: result.result.orientation
         });
     } else {
         yield put({
@@ -133,8 +133,7 @@ export function* updateStationKey(action) {
     if (result && result.code === 0) {
         yield put({
             type: lineActionKeys.updateStationKeySuccess,
-            station: result.result,
-            orientation: action.orientation
+            station: result.result
         })
     } else {
         yield put({

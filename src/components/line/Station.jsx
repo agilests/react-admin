@@ -121,8 +121,15 @@ class Station extends Component {
         this.setState({ editStation: editStation })
     }
     delete = () => {
-        this.props.deleteStation(this.state.editStation.id)
-        this.setState({ editStation: null, stationFormVisible: false })
+
+        Modal.confirm({
+            title: '提示',
+            content: `确认删除站点"${this.state.editStation.name}"吗?`,
+            onOk: () => {
+                this.props.deleteStation(this.state.editStation.id)
+                this.setState({ editStation: null, stationFormVisible: false })
+            }
+        })
     }
     insert = (type, seq) => {
         this.setState({ seq: seq });
