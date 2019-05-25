@@ -1,51 +1,16 @@
 import React, { Component } from 'react';
-import { Modal, Table, Form, Input, Button, Select, Icon } from 'antd';
+import { Modal, Table, Form, Input, Button, Select, Icon, InputNumber } from 'antd';
 import { fetchDevices, createDevice, updateDevice, deleteDevice } from '../../redux/devices/deviceActions';
 import { fetchOrgs } from '../../redux/org/orgActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { success, error } from '../widget/Message';
 import TimeToDate from '../utils/Time2Date';
-const FormItem = Form.Item;
+import SignForm from './SignForm';
+
 const Option = Select.Option;
 
-
-const DeviceForm = Form.create()(
-    (props) => {
-        const { visible, onOk, onCancel, form, edit } = props;
-        const { getFieldDecorator } = form;
-        return (
-            <Modal
-                visible={visible}
-                title={edit ? '编辑设备' : '注册设备'}
-                cancelText={'取消'}
-                okText={edit ? '保存' : '注册'}
-                onOk={onOk}
-                onCancel={onCancel}
-            >
-                <Form layout="vertical">
-                    <FormItem label="设备ID">
-                        {getFieldDecorator('deviceId', {
-                            rules: [{ required: true, message: '请输入设备ID!' }],
-                        })(
-                            <Input disabled={edit} />
-                        )}
-                    </FormItem>
-                    <FormItem label="型号">
-                        {getFieldDecorator('model')(<Input />)}
-                    </FormItem>
-                    <FormItem label="描述">
-                        {getFieldDecorator('description')(<Input type="textarea" />)}
-                    </FormItem>
-                </Form>
-            </Modal>
-        )
-    }
-)
-
-
-
-class Devices extends Component {
+class Signs extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,14 +20,9 @@ class Devices extends Component {
         }
         this.columns = [
             {
-                title: '设备ID',
+                title: '路牌编号',
                 dataIndex: 'deviceId',
                 key: 'deviceId',
-                render: text => <span>{text}</span>,
-            }, {
-                title: '设备型号',
-                dataIndex: 'model',
-                key: 'model',
                 render: text => <span>{text}</span>,
             }, {
                 title: '注册时间',
@@ -70,37 +30,18 @@ class Devices extends Component {
                 key: 'created',
                 render: text => <span>{TimeToDate(text)}</span>
             }, {
-                title: '车辆',
+                title: '分区',
                 dataIndex: 'vehicle',
                 key: 'vehicle',
                 render: text => <span>{text ? text.length : 0}</span>,
-            }, {
-                title: '线路',
-                dataIndex: 'lines',
-                key: 'lines',
-                render: text => <span>{text ? text.length : 0}</span>,
-            }, {
-                title: '当前线路',
-                dataIndex: 'lines',
-                key: 'currentLine',
-                render: text => <span>{text}</span>,
-            }, {
-                title: '路牌数量',
-                dataIndex: 'signs',
-                key: 'signs',
-                render: text => <span>{text ? text.length : 0}</span>,
-            }, {
-                title: '状态',
-                dataIndex: 'status',
-                key: 'status',
-                render: text => <span>{text}</span>,
             }, {
                 title: 'Action',
                 key: 'action',
                 render: (text, record) => (
                     <span>
 
-                        <Button onClick={() => this.props.history.push(`/app/signs?device=${record.id}`)}>路牌配置</Button>
+                        <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>参数设置</Button>
+                        <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>分区</Button>
                         <Button onClick={() => { this.edit(record) }}>
                             <Icon type="edit" />
                             编辑
@@ -123,20 +64,20 @@ class Devices extends Component {
     delete = (record) => {
         Modal.confirm({
             title: '提示',
-            content: `确认删除设备"${record.deviceId}"吗?`,
+            content: `确认删除路牌吗?`,
             onOk: () => {
                 this.props.deleteDevice(record.id);
             }
         })
     }
     edit = (record) => {
-        const form = this.form;
-        this.setState({ id: record.id, edit: true, visible: true })
-        form.setFieldsValue({
-            deviceId: record.deviceId,
-            model: record.model,
-            description: record.desc
-        })
+        // const form = this.form;
+        // this.setState({ id: record.id, edit: true, visible: true })
+        // form.setFieldsValue({
+        //     deviceId: record.deviceId,
+        //     model: record.model,
+        //     description: record.desc
+        // })
     }
     register = () => {
         const form = this.form;
@@ -169,7 +110,7 @@ class Devices extends Component {
         this.props.fetchDevices(orgId);
     }
     render() {
-        const { devices, orgs } = this.props;
+        const { signs, orgs } = this.props;
         const options = orgs.map(d => <Option key={d.id}>{d.name}</Option>);
         const form = this.form || null;
         if (this.state.visible === false && this.state.submit === false) {
@@ -177,11 +118,9 @@ class Devices extends Component {
         }
         return (
             <div className="gutter-example button-demo">
-                <BreadcrumbCustom first="设备"/>
+                <BreadcrumbCustom first="设备" second="路牌" />
                 <div>
-
                     {
-
                         this.state.currentUser.role === 'ROLE_ADMIN'
                             ? (<Select
                                 showSearch
@@ -192,19 +131,15 @@ class Devices extends Component {
                                 {options}
                             </Select>
                             )
-                            : (
-                                <p>
-                                    <Button onClick={() => { this.setState({ visible: true }) }}>注册设备</Button>
-                                    <Button>下载模板</Button>
-                                    <Button>导入设备</Button>
-                                </p>
-                            )
+                            : <Button onClick={() => this.setState({ visible: true })}>
+                                <Icon type='plus' />新建路牌
+                            </Button>
                     }
 
                 </div>
 
-                <Table rowKey="id" columns={this.columns} dataSource={devices} />
-                <DeviceForm
+                <Table columns={this.columns} dataSource={signs} />
+                <SignForm
                     ref={this.saveFormRef}
                     edit={this.state.edit}
                     visible={this.state.visible}
@@ -248,4 +183,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Devices)
+export default connect(mapStateToProps, mapDispatchToProps)(Signs)

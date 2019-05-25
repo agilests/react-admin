@@ -5,6 +5,7 @@ import { connect } from '../../connect'
 import { Link } from 'react-router-dom';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { success, error } from '../widget/Message';
+import TimeToDate from '../utils/Time2Date';
 const FormItem = Form.Item;
 
 
@@ -64,7 +65,7 @@ class Orgs extends React.Component {
             title: '创建时间',
             dataIndex: 'created',
             key: 'created',
-            render: text=> <span>{new Date(parseInt(text) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')}</span>
+            render: text => <span>{TimeToDate(text)}</span>
         }, {
             title: '联系人',
             dataIndex: 'contact',
@@ -77,7 +78,7 @@ class Orgs extends React.Component {
             title: '更新时间',
             dataIndex: 'lastModified',
             key: 'lastModified',
-            render: text=> <span>{new Date(parseInt(text) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')}</span>
+            render: text => <span>{TimeToDate(text)}</span>
         }, {
             title: 'Action',
             key: 'action',
@@ -89,12 +90,10 @@ class Orgs extends React.Component {
                         <Icon type="edit" />
                         编辑
                     </Button>
-                    <span className="ant-divider" />
                     <Button onClick={() => { this.deleteConfirm(record) }}>
                         <Icon type="delete" />
                         删除
                     </Button>
-                    <span className="ant-divider" />
                 </span>
             ),
         }];

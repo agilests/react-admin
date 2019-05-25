@@ -73,12 +73,12 @@ class Lines extends Component {
                     <div>
                         <div>
                             {
-                                upStations && upStations.map(s => <span key={s.id} style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
+                                upStations && upStations.map(s => <span key={s.id} style={{width:'20px',marginRight:'10px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
                             }
                         </div>
                         <div>
                             {
-                                downStations && downStations.map(s => <span key={s.id} style={{width:'20px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
+                                downStations && downStations.map(s => <span key={s.id} style={{width:'20px',marginRight:'10px'}}><span>{s.name}</span><span className="ant-divider"/></span>)
                             }
                         </div>
                     </div>
@@ -95,11 +95,8 @@ class Lines extends Component {
             render: (text, record) => (
                 <span>
                     <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>线路规划</Button>
-                    <span className="ant-divider" />
                     <Button onClick={() => this.showEdit(record)}>编辑</Button>
-                    <span className="ant-divider" />
                     <Button onClick={() => { this.deleteLine(record) }}>删除</Button>
-                    <span className="ant-divider" />
                 </span>
             ),
         }];

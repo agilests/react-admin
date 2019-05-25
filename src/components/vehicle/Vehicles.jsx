@@ -73,11 +73,8 @@ class Vehicles extends Component {
             render: (text, record) => (
                 <span>
                     <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>绑定线路</Button>
-                    <span className="ant-divider" />
                     <Button onClick={() => this.showEdit(record)}>绑定设备</Button>
-                    <span className="ant-divider" />
                     <Button onClick={() => { this.deleteVehicle(record) }}>删除</Button>
-                    <span className="ant-divider" />
                 </span>
             ),
         }];
