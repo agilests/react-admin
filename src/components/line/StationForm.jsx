@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Input, InputNumber, Row, Form, Col, Button, Icon } from 'antd';
-import resourceKey from './ResourceKeys';
 import Resource from './Resource';
 const FormItem = Form.Item;
 

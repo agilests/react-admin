@@ -125,8 +125,6 @@ class Station extends Component {
         this.setState({ editStation: null, stationFormVisible: false })
     }
     insert = (type, seq) => {
-        // this.props.deleteStation(this.state.editStation.id)
-        // this.setState({ editStation: null, stationFormVisible: false })
         this.setState({ seq: seq });
         this.showAddStation(type);
     }
@@ -173,24 +171,6 @@ class Station extends Component {
                             </Empty>
                     }
                 </Row>
-                {/* {
-                    this.state.editStation ?
-                        (
-                            <Row gutter={24} type="flex" justify="start">
-                                <Col span={3}>
-                                    <Input
-                                        defaultValue={this.state.editStation.name}
-                                        onBlur={(e) => { this.change('name', e.target.value) }} />
-                                </Col>
-                                <Col span={3}>
-                                    <Button type="primary" onClick={this.delete}>
-                                        <Icon type='remove' />
-                                        删除站点
-                                    </Button>
-                                </Col>
-                            </Row>)
-                        : ''
-                } */}
                 <Tabs>
                     <TabPane tab="基础信息" key="Base">
                         <BaseForm
@@ -274,9 +254,6 @@ const mapDispatchToProps = (dispatch) => {
         fetchResources: () => {
             dispatch(fetchVoices())
         }
-        // register: (orgId, account) => {
-        //     dispatch(createAccount(orgId, account))
-        // }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Station)
