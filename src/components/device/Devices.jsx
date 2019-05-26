@@ -86,9 +86,9 @@ class Devices extends Component {
                 render: text => <span>{text}</span>,
             }, {
                 title: '路牌数量',
-                dataIndex: 'signs',
-                key: 'signs',
-                render: text => <span>{text ? text.length : 0}</span>,
+                dataIndex: 'nos',
+                key: 'nos',
+                render: text => <span>{text}</span>,
             }, {
                 title: '状态',
                 dataIndex: 'status',

@@ -18,3 +18,10 @@ export const createSign = (deviceId, sign) => {
         sign: sign
     }
 }
+
+export const fetchParts= (signId) => {
+    return {
+        type: signActionKeys.fetchParts,
+        signId: signId
+    }
+}

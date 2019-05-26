@@ -55,4 +55,23 @@ export function* createSign(action) {
     }
 }
 
-export default { fetchSigns, fetchSignTemplates, createSign };
+
+
+export function* fetchParts(action) {
+    const result = yield call((signId) => {
+        return SignApi.fetchParts(signId)
+    }, action.signId)
+    if (result && result.code === 0) {
+        yield put({
+            type: signActionKeys.fetchPartsSuccess,
+            parts: result.result
+        })
+    } else {
+        yield put({
+            type: signActionKeys.fetchPartsFailed,
+            errorMsg: formatAlertMessage(result.result)
+        })
+    }
+}
+
+export default { fetchSigns, fetchSignTemplates, createSign, fetchParts };

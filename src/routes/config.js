@@ -92,6 +92,7 @@ export default {
             key: '/app/org/accounts', title: '账号管理', component: 'Accounts'
         },
         { key: '/app/stations', title: '站点', component: 'Station' },
-        { key: '/app/signs', title: '路牌', component: 'Signs' }
+        { key: '/app/signs', title: '路牌', component: 'Signs' },
+        { key: '/app/parts', title: '分区', component: 'Parts' },
     ] // 非菜单相关路由
 }

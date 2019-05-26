@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Table, Button, Icon } from 'antd';
+import { Modal, Table, Button, Icon, Dropdown, Menu, Empty } from 'antd';
 import { fetchSigns, fetchSignTemplates, createSign } from '../../redux/sign/signActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import TimeToDate from '../utils/Time2Date';
 import SignForm from './SignForm';
 import { success, error } from '../widget/Message';
 
@@ -12,32 +11,40 @@ class Signs extends Component {
         super(props);
         this.state = {
             visible: false,
+            part: null,
             edit: null
         }
         this.columns = [
             {
                 title: '路牌编号',
-                dataIndex: 'deviceId',
-                key: 'deviceId',
-                render: text => <span>{text.substring(0,4)}</span>,
+                dataIndex: 'id',
+                key: 'id',
+                render: text => <span>{text}</span>,
             }, {
-                title: '注册时间',
-                dataIndex: 'created',
-                key: 'created',
-                render: text => <span>{TimeToDate(text)}</span>
+                title: '大小',
+                dataIndex: 'size',
+                key: 'size',
+                render: text => <span>{text}</span>
+            }, {
+                title: '协议',
+                dataIndex: 'protocol',
+                key: 'protocol',
+                render: text => <span>{text}</span>
             }, {
                 title: '分区',
-                dataIndex: 'vehicle',
-                key: 'vehicle',
-                render: text => <span>{text ? text.length : 0}</span>,
+                dataIndex: 'nop',
+                key: 'nop',
+                render: text => <span>{text}</span>,
             }, {
                 title: 'Action',
                 key: 'action',
                 render: (text, record) => (
                     <span>
 
-                        <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>参数设置</Button>
-                        <Button onClick={() => this.props.history.push(`/app/stations?line=${record.id}`)}>分区</Button>
+                        <Button >参数设置</Button>
+                        <Button onClick={() => this.props.history.push(`/app/parts?sign=${record.id}`)}>
+                            <Icon type="pic-left" /> 分区
+                            </Button>
                         <Button onClick={() => { this.edit(record) }}>
                             <Icon type="edit" />
                             编辑

@@ -7,5 +7,13 @@ export default {
     fetchSignTemplatesFailed: 'FETCH_SIGN_TEMPLATES_FAILED',
     createSign: 'CREATE_SIGN',
     createSignSuccess: 'CREATE_SIGN_SUCCESS',
-    createSignFailed: 'CREATE_SIGN_FAILED'
+    createSignFailed: 'CREATE_SIGN_FAILED',
+
+
+
+
+    fetchParts: 'FETCH_PARTS',
+    fetchPartsSuccess: 'FETCH_PARTS_SUCCESS',
+    fetchPartsFailed: 'FETCH_PARTS_FAILED'
+
 }

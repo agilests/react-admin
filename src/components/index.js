@@ -31,6 +31,7 @@ import Orgs from './org/Orgs';
 import Accounts from './org/Accounts';
 import Devices from './device/Devices';
 import Signs from './device/Signs';
+import Parts from './device/Parts';
 import Lines from './line/Lines';
 import Station from './line/Station';
 import Resources from './resource/Resources';
@@ -47,6 +48,6 @@ export default {
     Tabs, Banners, Drags, Dashboard, Gallery, BasicAnimations,
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
     Cssmodule, MapUi, QueryParams,
-    Orgs, Accounts, Devices, Lines, Station, Resources, Logs, Vehicles, Signs
+    Orgs, Accounts, Devices, Lines, Station, Resources, Logs, Vehicles, Signs, Parts
 
 }

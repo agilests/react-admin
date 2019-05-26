@@ -41,6 +41,7 @@ function* rootSaga() {
     takeEvery(signActionKeys.fetchSigns, signSagas.fetchSigns),
     takeEvery(signActionKeys.fetchSignTemplates, signSagas.fetchSignTemplates),
     takeEvery(signActionKeys.createSign, signSagas.createSign),
+    takeEvery(signActionKeys.fetchParts, signSagas.fetchParts),
     //线路相关
     takeEvery(lineActionKeys.fetchLines, lineSagas.fetchLines),
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),
