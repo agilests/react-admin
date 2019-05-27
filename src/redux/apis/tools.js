@@ -8,15 +8,15 @@ export function checkStatus(response) {
         if (response.url.includes(`login`)) {
 			response.message = '用户不存在或者密码错误！'
 			return response
-		} else {
-			// store.dispatch(AuthCheck('set',false))
-			// store.dispatch({type:'UNAUTHORIZED'});
 		}
 		const error = new Error('Unauthorized')
 		error.message = 'Full authentication is required to access this resource'
 		throw error
 	}else if(response.status===403){
 		window.location.href = '/#/login'
+		const error = new Error('Unauthorized')
+		error.message = 'Full authentication is required to access this resource'
+		throw error
 	} 
 	let errMsg = (response.status == 502 || response.status === 504) ? '服务器升级中，请稍后再试' : response._bodyText
 	if (!errMsg) errMsg = response.statusText

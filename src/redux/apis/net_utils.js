@@ -14,7 +14,7 @@ export default class NetUtil {
         })
         .then(checkStatus)
         .then(res => res.json())
-        .catch(e => { throw e; });
+        .catch(e => { return {code:-1,result:e.message}; });
     }
     static post(url, body) {
         return fetch(url, {
@@ -26,7 +26,7 @@ export default class NetUtil {
         })
         .then(checkStatus)
         .then(res => res.json())
-        .catch(e => { throw e; });
+        .catch(e => { return {code:-1,result:e.message}; });
     }
     static put(url, body) {
         return fetch(url, {
@@ -38,7 +38,7 @@ export default class NetUtil {
         })
         .then(checkStatus)
         .then(res => res.json())
-        .catch(e => { throw e; });
+        .catch(e => { return {code:-1,result:e.message}; });
     }
     static delete(url) {
         return fetch(url, {
@@ -49,7 +49,7 @@ export default class NetUtil {
         })
         .then(checkStatus)
         .then(res => res.json())
-        .catch(e => { throw e; });
+        .catch(e => { return {code:-1,result:e.message}; });
     }
     static upload(url,formData){
         return fetch(url,{
@@ -64,7 +64,7 @@ export default class NetUtil {
         })
         .then(checkStatus)
         .then(res => res.json())
-        .catch(e => { throw e; });
+        .catch(e => { return {code:-1,result:e.message}; });
 
     }
 }

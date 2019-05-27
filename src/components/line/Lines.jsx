@@ -144,7 +144,7 @@ class Lines extends Component {
     static getDerivedStateFromProps(nextProps, nextState) {
         const { errorMsg, added } = nextProps;
         const { submit } = nextState;
-        if (submit && errorMsg != '') {
+        if (errorMsg != '') {
             error(errorMsg);
             return { submit: false };
         } else if (submit && added && Object.keys(added).length != 0) {
