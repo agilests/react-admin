@@ -19,7 +19,7 @@ class Signs extends Component {
                 title: '路牌编号',
                 dataIndex: 'id',
                 key: 'id',
-                render: text => <span>{text.substring(0,4)}</span>,
+                render: text => <span>{text.substring(0, 4)}</span>,
             }, {
                 title: '大小',
                 dataIndex: 'size',
@@ -39,7 +39,7 @@ class Signs extends Component {
                 title: '是否为模板',
                 dataIndex: 'template',
                 key: 'template',
-                render: text => <span>{text?'是':'否'}</span>,
+                render: text => <span>{text ? '是' : '否'}</span>,
             }, {
                 title: 'Action',
                 key: 'action',
@@ -147,7 +147,7 @@ const mapStateToProps = (state, props) => {
         signs: state.getIn(['signReducer', 'signs'], []),
         added: state.getIn(['signReducer', 'added']),
         fetching: state.getIn(['signReducer', 'fetching']),
-        templates: state.getIn(['signReducer','templates'])
+        templates: state.getIn(['signReducer', 'templates'])
     }
 }
 
