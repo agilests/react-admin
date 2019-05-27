@@ -9,6 +9,7 @@ class _SignForm extends Component {
         super(props);
         this.state = {
             fromTemplate: false,
+            saveAs: false
         }
     }
     render() {
@@ -56,8 +57,16 @@ class _SignForm extends Component {
                             {getFieldDecorator('desc')(<Input type="textarea" />)}
                         </FormItem>
                         <FormItem label="是否保存为模板">
-                            {getFieldDecorator('saveAs')(<Switch />)}
+                            {getFieldDecorator('saveAs')(<Switch onChange={() => this.setState({saveAs:true})} />)}
                         </FormItem>
+                        {
+                            this.state.saveAs && 
+                            <FormItem label="模板名称">
+                                {getFieldDecorator('name',{
+                                    rules:[{required:true,message:'请输入模板名称'}]
+                                })(<Input placeholder='请输入模板名称' />)}
+                            </FormItem>
+                        }
                     </div>
                 }
             </Form>
