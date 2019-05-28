@@ -53,9 +53,6 @@ class _SignForm extends Component {
                                 rules: [{ required: true, message: '请输入路牌高度' }]
                             })(<InputNumber placeholder='路牌宽度' />)}
                         </FormItem>
-                        <FormItem label="描述">
-                            {getFieldDecorator('desc')(<Input type="textarea" />)}
-                        </FormItem>
                         <FormItem label="是否保存为模板">
                             {getFieldDecorator('saveAs')(<Switch onChange={() => this.setState({saveAs:true})} />)}
                         </FormItem>
@@ -67,6 +64,9 @@ class _SignForm extends Component {
                                 })(<Input placeholder='请输入模板名称' />)}
                             </FormItem>
                         }
+                        <FormItem label="描述">
+                            {getFieldDecorator('desc')(<Input type="textarea" />)}
+                        </FormItem>
                     </div>
                 }
             </Form>
