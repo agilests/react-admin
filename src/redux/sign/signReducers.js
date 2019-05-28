@@ -27,9 +27,14 @@ export default function signReducer(state = initialState, action) {
         case signActionKeys.createSignSuccess:
             let signs = state.get('signs');
             signs.unshift(action.sign);
+            if (action.sign.templateId) {
+                let templates = state.get('templates');
+                templates.unshift({ id: action.sign.templateId, name: action.sign.templateName })
+                return state.set('fetching', false).set('errorMsg', '').set('added', action.sign).set('signs', signs).set('templates', templates);
+            }
             return state.set('fetching', false).set('errorMsg', '').set('added', action.sign).set('signs', signs);
         case signActionKeys.fetchPartsSuccess:
-                return state.set('fetching', false).set('errorMsg', '').set('parts', action.parts);
+            return state.set('fetching', false).set('errorMsg', '').set('parts', action.parts);
         default:
             return state;
     }

@@ -37,8 +37,8 @@ class Signs extends Component {
                 render: text => <span>{text}</span>,
             }, {
                 title: '是否为模板',
-                dataIndex: 'template',
-                key: 'template',
+                dataIndex: 'templateId',
+                key: 'templateId',
                 render: text => <span>{text ? '是' : '否'}</span>,
             }, {
                 title: 'Action',
