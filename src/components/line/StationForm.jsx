@@ -162,7 +162,7 @@ export class Entry extends Component {
                                 initialValue: getValue(station, 'entryMusic')
                             })(
                                 <Resource
-                                    done={(v) => change('entryMusic', 'entry.Music', v)}
+                                    done={(v) => change('entryMusic', 'entry.music', v)}
                                     resources={resources} />
                             )}
                         </FormItem>

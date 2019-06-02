@@ -162,13 +162,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         createSign: (deviceId, sign) => {
             dispatch(createSign(deviceId, sign))
-        },
-        // update: (id, device) => {
-        //     dispatch(updateDevice(id, device))
-        // },
-        // deleteDevice: (id) => {
-        //     dispatch(deleteDevice(id))
-        // }
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Signs)
