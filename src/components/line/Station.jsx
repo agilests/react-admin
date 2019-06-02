@@ -29,11 +29,11 @@ const AddForm = Form.create()(
                         {getFieldDecorator('name', {
                             rules: [{ required: true, message: '请输入客户名称!' }],
                         })(
-                            <Input />
+                            <Input onPressEnter={onOk}/>
                         )}
                     </FormItem>
                     <FormItem label="描述">
-                        {getFieldDecorator('description')(<Input type="textarea" />)}
+                        {getFieldDecorator('description')(<Input  onPressEnter={onOk} type="textarea" />)}
                     </FormItem>
                 </Form>
             </Modal>
