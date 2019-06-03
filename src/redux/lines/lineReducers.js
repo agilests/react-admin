@@ -49,12 +49,10 @@ export default function lineReducer(state = initialState, action) {
             let stations = state.get('stations') || {};
             if (action.station.orientation === 'UP') {
                 let upStations = stations.upStations || new Array();
-                upStations.push(action.station);
-                stations.upStations = upStations.sort((a, b) => { if (a.seq > b.seq) return 1; else return -1; });
+                upStations.splice(action.station.seq - 1, 0, action.station);
             } else {
                 let downStations = stations.downStations || new Array();
-                downStations.push(action.station);
-                stations.downStations = downStations.sort((a, b) => { if (a.seq > b.seq) return 1; else return -1; });;
+                downStations.splice(action.station.seq - 1, 0, action.station);
             }
             return state.set('fetching', false).set('errorMsg', '').set('stations', stations).set('addedStation', action.station);
         case lineActionKeys.updateStationKeySuccess:

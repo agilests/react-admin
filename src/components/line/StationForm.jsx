@@ -37,11 +37,11 @@ export class Base extends Component {
                     <Button type="primary" onClick={() => {
                         insertHandler(station.orientation, station.seq + 1)
                     }}>
-                        <Icon type='remove' />
+                    <Icon type='plus-square' />
                         插入站点
                     </Button>
                     <Button type="primary" onClick={deleteHandler}>
-                        <Icon type='remove' />
+                        <Icon type='delete' />
                         删除站点
                     </Button>
                 </Form>
