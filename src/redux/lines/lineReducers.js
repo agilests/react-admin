@@ -19,6 +19,7 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.deleteStation:
         case lineActionKeys.fetchStations:
         case lineActionKeys.updateStationKey:
+        case lineActionKeys.syncLine:
             return state.set('fetching', true).set('errorMsg', '').set('addedStation', null).set('added', null);
         case lineActionKeys.createLineFailed:
         case lineActionKeys.updateLineFailed:
@@ -28,6 +29,7 @@ export default function lineReducer(state = initialState, action) {
         case lineActionKeys.updateStationKeyFailed:
         case lineActionKeys.fetchStationsFailed:
         case lineActionKeys.fetchLinesFailed:
+        case lineActionKeys.syncLineFailed:
             return state.set('fetching', false).set('errorMsg', action.errorMsg);
         case lineActionKeys.fetchLinesSuccess:
             return state.set('fetching', false).set('errorMsg', '').set('lines', action.lines);
@@ -50,9 +52,11 @@ export default function lineReducer(state = initialState, action) {
             if (action.station.orientation === 'UP') {
                 let upStations = stations.upStations || new Array();
                 upStations.splice(action.station.seq - 1, 0, action.station);
+                stations.upStations = upStations;
             } else {
                 let downStations = stations.downStations || new Array();
                 downStations.splice(action.station.seq - 1, 0, action.station);
+                stations.downStations = downStations;
             }
             return state.set('fetching', false).set('errorMsg', '').set('stations', stations).set('addedStation', action.station);
         case lineActionKeys.updateStationKeySuccess:
@@ -81,7 +85,15 @@ export default function lineReducer(state = initialState, action) {
                     && stations2.downStations.splice(stations2.downStations.findIndex(s => s.id === action.id), 1)
             }
             return state.set('fetching', false).set('errorMsg', '').set('currentStation', action.station).set('stations', stations2);
-
+        case lineActionKeys.syncLineSuccess:
+            let stations3 = state.get('stations');
+            let orientation = action.stations[0].orientation;
+            if (orientation === 'UP') {
+                stations3.upStations = action.stations;
+            } else {
+                stations3.downStations = action.stations;
+            }
+            return state.set('fetching', false).set('errorMsg', '').set('stations', stations3);
         default:
             return state;
     }

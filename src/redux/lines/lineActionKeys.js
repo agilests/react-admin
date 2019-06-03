@@ -11,6 +11,9 @@ export default {
     deleteLine:'DELETE_LINE',
     deleteLineSuccess:'DELETE_LINE_SUCCESS',
     deleteLineFailed:'DELETE_LINE_FAILED',
+    syncLine:'SYNC_LINE',
+    syncLineSuccess:'SYNC_LINE_SUCCESS',
+    syncLineFailed:'SYNC_LINE_FAILED',
 
     fetchStations:'FETCH_STATIONS',
     fetchStationsSuccess:'FETCH_STATIONS_SUCCESS',
@@ -23,5 +26,6 @@ export default {
     updateStationKeyFailed:'UPDATE_STATION_KEY_FAILED',
     deleteStation:'DELETE_STATION',
     deleteStationSuccess:'DELETE_STATION_SUCCESS',
-    deleteStationFailed:'DELETE_STATION_FAILED'
+    deleteStationFailed:'DELETE_STATION_FAILED',
+
 }

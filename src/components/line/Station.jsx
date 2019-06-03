@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Spin, Button, Modal, Input, Steps, Row, Icon, Form, Empty, Tabs } from 'antd';
-import { fetchStations, addStation, updateStationKey, deleteStation } from '../../redux/lines/lineActions';
+import { fetchStations, syncLine, addStation, updateStationKey, deleteStation } from '../../redux/lines/lineActions';
 import { fetchVoices } from '../../redux/resource/resActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -29,11 +29,11 @@ const AddForm = Form.create()(
                         {getFieldDecorator('name', {
                             rules: [{ required: true, message: '请输入客户名称!' }],
                         })(
-                            <Input onPressEnter={onOk}/>
+                            <Input onPressEnter={onOk} />
                         )}
                     </FormItem>
                     <FormItem label="描述">
-                        {getFieldDecorator('description')(<Input  onPressEnter={onOk} type="textarea" />)}
+                        {getFieldDecorator('description')(<Input onPressEnter={onOk} type="textarea" />)}
                     </FormItem>
                 </Form>
             </Modal>
@@ -138,6 +138,9 @@ class Station extends Component {
         this.setState({ seq: seq });
         this.showAddStation(type);
     }
+    syncLine = (orientation) => {
+        this.props.syncLine(this.props.query.line, orientation);
+    }
     render() {
         const { fetching, stations, resources, setting } = this.props;
         const upStations = stations && stations.upStations && this.buildSteps(stations.upStations, 'upIndex');
@@ -149,11 +152,18 @@ class Station extends Component {
                     <Row>上行</Row>
                     {
                         upStations ?
-                            <Steps style={{ overflow: 'auto' }}
-                                current={this.state.upIndex} size="small"
-                                labelPlacement="vertical">
-                                {upStations}
-                            </Steps>
+                            (
+                                <div>
+                                    <Steps style={{ overflow: 'auto' }}
+                                        current={this.state.upIndex} size="small"
+                                        labelPlacement="vertical">
+                                        {upStations}
+                                    </Steps>
+                                    <Button onClick={()=>{this.syncLine('UP')}}>
+                                        同步下行
+                                    </Button>
+                                </div>
+                            )
                             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}>
                                 <Button
                                     type="primary"
@@ -168,9 +178,16 @@ class Station extends Component {
                     <Row>下行</Row>
                     {
                         downStations ?
-                            <Steps style={{ overflow: 'auto' }} current={this.state.downIndex} size="small" labelPlacement="vertical">
-                                {downStations}
-                            </Steps>
+                            (
+                                <div>
+                                    <Steps style={{ overflow: 'auto' }} current={this.state.downIndex} size="small" labelPlacement="vertical">
+                                        {downStations}
+                                    </Steps>
+                                    <Button onClick={()=>{this.syncLine('DOWN')}}>
+                                        同步上行
+                                    </Button>
+                                </div>
+                            )
                             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}>
                                 <Button
                                     type="primary"
@@ -252,6 +269,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchStations: (lineId) => {
             dispatch(fetchStations(lineId))
+        },
+        syncLine: (lineId, orientation) => {
+            dispatch(syncLine(lineId, orientation))
         },
         addStation: (lineId, station) => {
             dispatch(addStation(lineId, station))

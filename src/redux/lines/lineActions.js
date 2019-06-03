@@ -24,6 +24,13 @@ export const deleteLine = (id) => {
         id: id
     }
 }
+export const syncLine = (id, orientation) => {
+    return {
+        type: lineActionKeys.syncLine,
+        id: id,
+        orientation: orientation
+    }
+}
 export const addStation = (lineId, station) => {
     return {
         type: lineActionKeys.addStation,

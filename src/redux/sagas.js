@@ -47,6 +47,7 @@ function* rootSaga() {
     takeEvery(lineActionKeys.createLine, lineSagas.createLine),
     takeEvery(lineActionKeys.updateLine, lineSagas.updateLine),
     takeEvery(lineActionKeys.deleteLine, lineSagas.deleteLine),
+    takeEvery(lineActionKeys.syncLine, lineSagas.syncLine),
     takeEvery(lineActionKeys.addStation, lineSagas.addStation),
     takeEvery(lineActionKeys.updateStationKey, lineSagas.updateStationKey),
     takeEvery(lineActionKeys.deleteStation, lineSagas.deleteStation),

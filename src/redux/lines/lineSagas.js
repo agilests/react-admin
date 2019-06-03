@@ -73,6 +73,26 @@ export function* deleteLine(action) {
 }
 
 
+export function* syncLine(action) {
+    const result = yield call((id, orientation) => {
+        return LineApi.syncLine(id, orientation)
+    }, action.id, action.orientation);
+
+    if (result && result.code === 0) {
+        yield put({
+            type: lineActionKeys.syncLineSuccess,
+            stations: result.result
+        });
+        return;
+    }
+
+    yield put({
+        type: lineActionKeys.syncLineSuccess,
+        errorMsg: formatAlertMessage(result.result)
+    });
+}
+
+
 export function* fetchStation(action) {
     const result = yield call((lineId) => {
         return LineApi.getStationList(lineId);
@@ -142,4 +162,4 @@ export function* updateStationKey(action) {
         })
     }
 }
-export default { fetchLines, createLine, updateLine, deleteLine, addStation, deleteStation, fetchStation, updateStationKey }
+export default { fetchLines, createLine, updateLine, deleteLine, syncLine, addStation, deleteStation, fetchStation, updateStationKey }

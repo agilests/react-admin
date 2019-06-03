@@ -3,7 +3,7 @@ export default class LineApi {
     static getLineList(orgId) {
         if (orgId) {
             return NetUtil.get(`/api/lines?orgId=${orgId}`);
-        }else{
+        } else {
             return NetUtil.get(`/api/lines`);
         }
 
@@ -16,6 +16,9 @@ export default class LineApi {
     }
     static deleteLine(id) {
         return NetUtil.delete(`/api/lines/${id}`);
+    }
+    static syncLine(id, orientation) {
+        return NetUtil.put(`/api/lines/${id}/stations?sync&orientation=${orientation}`);
     }
     static addStation(lineId, station) {
         return NetUtil.post(`/api/lines/${lineId}/stations`, station)
