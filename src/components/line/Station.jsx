@@ -70,7 +70,7 @@ class Station extends Component {
             }
             console.log('Received values of form: ', values);
             this.setState({ submit: true })
-            values.upOrDown = this.state.type;
+            values.orientation = this.state.type;
             this.props.addStation(this.props.query.line, values);
             addStationForm.resetFields();
         });
