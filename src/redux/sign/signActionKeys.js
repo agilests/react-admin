@@ -8,7 +8,7 @@ export default {
     createSign: 'CREATE_SIGN',
     createSignSuccess: 'CREATE_SIGN_SUCCESS',
     createSignFailed: 'CREATE_SIGN_FAILED',
-
+    currentSign:'CURRENT_SIGN',
 
 
 

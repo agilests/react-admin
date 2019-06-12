@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import signActionKeys from './signActionKeys';
 const initialState = Immutable.Map({
     signs: [],
+    currentSign: null,
     templates: [],
     parts: [],
     added: null,
@@ -35,6 +36,8 @@ export default function signReducer(state = initialState, action) {
             return state.set('fetching', false).set('errorMsg', '').set('added', action.sign).set('signs', signs);
         case signActionKeys.fetchPartsSuccess:
             return state.set('fetching', false).set('errorMsg', '').set('parts', action.parts);
+        case signActionKeys.currentSign:
+            return state.set('currentSign',action.sign);
         default:
             return state;
     }

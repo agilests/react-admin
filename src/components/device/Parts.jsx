@@ -3,6 +3,7 @@ import { Modal, Table, Button, Icon, Layout, Menu, Divider } from 'antd';
 import { fetchParts } from '../../redux/sign/signActions';
 import { connect } from '../../connect'
 import { success, error } from '../widget/Message';
+import Preview from './Preview';
 const { Sider, Content, Header } = Layout;
 
 
@@ -31,7 +32,7 @@ class Parts extends Component {
 
     }
     render() {
-        const { parts } = this.props;
+        const { currentSign, parts } = this.props;
         return (
             <Layout>
                 <Sider collapsedWidth={30} trigger={null} collapsible collapsed={this.state.partsCollapsed}
@@ -58,10 +59,9 @@ class Parts extends Component {
                 <Layout>
                     <Header style={{ background: 'white', height: '250px', borderBottom: '1px inset' }}>
                         <Divider orientation="left">预览</Divider>
-                        <div style={{ height: 20, width: 20, position: 'absolute', background: 'red' }}></div>
+                        <Preview sign={currentSign}/>
                     </Header>
                     <Content>
-
                     </Content>
                 </Layout>
                 <Sider collapsedWidth={1} collapsed={this.state.propertiesCollapsed} style={{ background: 'white', height: 'auto', borderLeft: '1px inset' }}>
@@ -83,7 +83,8 @@ const mapStateToProps = (state, props) => {
         errorMsg: state.getIn(['signReducer', 'errorMsg']),
         parts: state.getIn(['signReducer', 'parts'], []),
         added: state.getIn(['signReducer', 'added']),
-        fetching: state.getIn(['signReducer', 'fetching'])
+        fetching: state.getIn(['signReducer', 'fetching']),
+        currentSign: state.getIn(['signReducer','currentSign'])
     }
 }
 

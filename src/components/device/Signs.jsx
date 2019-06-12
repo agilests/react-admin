@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Table, Button, Icon, Dropdown, Menu, Empty } from 'antd';
-import { fetchSigns, fetchSignTemplates, createSign } from '../../redux/sign/signActions';
+import { fetchSigns, fetchSignTemplates, currentSign, createSign } from '../../redux/sign/signActions';
 import { connect } from '../../connect'
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import SignForm from './SignForm';
@@ -24,7 +24,7 @@ class Signs extends Component {
                 title: '大小',
                 dataIndex: 'size',
                 key: 'size',
-                render: text => <span>{text}</span>
+                render: (text,record) => <span>{record.w+' * '+record.h}</span>
             }, {
                 title: '协议',
                 dataIndex: 'protocol',
@@ -47,7 +47,10 @@ class Signs extends Component {
                     <span>
 
                         <Button >参数设置</Button>
-                        <Button onClick={() => this.props.history.push(`/app/parts?sign=${record.id}`)}>
+                        <Button onClick={() => {
+                            this.props.history.push(`/app/parts?sign=${record.id}`);
+                            this.props.currentSign(record)
+                        }}>
                             <Icon type="pic-left" /> 分区
                             </Button>
                         <Button onClick={() => { this.edit(record) }}>
@@ -162,6 +165,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         createSign: (deviceId, sign) => {
             dispatch(createSign(deviceId, sign))
+        },
+        currentSign: (sign)=>{
+            dispatch(currentSign(sign))
         }
     }
 }
