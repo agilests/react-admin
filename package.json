@@ -20,6 +20,7 @@
     "chalk": "2.4.1",
     "classnames": "^2.2.6",
     "css-loader": "1.0.0",
+    "d3": "^4.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "draftjs-to-html": "^0.8.4",
